@@ -18,5 +18,7 @@ public class DefaultCombatPhase implements Phase {
         
         CardGame.instance.getTriggers().trigger(Triggers.COMBAT_FILTER);
         // TODO combat
+        System.out.println("ciao");
+        
     }
 }
