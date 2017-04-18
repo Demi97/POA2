@@ -55,7 +55,7 @@ public class Reflexologist implements Card {
         public String name() { return "Reflexologist"; }
         
         @Override
-        public void attack() {}
+        public void attack(Creature c) {}
         @Override
         public void defend(Creature c) {}
         @Override
