@@ -9,7 +9,9 @@ import cardgame.AbstractCardEffect;
 import cardgame.Card;
 import cardgame.Effect;
 import cardgame.Player;
-
+/**
+ * ciao
+ */
 /**
  *
  * @author atorsell
