@@ -25,18 +25,24 @@ public class DefaultCombatPhase implements Phase {
         System.out.println("");
     }
     
-    public  void resolution(HashMap<Creature,Creature> conflict, ArrayList<Creature> defenders, ArrayList<Creature> attackers) {
+    public  void resolution(Duel duel) {
         int i = 0;
-        while(attackers.isEmpty() == false)
+        while(duel.getDefenders().isEmpty() == false)
         {
-           System.out.println(attackers.get(i).name().toString() + " attacks!");
-           for(Creature c: defenders) {
-               if(conflict.get(defenders) == attackers.get(i))
-               System.out.println(attackers.get(i).name().toString() + " defends");
+           System.out.println(duel.getAttackers().get(0).name() + " attacks!");
+           for(Creature c: duel.getDefenders()) {
+               System.out.println(c + " defends");
            }
         }
     }
     
+    
+    public void canAttack(ArrayList<Creature> attacker) {
+        for(Creature c: CardGame.instance.getCurrentPlayer().getCreatures()){
+            if(!c.isTapped())
+                attacker.add(c);
+        }
+    }
     @Override
     public void execute() {
         /**
@@ -57,58 +63,73 @@ public class DefaultCombatPhase implements Phase {
         ArrayList<Creature> adversaryDefenderList = new ArrayList<Creature>();
         ArrayList<Creature> playerAttackerList = new ArrayList<Creature>();
         
-        
-        // Definisco una mappa nella quale ad ogni difensore (chiave) corrisponde un attaccante --> ogni difensore corrisponde ad un solo difensore
-        HashMap<Creature,Creature> defenders = new HashMap<Creature,Creature>();
-        
+        // Setto chi può attaccare e chi difendere
+        ArrayList<Creature> effectiveAttacker = new ArrayList<Creature>();
+        canAttack(effectiveAttacker);
+        List<Creature> effectiveDefender = currentAdversary.getCreatures();
+
         System.out.println(currentPlayer.name() + ": combat phase");
         CardGame.instance.getTriggers().trigger(Triggers.COMBAT_FILTER);
         // TODO combat
         
-        // Printo il terreno del giocatore
-        System.out.println("Creatures on field: ");
-        printPlayerField(currentPlayer.getCreatures());
-        
-        //Decido quale può attaccare
-        System.out.println("Which can attack? ");
-        
-        // Variabili indice
-        int attack_index = reader.nextInt()-1;
-        int defend_index;
-        
-        // Inizio il ciclo: per ogni attaccante scelgo, con un ciclo interno, i difensori
-        while(attack_index != 0) { 
-            Creature attacker = null;
-
-            
-            // Controllo che l'attaccante scelto: non sia tappato, sfori l'indice, sia già stato scelto
-            if(attack_index < 0 || currentPlayer.getCreatures().get(attack_index-1).isTapped() || playerAttackerList.contains(currentPlayer.getCreatures().get(attack_index-1)))
-                System.out.println("This creature is tapped, does not exists or already used");
-            else {
-                // In caso soddisfi la condizione lo metto in una variabile di supporto
-                attacker = currentPlayer.getCreatures().get(attack_index-1);
-                playerAttackerList.add(attacker);
-            }
-            
-            // Chiedo all'avversario chi vuole utilizzare come difensore
-            System.out.println("Select defenders: (select the index or 0 to pass)");
-            printPlayerField(currentAdversary.getCreatures());
-            
-            // Faccio selezionare i difensorei
-            defend_index = reader.nextInt()-1;
-            while(defend_index != 0 && attacker != null){
-                
-                // controllo come prima
-                if(defend_index < 0 || currentAdversary.getCreatures().get(attack_index-1).isTapped() || adversaryDefenderList.contains(currentAdversary.getCreatures().get(attack_index-1)))
-                    System.out.println("This creature is tapped or does not exists or already used");
+        if(effectiveAttacker.size() != 0) {
+            Duel duel = new Duel();
+            System.out.println("These creatures can attack: ");
+            printPlayerField(effectiveAttacker);
+            //Decido quale può attaccare
+            System.out.println("Attack with: (0 to pass)");
+            // Variabili indice
+            int attack_index = reader.nextInt()-1;
+            int defend_index;
+            // Inizio il ciclo: per ogni attaccante scelgo, con un ciclo interno, i difensori
+            while(attack_index != 0) { 
+                Creature attacker = null;
+                // Controllo che l'attaccante scelto: non sia tappato, sfori l'indice, sia già stato scelto
+                if(attack_index < 0 && attack_index > effectiveAttacker.size())
+                    System.out.println("This creature does not exists ");
                 else {
-                    Creature defender = currentAdversary.getCreatures().get(defend_index-1);
-                    defenders.put(defender,attacker); 
+                    // In caso soddisfi la condizione lo metto in una variabile di supporto
+                    attacker = effectiveAttacker.get(attack_index-1);
+                    duel.getAttackers().add(attacker);
+                    effectiveAttacker.remove(attack_index-1);
                 }
+
+                // Chiedo all'avversario chi vuole utilizzare come difensore
+                System.out.println("Select defenders: (select the index or 0 to pass)");
+                printPlayerField(currentAdversary.getCreatures());
+
+                // Faccio selezionare i difensorei
+                defend_index = reader.nextInt()-1;
+                while(defend_index != 0 && attacker != null){
+                    // controllo come prima
+                    if(defend_index < 0 && defend_index > effectiveDefender.size())
+                        System.out.println("This creature is tapped or does not exists");
+                    else {
+                        Creature defender = currentAdversary.getCreatures().get(defend_index-1);
+                        duel.getDefenders().add(defender);
+                        effectiveDefender.remove(defend_index-1);
+                    }
+                }
+
             }
-            
+            // Combatto
+            resolution(duel);
         }
-        // Combatto
-        resolution(defenders, adversaryDefenderList, playerAttackerList);
+        else
+            System.out.println("... no creatures on field");
+    }
+    
+    public class Duel {
+        private ArrayList<Creature> attackers = new ArrayList<>();
+        private ArrayList<Creature> defenders = new ArrayList<>();
+        
+        public ArrayList<Creature> getAttackers() {
+            return attackers;
+        }
+
+        public ArrayList<Creature> getDefenders() {
+            return defenders;
+        }
+        
     }
 }
