@@ -22,7 +22,6 @@ public class DefaultCombatPhase implements Phase {
             System.out.println(Integer.toString(i+1)+") " + creature.name() + " ["+ creature + "]" );
             ++i;
         }
-        System.out.println("");
     }
     
     public  void resolution(ArrayList<Duel> duel) {
@@ -52,8 +51,9 @@ public class DefaultCombatPhase implements Phase {
         Scanner reader = CardGame.instance.getScanner();
         
         // Setto chi può attaccare e chi difendere
-        ArrayList<Creature> effectiveAttacker = new ArrayList<Creature>();
+        ArrayList<Creature> effectiveAttacker = new ArrayList<>();
         canAttack(effectiveAttacker);
+        
         List<Creature> effectiveDefender = currentAdversary.getCreatures();
 
         System.out.println(currentPlayer.name() + ": combat phase");
@@ -82,25 +82,30 @@ public class DefaultCombatPhase implements Phase {
                     attack_index = reader.nextInt()-1;
                 }while(attack_index < 0 || attack_index > effectiveAttacker.size());
             }
-            System.out.println("Scegli i difensori: ");
-            for(Duel d : duel) {
-                System.out.println("Chi difende per " + d.getAttackers().name());
-                printPlayerField(effectiveDefender);
-                do{
-                    System.out.println("Defend with: ");
-                    defend_index = reader.nextInt()-1;
-                }while(defend_index < 0 || defend_index > effectiveDefender.size());
-                while(defend_index != 0) {
-                    d.getDefenders().add(effectiveDefender.get(defend_index));
-                    effectiveDefender.remove(defend_index);
+            if(!effectiveDefender.isEmpty()) {
+                System.out.println("Scegli i difensori: ");
+                for(Duel d : duel) {
+                    System.out.println("Chi difende per " + d.getAttackers().name());
+                    printPlayerField(effectiveDefender);
                     do{
-                        System.out.println("Defend (" + d.getAttackers().name() + ") with: (0 to pass)");
-                        printPlayerField(effectiveDefender);
+                        System.out.println("Defend with: ");
                         defend_index = reader.nextInt()-1;
                     }while(defend_index < 0 || defend_index > effectiveDefender.size());
+
+                    while(defend_index != 0) {
+                        d.getDefenders().add(effectiveDefender.get(defend_index));
+                        effectiveDefender.remove(defend_index);
+                        do{
+                            System.out.println("Defend (" + d.getAttackers().name() + ") with: (0 to pass)");
+                            printPlayerField(effectiveDefender);
+                            defend_index = reader.nextInt()-1;
+                        }while(defend_index < 0 || defend_index > effectiveDefender.size());
+                    }
                 }
+            resolution(duel);
             }
-        resolution(duel);
+            else
+                System.out.println("... no creatures can defend");
         }
         else
             System.out.println("... no creatures on field");
