@@ -22,6 +22,7 @@ import cardgame.Triggers;
  * @author atorsell
  */
 public class FriendlyEnvironment implements Card {
+    /*crea effetto*/
     private class FriendlyEnvironmentEffect extends AbstractEnchantmentCardEffect {
         public FriendlyEnvironmentEffect(Player p, Card c) { super(p,c); }
         @Override
@@ -29,12 +30,14 @@ public class FriendlyEnvironment implements Card {
     }
     @Override
     public Effect getEffect(Player p) { return new FriendlyEnvironmentEffect(p,this); }
-    
+
+    /*crea permanente*/
     private class FriendlyEnvironmentEnchantment extends AbstractEnchantment {
         public FriendlyEnvironmentEnchantment(Player owner) {
             super(owner);
         }
         
+        /*classe anonima, on trigger do something*/
         private final TriggerAction GreetingAction = new TriggerAction() {
                 @Override
                 public void execute(Object args) {
