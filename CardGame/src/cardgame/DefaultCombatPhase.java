@@ -6,7 +6,6 @@
 package cardgame;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -27,9 +26,13 @@ public class DefaultCombatPhase implements Phase {
     public  void resolution(ArrayList<Duel> duel) {
         for(Duel d : duel) {
             System.out.println(d.getAttackers().name() + " attacks!");
-            for(Creature c: d.getDefenders()) {
-                System.out.println(c + " defends");
+            if(!d.getDefenders().isEmpty()) {
+                for(Creature c: d.getDefenders()) {
+                    System.out.println(c + " defends");
+                }
             }
+            else
+                System.out.println("No defenders");
         }
     }
     
@@ -113,12 +116,12 @@ public class DefaultCombatPhase implements Phase {
     
     public class Duel {
         Creature attackers;
-
+        private ArrayList<Creature> defenders = new ArrayList<>();
+        
         public void setAttackers(Creature attackers) {
             this.attackers = attackers;
         }
-        private ArrayList<Creature> defenders = new ArrayList<>();
-        
+       
         public Creature getAttackers() {
             return attackers;
         }
@@ -128,4 +131,5 @@ public class DefaultCombatPhase implements Phase {
         }
         
     }
+    
 }
