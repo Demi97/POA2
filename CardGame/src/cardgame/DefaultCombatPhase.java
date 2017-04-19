@@ -25,11 +25,12 @@ public class DefaultCombatPhase implements Phase {
         System.out.println("");
     }
     
-    public  void resolution(Duel duel) {
-        int i = 0;
-        System.out.println(duel.getAttackers().name() + " attacks!");
-        for(Creature c: duel.getDefenders()) {
-            System.out.println(c + " defends");
+    public  void resolution(ArrayList<Duel> duel) {
+        for(Duel d : duel) {
+            System.out.println(d.getAttackers().name() + " attacks!");
+            for(Creature c: d.getDefenders()) {
+                System.out.println(c + " defends");
+            }
         }
     }
     
@@ -49,16 +50,6 @@ public class DefaultCombatPhase implements Phase {
         Player currentAdversary = CardGame.instance.getCurrentAdversary();
         // variabile per prendere in input
         Scanner reader = CardGame.instance.getScanner();
-        // Lista degli attaccanti
-        ArrayList<Creature> attackers = new ArrayList<Creature>();
-        /**
-         * Lista di supporto per attaccanti e difensori
-         * adversaryDefenderList: contiene le creature già utilizzate per difendere
-         * playerAttackerList: contiene le creature già utilizzate per attaccare
-         */
-        
-        ArrayList<Creature> adversaryDefenderList = new ArrayList<Creature>();
-        ArrayList<Creature> playerAttackerList = new ArrayList<Creature>();
         
         // Setto chi può attaccare e chi difendere
         ArrayList<Creature> effectiveAttacker = new ArrayList<Creature>();
@@ -72,12 +63,13 @@ public class DefaultCombatPhase implements Phase {
         int attack_index;
         int defend_index;
         int i = 0;
+        
         if(!effectiveAttacker.isEmpty()) {
             ArrayList<Duel> duel = new ArrayList<>();
-            System.out.println("These creatures can attack: ");
+            System.out.println("Queste creature possono attaccare: ");
             printPlayerField(effectiveAttacker);
             do{
-                System.out.println("Attack with: (0 to pass)");
+                System.out.println("AAttacca con: (0 to pass)");
                 attack_index = reader.nextInt()-1;
             }while(attack_index < 0 || attack_index > effectiveAttacker.size());
             
@@ -85,7 +77,7 @@ public class DefaultCombatPhase implements Phase {
                 duel.get(i).setAttackers(effectiveAttacker.get(attack_index));
                 effectiveAttacker.remove(attack_index);
                 do{
-                    System.out.println("Attack with: (0 to pass)");
+                    System.out.println("Attacca con: (0 to pass)");
                     printPlayerField(effectiveAttacker);
                     attack_index = reader.nextInt()-1;
                 }while(attack_index < 0 || attack_index > effectiveAttacker.size());
@@ -108,6 +100,7 @@ public class DefaultCombatPhase implements Phase {
                     }while(defend_index < 0 || defend_index > effectiveDefender.size());
                 }
             }
+        resolution(duel);
         }
         else
             System.out.println("... no creatures on field");
