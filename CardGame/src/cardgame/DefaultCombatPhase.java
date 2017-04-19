@@ -23,7 +23,7 @@ public class DefaultCombatPhase implements Phase {
         }
     }
     
-    public  void resolution(ArrayList<Duel> duel) {
+    public  void printResolution(ArrayList<Duel> duel) {
         for(Duel d : duel) {
             System.out.println(d.getAttackers().name() + " attacks!");
             if(!d.getDefenders().isEmpty()) {
@@ -36,6 +36,21 @@ public class DefaultCombatPhase implements Phase {
         }
     }
     
+    public void resolution(ArrayList<Duel> duel) {
+        for(Duel d : duel) {
+            System.out.print(d.getAttackers().name() + " attacks!");
+            if(!d.getDefenders().isEmpty()) {
+                for(Creature c: d.getDefenders()) {
+                    System.out.println(c + " defends");
+                    d.getAttackers().attack(c);
+                }
+            }
+            else {
+                System.out.println("No defenders");
+                CardGame.instance.getCurrentAdversary().inflictDamage(d.getAttackers().getPower());
+            }
+        }  
+    }
     
     public void canAttack(ArrayList<Creature> attacker) {
         for(Creature c: CardGame.instance.getCurrentPlayer().getCreatures()){
@@ -105,6 +120,7 @@ public class DefaultCombatPhase implements Phase {
                         }while(defend_index < 0 || defend_index > effectiveDefender.size());
                     }
                 }
+            printResolution(duel);
             resolution(duel);
             }
             else
