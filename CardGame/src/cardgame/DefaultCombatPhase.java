@@ -81,9 +81,9 @@ public class DefaultCombatPhase implements Phase {
         int attack_index;
         int defend_index;
         int i = 0;
+        ArrayList<Duel> duel = new ArrayList<>();
         
         if(!effectiveAttacker.isEmpty()) {
-            ArrayList<Duel> duel = new ArrayList<>();
             System.out.println("Queste creature possono attaccare: ");
             printPlayerField(effectiveAttacker);
             do{
@@ -101,36 +101,44 @@ public class DefaultCombatPhase implements Phase {
                 }while(attack_index < 0 || attack_index > effectiveAttacker.size());
                 i++;
             }
-            System.out.println("###### FINE DICHIARAZIONE ATTACCANTI #####");
-            if(!effectiveDefender.isEmpty()) {
-                System.out.println(currentAdversary.name() + " scegli i difensori: ");
-                for(Duel d : duel) {
-                    System.out.println("Chi difende per " + d.getAttackers().name() + "?");
-                    printPlayerField(effectiveDefender);
-                    do{
-                        System.out.println("Defend with: ");
-                        defend_index = reader.nextInt()-1;
-                    }while(defend_index < 0 || defend_index > effectiveDefender.size());
-
-                    while(defend_index != 0) {
-                        d.getDefenders().add(effectiveDefender.get(defend_index));
-                        effectiveDefender.remove(defend_index);
-                        do{
-                            System.out.println("Defend (" + d.getAttackers().name() + ") with: (0 to pass)");
-                            printPlayerField(effectiveDefender);
-                            defend_index = reader.nextInt()-1;
-                        }while(defend_index < 0 || defend_index > effectiveDefender.size());
-                    }
-                }
-            System.out.println("###### FINE DICHIARAZIONE DIFENSORI #####");
-            printResolution(duel);
-            resolution(duel);
-            }
-            else
-                System.out.println("... no creatures can defend");
+        System.out.println("###### FINE DICHIARAZIONE ATTACCANTI #####");
         }
         else
             System.out.println("... no creatures on field");
+        
+        
+      
+        if(!effectiveDefender.isEmpty() && !duel.isEmpty()) {
+            System.out.println(currentAdversary.name() + " scegli i difensori: ");
+            for(Duel d : duel) {
+                System.out.println("Chi difende per " + d.getAttackers().name() + "?");
+                printPlayerField(effectiveDefender);
+                do{
+                    System.out.println("Defend with: ");
+                    defend_index = reader.nextInt()-1;
+                }while(defend_index < 0 || defend_index > effectiveDefender.size());
+
+                while(defend_index != 0) {
+                    d.getDefenders().add(effectiveDefender.get(defend_index));
+                    effectiveDefender.remove(defend_index);
+                    do{
+                        System.out.println("Defend (" + d.getAttackers().name() + ") with: (0 to pass)");
+                        printPlayerField(effectiveDefender);
+                        defend_index = reader.nextInt()-1;
+                    }while(defend_index < 0 || defend_index > effectiveDefender.size());
+                }
+            }
+        System.out.println("###### FINE DICHIARAZIONE DIFENSORI #####");
+        printResolution(duel);
+        resolution(duel);
+        }
+        else {
+            if(duel.isEmpty())
+               System.out.println("... no creatures da cui difendersi");
+            else
+               System.out.println("... no creatures can defend");
+        }
+        
     }
     
     public class Duel {
