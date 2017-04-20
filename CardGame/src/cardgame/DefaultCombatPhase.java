@@ -101,6 +101,7 @@ public class DefaultCombatPhase implements Phase {
                 }while(attack_index < 0 || attack_index > effectiveAttacker.size());
                 i++;
             }
+            System.out.println("###### FINE DICHIARAZIONE ATTACCANTI #####");
             if(!effectiveDefender.isEmpty()) {
                 System.out.println(currentAdversary.name() + " scegli i difensori: ");
                 for(Duel d : duel) {
@@ -121,6 +122,7 @@ public class DefaultCombatPhase implements Phase {
                         }while(defend_index < 0 || defend_index > effectiveDefender.size());
                     }
                 }
+            System.out.println("###### FINE DICHIARAZIONE DIFENSORI #####");
             printResolution(duel);
             resolution(duel);
             }
