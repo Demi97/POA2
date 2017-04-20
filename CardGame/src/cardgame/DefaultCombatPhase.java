@@ -102,12 +102,14 @@ public class DefaultCombatPhase implements Phase {
                 i++;
             }
         System.out.println("###### FINE DICHIARAZIONE ATTACCANTI #####");
+        System.out.println();
         }
         else
             System.out.println("... no creatures on field");
         
+        System.out.println("Risoluzione stack");
+        CardGame.instance.getStack().resolve();
         
-      
         if(!effectiveDefender.isEmpty() && !duel.isEmpty()) {
             System.out.println(currentAdversary.name() + " scegli i difensori: ");
             for(Duel d : duel) {
@@ -129,6 +131,8 @@ public class DefaultCombatPhase implements Phase {
                 }
             }
         System.out.println("###### FINE DICHIARAZIONE DIFENSORI #####");
+        System.out.println("Risoluzione stack");
+        CardGame.instance.getStack().resolve();
         printResolution(duel);
         resolution(duel);
         }
