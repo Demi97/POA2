@@ -52,11 +52,13 @@ public class DefaultCombatPhase implements Phase {
         }  
     }
     
-    public void canAttack(ArrayList<Creature> attacker) {
-        for(Creature c: CardGame.instance.getCurrentPlayer().getCreatures()){
+    public ArrayList<Creature> canAttackDefend(Player player) {
+        ArrayList<Creature> tmp = new ArrayList<>();
+        for(Creature c: player.getCreatures()){
             if(!c.isTapped())
-                attacker.add(c);
+                tmp.add(c);
         }
+        return tmp;
     }
     @Override
     public void execute() {
@@ -69,10 +71,8 @@ public class DefaultCombatPhase implements Phase {
         Scanner reader = CardGame.instance.getScanner();
         
         // Setto chi può attaccare e chi difendere
-        ArrayList<Creature> effectiveAttacker = new ArrayList<>();
-        canAttack(effectiveAttacker);
-        
-        List<Creature> effectiveDefender = currentAdversary.getCreatures();
+        ArrayList<Creature> effectiveAttacker = canAttackDefend(currentPlayer);
+        ArrayList<Creature> effectiveDefender = canAttackDefend(currentAdversary);
 
         System.out.println(currentPlayer.name() + ": combat phase");
         CardGame.instance.getTriggers().trigger(Triggers.COMBAT_FILTER);
@@ -158,5 +158,4 @@ public class DefaultCombatPhase implements Phase {
         }
         
     }
-    
 }
