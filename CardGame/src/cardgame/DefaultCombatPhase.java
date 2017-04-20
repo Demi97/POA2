@@ -87,7 +87,7 @@ public class DefaultCombatPhase implements Phase {
             System.out.println("Queste creature possono attaccare: ");
             printPlayerField(effectiveAttacker);
             do{
-                System.out.println("AAttacca con: (0 to pass)");
+                System.out.println("Attacca con: (0 to pass)");
                 attack_index = reader.nextInt()-1;
             }while(attack_index < 0 || attack_index > effectiveAttacker.size());
             
@@ -99,11 +99,12 @@ public class DefaultCombatPhase implements Phase {
                     printPlayerField(effectiveAttacker);
                     attack_index = reader.nextInt()-1;
                 }while(attack_index < 0 || attack_index > effectiveAttacker.size());
+                i++;
             }
             if(!effectiveDefender.isEmpty()) {
-                System.out.println("Scegli i difensori: ");
+                System.out.println(currentAdversary.name() + " scegli i difensori: ");
                 for(Duel d : duel) {
-                    System.out.println("Chi difende per " + d.getAttackers().name());
+                    System.out.println("Chi difende per " + d.getAttackers().name() + "?");
                     printPlayerField(effectiveDefender);
                     do{
                         System.out.println("Defend with: ");
