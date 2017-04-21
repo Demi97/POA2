@@ -96,7 +96,7 @@ public class Abduction implements Card {
     @Override
     public String name() {
         return "Abduction";
-    }
+}
 
     @Override
     public String type() {
