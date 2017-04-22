@@ -13,6 +13,7 @@ import java.util.Scanner;
 import cardgame.cards.Homeopathy;
 import cardgame.cards.Reflexologist;
 import cardgame.cards.FriendlyEnvironment;
+import cardgame.cards.NorwoodRanger;
 
 /**
  *
@@ -28,7 +29,8 @@ public class CardGame {
         ArrayList<Card> deck = new ArrayList<>();
         for (int i=0; i!=5; ++i) deck.add(new Homeopathy());
         for (int i=0; i!=5; ++i) deck.add(new Reflexologist());
-        for (int i=0; i!=5; ++i) deck.add(new FriendlyEnvironment());
+        //for (int i=0; i!=5; ++i) deck.add(new FriendlyEnvironment());
+        for (int i=0; i!=5; ++i) deck.add(new NorwoodRanger());
         
         instance.getPlayer(0).setDeck(deck.iterator());
         instance.getPlayer(1).setDeck(deck.iterator());

@@ -52,10 +52,10 @@ public class DefaultCombatPhase implements Phase {
                     if(damageAttacker < d.attackers.getToughness()) {
                         System.out.println(c.name() + "(defender)");
                         damageAttacker += c.getPower();
-                        d.attackers.inflictDamage(c.getPower());
                         c.inflictDamage(d.attackers.getPower());
                     }   
                 }
+                d.attackers.inflictDamage(damageAttacker);
             }
             else {
                 System.out.println("No defenders");
