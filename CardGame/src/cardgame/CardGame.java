@@ -14,7 +14,8 @@ import cardgame.cards.Homeopathy;
 import cardgame.cards.Reflexologist;
 import cardgame.cards.FriendlyEnvironment;
 import cardgame.cards.NorwoodRanger;
-
+import cardgame.cards.VolcanicHammer;
+import cardgame.cards.BronzeSable;
 /**
  *
  * @author atorsell
@@ -27,10 +28,12 @@ public class CardGame {
     public static void main(String[] args) {
         //create decks
         ArrayList<Card> deck = new ArrayList<>();
-        for (int i=0; i!=5; ++i) deck.add(new Homeopathy());
-        for (int i=0; i!=5; ++i) deck.add(new Reflexologist());
+        //for (int i=0; i!=5; ++i) deck.add(new Homeopathy());
+        //for (int i=0; i!=5; ++i) deck.add(new Reflexologist());
         //for (int i=0; i!=5; ++i) deck.add(new FriendlyEnvironment());
         for (int i=0; i!=5; ++i) deck.add(new NorwoodRanger());
+        for (int i=0; i!=5; ++i) deck.add(new BronzeSable());
+        for (int i=0; i!=5; ++i) deck.add(new VolcanicHammer());
         
         instance.getPlayer(0).setDeck(deck.iterator());
         instance.getPlayer(1).setDeck(deck.iterator());
