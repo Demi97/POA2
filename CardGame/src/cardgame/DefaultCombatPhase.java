@@ -5,6 +5,7 @@
  */
 package cardgame;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -14,16 +15,17 @@ import java.util.Scanner;
  * @author atorsell
  */
 public class DefaultCombatPhase implements Phase {
-    int i;
     
     public void printPlayerField(List<Creature> creatures) {
+        int i = 0;
         for(Creature creature: creatures) {
             System.out.println(Integer.toString(i+1)+") " + creature.name() + " ["+ creature + "]" );
             ++i;
         }
     }
     
-    public  void printResolution(ArrayList<Duel> duel) {
+    public  void printResolution(List<Duel> duel) {
+        System.out.println("#### SITUAZIONE BATTAGLIA ####");
         for(Duel d : duel) {
             System.out.println(d.getAttackers().name() + " attacks!");
             if(!d.getDefenders().isEmpty()) {
@@ -34,22 +36,35 @@ public class DefaultCombatPhase implements Phase {
             else
                 System.out.println("No defenders");
         }
+        System.out.println("###############################");
     }
     
-    public void resolution(ArrayList<Duel> duel) {
+    public void resolution(List<Duel> duel) {
+        int damageAttacker = 0;
         for(Duel d : duel) {
-            System.out.print(d.getAttackers().name() + " attacks!");
+            System.out.print(d.getAttackers().name() + " attacks ");
+            //int damageAttacker = 0;
+            //int[] damageDefender = new int[d.getDefenders().size()];
+            //for(int j = 0; j < d.getDefenders().size(); j++)
+            //    damageDefender[j] = 0;
             if(!d.getDefenders().isEmpty()) {
                 for(Creature c: d.getDefenders()) {
-                    System.out.println(c + " defends");
-                    d.getAttackers().attack(c);
+                    if(damageAttacker < d.attackers.getToughness()) {
+                        System.out.println(c.name() + "(defender)");
+                        damageAttacker += c.getPower();
+                        d.attackers.inflictDamage(c.getPower());
+                        c.inflictDamage(d.attackers.getPower());
+                    }   
                 }
             }
             else {
                 System.out.println("No defenders");
                 CardGame.instance.getCurrentAdversary().inflictDamage(d.getAttackers().getPower());
+                System.out.println("Attacco diretto!");
             }
-        }  
+            d.attackers.tap();
+        }
+        
     }
     
     public ArrayList<Creature> canAttackDefend(Player player) {
@@ -78,71 +93,63 @@ public class DefaultCombatPhase implements Phase {
         CardGame.instance.getTriggers().trigger(Triggers.COMBAT_FILTER);
         // TODO combat
         
-        int attack_index;
-        int defend_index;
-        int i = 0;
-        ArrayList<Duel> duel = new ArrayList<>();
         
-        if(!effectiveAttacker.isEmpty()) {
-            System.out.println("Queste creature possono attaccare: ");
-            printPlayerField(effectiveAttacker);
-            do{
-                System.out.println("Attacca con: (0 to pass)");
-                attack_index = reader.nextInt()-1;
-            }while(attack_index < 0 || attack_index > effectiveAttacker.size());
-            
-            while(attack_index != 0) {
-                duel.get(i).setAttackers(effectiveAttacker.get(attack_index));
-                effectiveAttacker.remove(attack_index);
-                do{
-                    System.out.println("Attacca con: (0 to pass)");
-                    printPlayerField(effectiveAttacker);
-                    attack_index = reader.nextInt()-1;
-                }while(attack_index < 0 || attack_index > effectiveAttacker.size());
-                i++;
-            }
-        System.out.println("###### FINE DICHIARAZIONE ATTACCANTI #####");
-        System.out.println();
-        }
-        else
+        
+        //int i = 0;
+        List<Duel> duel = new ArrayList<>();
+        //int i = 0;
+        if(effectiveAttacker.isEmpty())
             System.out.println("... no creatures on field");
-        
-        System.out.println("Risoluzione stack");
-        CardGame.instance.getStack().resolve();
-        
-        if(!effectiveDefender.isEmpty() || !duel.isEmpty()) {
-            System.out.println(currentAdversary.name() + " scegli i difensori: ");
-            for(Duel d : duel) {
-                System.out.println("Chi difende per " + d.getAttackers().name() + "?");
-                printPlayerField(effectiveDefender);
+        if(!effectiveAttacker.isEmpty()) {
+            int attack_index = 1;
+            System.out.println("Queste creature possono attaccare: ");
+            while(attack_index != 0 && effectiveAttacker.size() > 0) {
                 do{
-                    System.out.println("Defend with: ");
-                    defend_index = reader.nextInt()-1;
-                }while(defend_index < 0 || defend_index > effectiveDefender.size());
-
-                while(defend_index != 0) {
-                    d.getDefenders().add(effectiveDefender.get(defend_index));
-                    effectiveDefender.remove(defend_index);
-                    do{
-                        System.out.println("Defend (" + d.getAttackers().name() + ") with: (0 to pass)");
-                        printPlayerField(effectiveDefender);
-                        defend_index = reader.nextInt()-1;
-                    }while(defend_index < 0 || defend_index > effectiveDefender.size());
+                    printPlayerField(effectiveAttacker);
+                    System.out.println("Attacca con: (0 to pass)");          
+                    attack_index = reader.nextInt();
+                }while(attack_index < 0 || attack_index-1 >= effectiveAttacker.size());
+                if(attack_index != 0) {
+                    Duel d = new Duel();
+                    d.attackers = effectiveAttacker.get(attack_index-1);
+                    duel.add(d);
+                    effectiveAttacker.remove(attack_index-1);
                 }
             }
-        System.out.println("###### FINE DICHIARAZIONE DIFENSORI #####");
+        System.out.println("###### FINE DICHIARAZIONE ATTACCANTI ######");
+        System.out.println();
+        } 
+        System.out.println("Risoluzione stack");
+        CardGame.instance.getStack().resolve();
+        if(effectiveDefender.isEmpty())
+            System.out.println("... no creatures can defend");
+        if(duel.isEmpty())
+            System.out.println("... no creatures da cui difendersi");
+        if(!effectiveDefender.isEmpty() && !duel.isEmpty()) {     
+            System.out.println(currentAdversary.name() + " scegli i difensori: "); 
+            for(Duel d : duel) {
+                int defend_index = 1;
+                System.out.println("Chi difende per " + d.getAttackers().name() + "?");    
+                while(defend_index != 0 && effectiveDefender.size() > 0) {
+                    do{
+                        printPlayerField(effectiveDefender);
+                        System.out.println("Defend (" + d.getAttackers().name() + ") with: (0 to pass)");
+                        defend_index = reader.nextInt();
+                    }while(defend_index < 0 || defend_index-1 >= effectiveDefender.size());
+                    if(defend_index != 0) {
+                        d.getDefenders().add(effectiveDefender.get(defend_index-1));
+                        effectiveDefender.remove(defend_index-1);
+                    }
+                }
+            }
+        System.out.println();
+        System.out.println("###### FINE DICHIARAZIONE DIFENSORI ######");
+        }
+
         System.out.println("Risoluzione stack");
         CardGame.instance.getStack().resolve();
         printResolution(duel);
         resolution(duel);
-        }
-        else {
-            if(duel.isEmpty())
-               System.out.println("... no creatures da cui difendersi");
-            else
-               System.out.println("... no creatures can defend");
-        }
-        
     }
     
     public class Duel {
