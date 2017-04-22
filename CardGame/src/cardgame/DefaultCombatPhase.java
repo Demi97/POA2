@@ -40,29 +40,27 @@ public class DefaultCombatPhase implements Phase {
     }
     
     public void resolution(List<Duel> duel) {
-        int damageAttacker = 0;
+        int damageAttacker;
         for(Duel d : duel) {
+            damageAttacker = 0;
             System.out.print(d.getAttackers().name() + " attacks ");
-            //int damageAttacker = 0;
-            //int[] damageDefender = new int[d.getDefenders().size()];
-            //for(int j = 0; j < d.getDefenders().size(); j++)
-            //    damageDefender[j] = 0;
             if(!d.getDefenders().isEmpty()) {
                 for(Creature c: d.getDefenders()) {
                     if(damageAttacker < d.attackers.getToughness()) {
                         System.out.println(c.name() + "(defender)");
                         damageAttacker += c.getPower();
+                        d.attackers.inflictDamage(c.getPower());
                         c.inflictDamage(d.attackers.getPower());
                     }   
                 }
-                d.attackers.inflictDamage(damageAttacker);
             }
             else {
                 System.out.println("No defenders");
                 CardGame.instance.getCurrentAdversary().inflictDamage(d.getAttackers().getPower());
                 System.out.println("Attacco diretto!");
             }
-            d.attackers.tap();
+            if(damageAttacker < d.attackers.getToughness())
+                d.attackers.tap();
         }
         
     }
