@@ -59,7 +59,7 @@ public class Reflexologist implements Card {
         @Override
         public void defend(Creature c) {}
         @Override
-        public int getPower() { return 0; }
+        public int getPower() { return 1; }
         @Override
         public int getToughness() { return 1; }
 
