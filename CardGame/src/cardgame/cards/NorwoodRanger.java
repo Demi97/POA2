@@ -73,7 +73,7 @@ public class NorwoodRanger implements Card {
     @Override
     public String type() { return "Creature"; }
     @Override
-    public String ruleText() { return "Put in play a creature Reflexologist(0/1) with tap: Reflexology does nothing"; }
+    public String ruleText() { return "Put in play a creature Norwood Ranger (1/2) with tap: Norwood Ranger does nothing"; }
     @Override
     public String toString() { return name() + " (" + type() + ") [" + ruleText() +"]";}
     @Override
