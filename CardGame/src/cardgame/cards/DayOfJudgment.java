@@ -24,12 +24,19 @@ public class DayOfJudgment implements Card {
     private class DayOfJudgmentEffect extends AbstractCardEffect {
         public DayOfJudgmentEffect(Player p, Card c) { super(p,c); }
         
-        
+        public void clearCreatures(Player player) {
+            if(player.getCreatures().isEmpty())
+                System.out.println(player.name() + " has no creatures to destroy!");
+            else {
+                player.getCreatures().clear();
+                System.out.println(player.name() + "'s creatures destroyed!");
+            }
+            
+        }
         @Override
         public void resolve() {
-            owner.getCreatures().clear();
-            CardGame.instance.getAdversary(owner).getCreatures().clear();
-            System.out.println("All creatures destroyed!");
+            clearCreatures(owner);
+            clearCreatures(CardGame.instance.getAdversary(owner));
         }
     }
 
