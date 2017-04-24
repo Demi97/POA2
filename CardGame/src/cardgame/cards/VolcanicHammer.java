@@ -18,7 +18,7 @@ import cardgame.MagicPrinter;
  */
 /**
  *
- * @author atorsell
+ * @author simonescaboro
  */
 public class VolcanicHammer implements Card {
     

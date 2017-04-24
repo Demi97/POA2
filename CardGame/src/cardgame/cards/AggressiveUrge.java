@@ -19,7 +19,7 @@ import java.util.Scanner;
 
 /**
  *
- * @author atorsell
+ * @author simonescaboro
  */
 public class AggressiveUrge implements Card {
     Scanner reader = new Scanner(System.in);

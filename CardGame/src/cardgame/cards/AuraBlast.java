@@ -16,7 +16,7 @@ import java.util.Scanner;
 
 /**
  *
- * @author atorsell
+ * @author simonescaboro
  */
 public class AuraBlast implements Card {
     private Player owner2;

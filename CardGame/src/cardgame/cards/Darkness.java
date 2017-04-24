@@ -15,12 +15,10 @@ import cardgame.TriggerAction;
 import cardgame.Triggers;
 import java.util.List;
 import java.util.Scanner;
-/**
- * ciao
- */
+
 /**
  *
- * @author atorsell
+ * @author simonescaboro
  */
 public class Darkness implements Card {
     Scanner reader = new Scanner(System.in);

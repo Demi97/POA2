@@ -17,7 +17,7 @@ import java.util.Scanner;
  */
 /**
  *
- * @author atorsell
+ * @author simonescaboro
  */
 public class DayOfJudgment implements Card {
     
