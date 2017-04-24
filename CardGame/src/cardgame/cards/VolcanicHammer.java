@@ -92,11 +92,11 @@ public class VolcanicHammer implements Card {
     @Override
     public String name() { return "Volcanic Hammer"; }
     @Override
-    public String type() { return "Instant"; }
+    public String type() { return "Sorcery"; }
     @Override
     public String ruleText() { return name() + " deals 3 damage to any one creature or player"; }
     @Override
     public String toString() { return name() + " (" + type() + ") [" + ruleText() +"]";}
     @Override
-    public boolean isInstant() { return true; }
+    public boolean isInstant() { return false; }
 }

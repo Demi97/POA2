@@ -48,11 +48,11 @@ public class DayOfJudgment implements Card {
     @Override
     public String name() { return "Day Of Judgment"; }
     @Override
-    public String type() { return "Instant"; }
+    public String type() { return "Sorcery"; }
     @Override
     public String ruleText() { return "Destroy all creatures"; }
     @Override
     public String toString() { return name() + " (" + type() + ") [" + ruleText() +"]";}
     @Override
-    public boolean isInstant() { return true; }
+    public boolean isInstant() { return false; }
 }
