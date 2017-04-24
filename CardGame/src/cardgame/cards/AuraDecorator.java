@@ -17,28 +17,20 @@ public class AuraDecorator extends CreatureDecorator{
     int defense, attack;
     int numEnchantment;
     
-    private void setAttack(){
-        attack = decoratedCreature.getPower()+(numEnchantment*2);
-    }
-    
-    private void setDefense(){
-        defense = decoratedCreature.getToughness()+(numEnchantment*2);
-    }
-
     @Override
     public int getPower() {
-        setAttack();
+        attack = decoratedCreature.getPower()+(numEnchantment*2);
         return attack;
     }
 
     @Override
     public int getToughness() {
-        setDefense();
+        defense = decoratedCreature.getToughness()+(numEnchantment*2);
         return defense;
     }
     
     public void setNumEnchantment(int k){
-        numEnchantment=k;
+        numEnchantment+=k;
     }
     
     public AuraDecorator(Creature decoratedCreature) {

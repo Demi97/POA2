@@ -82,8 +82,8 @@ public class AncestralMask implements Card {
         private final TriggerAction AddOnEntranceAction = new TriggerAction(){
             @Override
             public void execute(Object args) {
-                int num = owner.getEnchantments().size();
-                Creature dec = new AuraDecorator(target);
+                AuraDecorator dec = new AuraDecorator(target);
+                dec.setNumEnchantment(1);
                 dec.getPower();
                 dec.getToughness();
             }
@@ -93,8 +93,8 @@ public class AncestralMask implements Card {
         private final TriggerAction SubtractOnExitAction = new TriggerAction(){
             @Override
             public void execute(Object args) {
-                int num = owner.getEnchantments().size();
-                Creature dec = new AuraDecorator(target);
+                AuraDecorator dec = new AuraDecorator(target);
+                dec.setNumEnchantment(-1);
                 dec.getPower();
                 dec.getToughness();
             }
