@@ -16,6 +16,9 @@ import cardgame.cards.FriendlyEnvironment;
 import cardgame.cards.NorwoodRanger;
 import cardgame.cards.VolcanicHammer;
 import cardgame.cards.BronzeSable;
+import cardgame.cards.AEtherBarrier;
+import cardgame.cards.Abduction;
+import cardgame.cards.Darkness;
 /**
  *
  * @author atorsell
@@ -33,7 +36,7 @@ public class CardGame {
         //for (int i=0; i!=5; ++i) deck.add(new FriendlyEnvironment());
         for (int i=0; i!=5; ++i) deck.add(new NorwoodRanger());
         for (int i=0; i!=5; ++i) deck.add(new BronzeSable());
-        for (int i=0; i!=5; ++i) deck.add(new VolcanicHammer());
+        for (int i=0; i!=5; ++i) deck.add(new AEtherBarrier());
         
         instance.getPlayer(0).setDeck(deck.iterator());
         instance.getPlayer(1).setDeck(deck.iterator());

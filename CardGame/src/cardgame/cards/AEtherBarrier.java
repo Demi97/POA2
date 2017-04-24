@@ -44,31 +44,33 @@ public class AEtherBarrier implements Card {
             List<Enchantment> enchantments = CardGame.instance.getAdversary(owner).getEnchantments();
             System.out.println("Creatures on the field:");
             for(Creature c : creatures){
-                System.out.println(""+(i+1)+c.name());
+                System.out.println((i+1)+ ") " + c.name());
                 i++;
             }
             i=0;
             System.out.println("Enchantements on the  field");
             for(Enchantment e : enchantments){
-                System.out.println(""+(i+1)+e.name());
+                System.out.println((i+1) + ") " + e.name());
                 i++;
             }
             System.out.println("Do you want to sacrifice a creature (press 1) or an enchantment (press 2)? ");
             do{
                 try{
                     choice = scan.nextInt();
-                }catch(Exception e){choice = -1;}
-            }while(choice!=1 || choice!=2);
+                }catch(Exception e){
+                    choice = -1;
+                }
+            }while(choice!=1 && choice!=2);
             System.out.println("Choose the permanent to sacrifice");
             if(choice == 1){
                 for(Creature c : creatures){
-                    System.out.println(""+(i+1)+c.name());
+                    System.out.println((i+1) + ") " + c.name());
                     i++;
                 }
                 size = creatures.size();
             }else{
                 for(Enchantment e : enchantments){
-                    System.out.println(""+(i+1)+e.name());
+                    System.out.println((i+1) + ") " + e.name());
                     i++;
                 }
                 size = enchantments.size();
@@ -79,9 +81,9 @@ public class AEtherBarrier implements Card {
                 }catch(Exception e){index = -1;}
             }while(index<0 || index>size);
             if(choice == 1){
-                choosen = creatures.get(index);
+                choosen = creatures.get(index-1);
             }else{
-                choosen = enchantments.get(index);
+                choosen = enchantments.get(index-1);
             }
             return super.play();
         }
