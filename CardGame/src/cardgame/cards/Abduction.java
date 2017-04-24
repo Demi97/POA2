@@ -48,7 +48,7 @@ public class Abduction implements Card {
             do{
                try{ 
                 index = scan.nextInt();
-               }catch(Exception e){index = -1;}
+               }catch(Exception e){index = -2;}
             }while(index < 0 || index > temp.size()-1);
             target = temp.get(index-1);
             return super.play(); 
