@@ -32,8 +32,8 @@ public class Fatigue implements Card{
         int choose;
         Scanner reader = new Scanner(System.in);
         do{
-            System.out.println(owner.name() + " (0) or " + owner2.name() + " (1)");
-            choose = reader.nextInt();
+            System.out.println(owner.name() + " (1) or " + owner2.name() + " (2)");
+            choose = reader.nextInt()-1;
         }while(choose != 1 && choose != 0);
         return (choose == 0) ? owner : owner2;
     }

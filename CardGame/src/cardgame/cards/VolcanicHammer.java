@@ -12,6 +12,7 @@ import cardgame.Effect;
 import cardgame.Player;
 import cardgame.CardGame;
 import java.util.Scanner;
+import cardgame.MagicPrinter;
 /**
  * ciao
  */
@@ -20,6 +21,7 @@ import java.util.Scanner;
  * @author atorsell
  */
 public class VolcanicHammer implements Card {
+    
     Player owner2;
     Scanner reader = new Scanner(System.in);
     int target;
@@ -37,15 +39,11 @@ public class VolcanicHammer implements Card {
             if(owner.getCreatures().isEmpty())
                 System.out.println("Nessuna creatura da selezionare");
             else {
-                for(Creature c : owner.getCreatures()) {
-                    System.out.println((i+1) + ")" + c.name());
-                    i++;
-                }
+                MagicPrinter.instance.printCreatures(owner.getCreatures());
                 do{
                     System.out.println("Choose creature:");
                     choose = reader.nextInt();
                 }while(choose < 1 || choose > i-1);
-
                 owner.getCreatures().get(choose-1).inflictDamage(3);
             }
         }
@@ -53,10 +51,9 @@ public class VolcanicHammer implements Card {
         public void select_player() {
             int choose;
             do{
-                System.out.println(owner.name() + " (0) or " + owner2.name() + " (1)");
-                choose = reader.nextInt();
+                System.out.println(owner.name() + " (1) or " + owner2.name() + " (2)");
+                choose = reader.nextInt()-1;
             }while(choose != 1 && choose != 0);
-            
             if(choose == 0)
                 owner.inflictDamage(3);
             else

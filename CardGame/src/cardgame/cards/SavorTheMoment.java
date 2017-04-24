@@ -21,7 +21,6 @@ import cardgame.TurnManager;
  */
 public class SavorTheMoment implements Card{
 
-    
     private class SavorTheMomentEffect extends AbstractCardEffect {
         public SavorTheMomentEffect(Player p, Card c) { 
             super(p,c);
@@ -49,6 +48,7 @@ public class SavorTheMoment implements Card{
     public String toString() { return name() + " (" + type() + ") [" + ruleText() +"]";}
     @Override
     public boolean isInstant() { return false; }
+    
     private class Extra implements TurnManager{
         private Player player;
         private Player adversary;

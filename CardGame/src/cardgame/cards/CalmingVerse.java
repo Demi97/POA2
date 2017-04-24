@@ -29,7 +29,7 @@ public class CalmingVerse implements Card {
                 System.out.println("There are no enchantments to destroy");
             else {
                 player.getEnchantments().clear();
-                System.out.println("Tutti gli incantamenti distrutti");
+                System.out.println("All enchantments destroied");
             }
             
         }

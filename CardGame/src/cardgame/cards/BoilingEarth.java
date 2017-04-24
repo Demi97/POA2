@@ -36,7 +36,7 @@ public class BoilingEarth implements Card {
             for (Creature c : creaturesMine) {
                 c.inflictDamage(1);
             }
-            System.out.println("Danni inflitti con successo");
+            System.out.println("Damages succesfully afflicted");
         }
     }
     

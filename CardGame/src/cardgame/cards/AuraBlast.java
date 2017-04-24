@@ -11,10 +11,9 @@ import cardgame.Effect;
 import cardgame.Player;
 import cardgame.CardGame;
 import cardgame.Enchantment;
+import cardgame.MagicPrinter;
 import java.util.Scanner;
-/**
- * ciao
- */
+
 /**
  *
  * @author atorsell
@@ -28,14 +27,6 @@ public class AuraBlast implements Card {
             owner2 = CardGame.instance.getAdversary(owner);
         }
         
-        
-        public void print_enchantments(Player player) {
-            int i = 0;
-            for(Enchantment e : player.getEnchantments()) {
-                System.out.println((i+1) + ") " + e.name());
-                ++i;
-            }
-        }
         
         public int choose_enchantments(Player player) {
             int choose;
@@ -52,7 +43,7 @@ public class AuraBlast implements Card {
             if(player.getEnchantments().isEmpty())
                     System.out.println(player.name() + " has no enchantments on field");
             else{
-                print_enchantments(player);
+                MagicPrinter.instance.printEnchantments(player.getEnchantments());
                 target = choose_enchantments(player);
                 player.getEnchantments().remove(target);
             }

@@ -11,13 +11,12 @@ import cardgame.Creature;
 import cardgame.Effect;
 import cardgame.Player;
 import cardgame.CardGame;
+import cardgame.MagicPrinter;
 import cardgame.TriggerAction;
 import cardgame.Triggers;
 import java.util.List;
 import java.util.Scanner;
-/**
- * ciao
- */
+
 /**
  *
  * @author atorsell
@@ -28,20 +27,16 @@ public class AggressiveUrge implements Card {
         public AggressiveUrgeEffect(Player p, Card c) { super(p,c); }
         
         public int select_creature() {
-            int i = 0;
             int choose = 0;
             System.out.println(owner.name() + " creatures:");
             if(owner.getCreatures().isEmpty())
-                System.out.println("Nessuna creatura da selezionare");
+                System.out.println("No creatures to select");
             else {
-                for(Creature c : owner.getCreatures()) {
-                    System.out.println((i+1) + ")" + c.name());
-                    i++;
-                }
+                MagicPrinter.instance.printCreatures(owner.getCreatures());
                 do{
                     System.out.println("Choose creature:");
                     choose = reader.nextInt();
-                }while(choose < 1 || choose > i-1);
+                }while(choose < 1 || choose > owner.getCreatures().size());
 
             }
             return choose-1;
