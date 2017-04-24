@@ -105,11 +105,11 @@ public class AEtherBarrier implements Card {
         }
         
         public void insert(){
-            CardGame.instance.getTriggers().register(Triggers.ENTER_CREATURE_FILTER, SacrificeOnCreatureEntrance);
+            CardGame.instance.getTriggers().register(Triggers.ENTER_CREATURE_FILTER, SacrificeOnCreatureEntranceAction);
             super.insert();
         }
         
-        private final TriggerAction SacrificeOnCreatureEntrance = new TriggerAction(){
+        private final TriggerAction SacrificeOnCreatureEntranceAction = new TriggerAction(){
             @Override
             public void execute(Object args) {
                 if(args==choosen){
@@ -126,22 +126,22 @@ public class AEtherBarrier implements Card {
 
     @Override
     public String name() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "AEther Barrier";
     }
 
     @Override
     public String type() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "Enchantment";
     }
 
     @Override
     public String ruleText() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "Whenever a player plays a creature spell, that player sacrifices a permanent";
     }
 
     @Override
     public boolean isInstant() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return false;
     }
     
 }

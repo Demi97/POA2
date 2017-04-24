@@ -71,6 +71,7 @@ public class Abduction implements Card {
         
         AbductionEnchantment temp = this;
         
+        @Override
         public void insert(){
             List<Creature> temp = CardGame.instance.getAdversary(owner).getCreatures();
             target.untap();
