@@ -25,7 +25,8 @@ import java.util.Scanner;
  * @author diletta
  */
 public class AEtherBarrier implements Card {
-    
+    Object choosen;
+    int choice;
     private class AEtherBarrierEffect extends AbstractEnchantmentCardEffect{
         public AEtherBarrierEffect(Player p, Card c){
             super(p,c);
@@ -35,9 +36,9 @@ public class AEtherBarrier implements Card {
             return new AEtherBarrierEnchantment(owner);
         }
 
-      /*  @Override
+        @Override
         public boolean play() {
-            int index, size, choice, i=0;
+            int index, size, i=0;
             Scanner scan = new Scanner(System.in);
             List<Creature> creatures = CardGame.instance.getAdversary(owner).getCreatures();
             List<Enchantment> enchantments = CardGame.instance.getAdversary(owner).getEnchantments();
@@ -77,12 +78,13 @@ public class AEtherBarrier implements Card {
                     index = scan.nextInt();
                 }catch(Exception e){index = -1;}
             }while(index<0 || index>size);
-            return super.play();
             if(choice == 1){
-                c 
-                owner.destroy(c);
+                choosen = creatures.get(index);
+            }else{
+                choosen = enchantments.get(index);
             }
-        }*/
+            return super.play();
+        }
         
         
     }
@@ -96,11 +98,30 @@ public class AEtherBarrier implements Card {
         public AEtherBarrierEnchantment(Player owner){
             super(owner);
         }
-
+ 
         @Override
         public String name() {
             return "AEther Barrier";
         }
+        
+        public void insert(){
+            CardGame.instance.getTriggers().register(Triggers.ENTER_CREATURE_FILTER, SacrificeOnCreatureEntrance);
+            super.insert();
+        }
+        
+        private final TriggerAction SacrificeOnCreatureEntrance = new TriggerAction(){
+            @Override
+            public void execute(Object args) {
+                if(args==choosen){
+                    if (choice == 1){
+                        owner.getCreatures().remove((Creature)choosen);
+                    }else{
+                        owner.getEnchantments().remove((Enchantment)choosen);
+                    }
+                }
+            }
+        };
+        
     }
 
     @Override
