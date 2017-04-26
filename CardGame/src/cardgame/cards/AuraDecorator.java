@@ -6,8 +6,6 @@
 package cardgame.cards;
 
 import cardgame.Creature;
-import cardgame.Effect;
-import java.util.List;
 
 /**
  *

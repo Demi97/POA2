@@ -114,4 +114,9 @@ public class Abduction implements Card {
         return false;
     }
     
+    @Override
+    public String toString() {
+        return name() + " (" + type() + ") [" + ruleText() +"]";
+    }
+    
 }

@@ -90,5 +90,10 @@ public class AEtherFlash implements Card{
             return "AEtherFlashEnchantment";
         }
         
+        @Override
+        public String toString() {
+            return name() + " (" + type() + ") [" + ruleText() +"]";
+        }
+        
     }
 }
