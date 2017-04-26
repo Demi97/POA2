@@ -19,6 +19,7 @@ import cardgame.Triggers;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import cardgame.MagicPrinter;
 
 /**
  *
@@ -38,53 +39,6 @@ public class AEtherBarrier implements Card {
 
         @Override
         public boolean play() {
-            int index, size, i=0;
-            Scanner scan = new Scanner(System.in);
-            List<Creature> creatures = CardGame.instance.getAdversary(owner).getCreatures();
-            List<Enchantment> enchantments = CardGame.instance.getAdversary(owner).getEnchantments();
-            System.out.println("Creatures on the field:");
-            for(Creature c : creatures){
-                System.out.println((i+1)+ ") " + c.name());
-                i++;
-            }
-            i=0;
-            System.out.println("Enchantements on the  field");
-            for(Enchantment e : enchantments){
-                System.out.println((i+1) + ") " + e.name());
-                i++;
-            }
-            System.out.println("Do you want to sacrifice a creature (press 1) or an enchantment (press 2)? ");
-            do{
-                try{
-                    choice = scan.nextInt();
-                }catch(Exception e){
-                    choice = -1;
-                }
-            }while(choice!=1 && choice!=2);
-            System.out.println("Choose the permanent to sacrifice");
-            if(choice == 1){
-                for(Creature c : creatures){
-                    System.out.println((i+1) + ") " + c.name());
-                    i++;
-                }
-                size = creatures.size();
-            }else{
-                for(Enchantment e : enchantments){
-                    System.out.println((i+1) + ") " + e.name());
-                    i++;
-                }
-                size = enchantments.size();
-            }
-            do{
-                try{
-                    index = scan.nextInt();
-                }catch(Exception e){index = -1;}
-            }while(index<0 || index>size);
-            if(choice == 1){
-                choosen = creatures.get(index-1);
-            }else{
-                choosen = enchantments.get(index-1);
-            }
             return super.play();
         }
         
@@ -112,6 +66,44 @@ public class AEtherBarrier implements Card {
         }
         
         private final TriggerAction SacrificeOnCreatureEntranceAction = new TriggerAction(){
+            
+            public void choose_permanent() {
+                int index, size, i=0;
+                Scanner scan = new Scanner(System.in);
+                List<Creature> creatures = CardGame.instance.getAdversary(owner).getCreatures();
+                List<Enchantment> enchantments = CardGame.instance.getAdversary(owner).getEnchantments();
+                System.out.println("Creatures on the field:");
+                MagicPrinter.instance.printCreatures(creatures);
+                System.out.println("Enchantements on the  field");
+                MagicPrinter.instance.printEnchantments(enchantments);
+                System.out.println("Do you want to sacrifice a creature (press 1) or an enchantment (press 2)? ");
+                do{
+                    try{
+                        choice = scan.nextInt();
+                    }catch(Exception e){
+                        choice = -1;
+                    }
+                }while(choice!=1 && choice!=2);
+                System.out.println("Choose the permanent to sacrifice");
+                if(choice == 1){
+                    MagicPrinter.instance.printCreatures(creatures);
+                    size = creatures.size();
+                }else{
+                    MagicPrinter.instance.printEnchantments(enchantments);
+                    size = enchantments.size();
+                }
+                do{
+                    try{
+                        index = scan.nextInt();
+                    }catch(Exception e){index = -1;}
+                }while(index<0 || index>size);
+                if(choice == 1){
+                    choosen = creatures.get(index-1);
+                }else{
+                    choosen = enchantments.get(index-1);
+                }
+            }
+            
             @Override
             public void execute(Object args) {
                 if(args==choosen){

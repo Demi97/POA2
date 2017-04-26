@@ -19,23 +19,24 @@ import cardgame.SkipPhase;
  * @author simonescaboro
  */
 public class FalsePeace implements Card{
-    private Player owner2;
+    private Player adversary;
     
     private class FalsePeaceEffect extends AbstractCardEffect {
         public FalsePeaceEffect(Player p, Card c) { 
             super(p,c);
-            owner2 = CardGame.instance.getAdversary(owner);
+            adversary = CardGame.instance.getAdversary(owner);
         }
-    
-        
+  
      public Player select_player() {
         int choose;
         Scanner reader = new Scanner(System.in);
         do{
-            System.out.println(owner.name() + " (1) or " + owner2.name() + " (2)");
-            choose = reader.nextInt()-1;
+            System.out.println(owner.name() + " (1) or " + adversary.name() + " (2)");
+            try{
+                choose = reader.nextInt()-1;
+            }catch(Exception e) { choose = -1; }
         }while(choose != 1 && choose != 0);
-        return (choose == 0) ? owner : owner2;
+        return (choose == 0) ? owner : adversary;
     }
     @Override
     public void resolve() {

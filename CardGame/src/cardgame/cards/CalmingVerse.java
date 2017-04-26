@@ -25,9 +25,11 @@ public class CalmingVerse implements Card {
         public CalmingVerseEffect(Player p, Card c) { super(p,c); }
         
         public void clearEnchantments(Player player) {
+            // Controllo se ci sono incantamenti da distruggere
             if(player.getEnchantments().isEmpty())
                 System.out.println("There are no enchantments to destroy");
             else {
+                // se ci sono incantamenti li distruggo
                 player.getEnchantments().clear();
                 System.out.println("All enchantments destroied");
             }

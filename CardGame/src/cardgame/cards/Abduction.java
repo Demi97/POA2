@@ -13,6 +13,7 @@ import cardgame.AbstractEnchantmentCardEffect;
 import cardgame.AbstractEnchantment;
 import cardgame.CardGame;
 import cardgame.Creature;
+import cardgame.MagicPrinter;
 import cardgame.TriggerAction;
 import cardgame.Triggers;
 import java.util.List;
@@ -40,17 +41,18 @@ public class Abduction implements Card {
             int index, i=0;
             Scanner scan = new Scanner(System.in);
             List<Creature> temp = CardGame.instance.getAdversary(owner).getCreatures();
-            for(Creature c : temp){
-                System.out.println(""+(i+1)+c.name());
-                i++;
+            if(temp.isEmpty())
+                System.out.println("No creatures on field");
+            else {
+                MagicPrinter.instance.printCreatures(temp);
+                System.out.println("Choose your target");
+                do{
+                   try{ 
+                    index = scan.nextInt();
+                   }catch(Exception e){index = -1;}
+                }while(index < 0 || index > temp.size()-1);
+                target = temp.get(index-1);
             }
-            System.out.println("Choose your target");
-            do{
-               try{ 
-                index = scan.nextInt();
-               }catch(Exception e){index = -2;}
-            }while(index < 0 || index > temp.size()-1);
-            target = temp.get(index-1);
             return super.play(); 
         }       
     }

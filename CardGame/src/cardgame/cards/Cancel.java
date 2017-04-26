@@ -40,7 +40,9 @@ public class Cancel implements Card {
             
             do{
                 System.out.println(owner.name() + ": choose target for " + name());
-                choose = reader.nextInt();
+                try{
+                    choose = reader.nextInt();
+                }catch(Exception e) { choose = -1; }
             } while(choose < 1 || choose > i);
             
             i = 1;

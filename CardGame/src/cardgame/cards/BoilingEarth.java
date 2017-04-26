@@ -29,7 +29,7 @@ public class BoilingEarth implements Card {
         public void resolve() {
             List<Creature> creaturesEnemy = CardGame.instance.getAdversary(owner).getCreatures();        
             List<Creature> creaturesMine = owner.getCreatures();
-
+            // Infliggo 1 a tutte le creature sul terreno
             for (Creature c : creaturesEnemy) {
                 c.inflictDamage(1);
             }

@@ -19,20 +19,26 @@ import java.util.Scanner;
  * @author simonescaboro
  */
 public class AuraBlast implements Card {
-    private Player owner2;
+    private Player adversary;
     Scanner reader = new Scanner(System.in);
     private class AuraBlastEffect extends AbstractCardEffect {
         public AuraBlastEffect(Player p, Card c) { 
             super(p,c); 
-            owner2 = CardGame.instance.getAdversary(owner);
+            adversary = CardGame.instance.getAdversary(owner);
         }
         
-        
+        /***
+         * Scelgo l'incantamento da distruggere
+         * @param player
+         * @return l'indice dell'incantamento scelto
+         */
         public int choose_enchantments(Player player) {
             int choose;
             do{
                 System.out.println("Choose enchantment: ");
-                choose = reader.nextInt()-1;
+                try{
+                    choose = reader.nextInt()-1;
+                }catch(Exception e) { choose = -1; }
             }while(choose < 0 || choose >= player.getEnchantments().size());
             
             return choose;
@@ -45,6 +51,7 @@ public class AuraBlast implements Card {
             else{
                 MagicPrinter.instance.printEnchantments(player.getEnchantments());
                 target = choose_enchantments(player);
+                // rimuovo l'incantamento selezionato
                 player.getEnchantments().remove(target);
             }
         }
@@ -52,16 +59,20 @@ public class AuraBlast implements Card {
         public void select_enchantments() {
             int choose;
             do{
-                System.out.println(owner.name() + " (1) or " + owner2.name() + " (2)");
-                choose = reader.nextInt()-1;
-            }while(choose != 0&& choose != 1);
+                System.out.println(owner.name() + " (1) or " + adversary.name() + " (2)");
+                try{
+                    choose = reader.nextInt()-1;
+                }catch(Exception e) { choose = -1; }
+            }while(choose != 0 && choose != 1);
             if(choose == 0) {
+                // svolgo l'operazione di rimozione 
                 operation(owner);
+                // il giocatore pesca una carta
                 owner.draw();
             }
             else {
-                operation(owner2);
-                owner2.draw();
+                operation(adversary);
+                adversary.draw();
             }
         }
             

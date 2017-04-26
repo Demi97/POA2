@@ -50,7 +50,7 @@ public class AncestralMask implements Card {
                    try{ 
                      index = scan.nextInt();
                    }catch(Exception e){index = -2;}
-                }while(index < 0 || index > creatures.size()-1);
+                }while(index < 0 || index-1 >= creatures.size());
                 target = creatures.get(index-1);
             }
             return super.play(); 

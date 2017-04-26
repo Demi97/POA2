@@ -28,7 +28,9 @@ public class SavorTheMoment implements Card{
         
     @Override
     public void resolve() {
+        // rimuovo la fase di UNTAP del prossimo turno
         owner.setPhase(Phases.UNTAP, new SkipPhase(Phases.UNTAP));
+        // aggiungo il turno extra
         CardGame.instance.setTurnManager(new Extra(owner));
         }
     }
@@ -49,16 +51,21 @@ public class SavorTheMoment implements Card{
     @Override
     public boolean isInstant() { return false; }
     
+    /***
+     * Creo una classe che estende TurnManager per creare un turno exstra 
+     */
+    
     private class Extra implements TurnManager{
         private Player player;
         private Player adversary;
         
+        // definisco giocatore e avversario corrente
         public Extra(Player player) {
             this.player = player;
             adversary = CardGame.instance.getAdversary(player);
         }
         
-        
+       
         public Player getCurrentPlayer() {
             return player;
         }

@@ -22,51 +22,71 @@ import cardgame.MagicPrinter;
  */
 public class VolcanicHammer implements Card {
     
-    Player owner2;
+    // Definisco l'avversario come "l'avversario del giocatore"
+    Player adversary;
     Scanner reader = new Scanner(System.in);
     int target;
     
     private class VolcanicHammerEffect extends AbstractCardEffect {
         public VolcanicHammerEffect(Player p, Card c) { 
             super(p,c); 
-            owner2 = CardGame.instance.getAdversary(owner);
+            adversary = CardGame.instance.getAdversary(owner);
         }
-        
+        /***
+         * Metodo per la selezione della creatura
+         */
         public void select_creature() {
             int i = 0;
             int choose;
             System.out.println(owner.name() + " creatures:");
+            // se non ci sono creature lo comunica al giocatore
             if(owner.getCreatures().isEmpty())
-                System.out.println("Nessuna creatura da selezionare");
+                System.out.println("... no creatures to select");
             else {
                 MagicPrinter.instance.printCreatures(owner.getCreatures());
                 do{
                     System.out.println("Choose creature:");
-                    choose = reader.nextInt();
+                    try{
+                        choose = reader.nextInt();
+                    }catch(Exception e) { choose = -1; }
                 }while(choose < 1 || choose > i-1);
+                // infligge il danno alla creatura selezionata
                 owner.getCreatures().get(choose-1).inflictDamage(3);
             }
         }
         
+        /***
+         * Chiedo al giocatore a quale gicatore infliggere il danno, sai mai
+         */
         public void select_player() {
             int choose;
             do{
-                System.out.println(owner.name() + " (1) or " + owner2.name() + " (2)");
-                choose = reader.nextInt()-1;
+                System.out.println(owner.name() + " (1) or " + adversary.name() + " (2)");
+                try{
+                    choose = reader.nextInt()-1;
+                }catch(Exception e) { choose = -1; }
             }while(choose != 1 && choose != 0);
+            // infliggo il danno al giocatore selezionato
             if(choose == 0)
                 owner.inflictDamage(3);
             else
-                owner2.inflictDamage(3);
-            System.out.println("Danno inflitto con successo a " + ((choose == 0) ? owner.name() : owner2.name()));
+                adversary.inflictDamage(3);
+            // comunico di aver inflitto il danno al giocatore
+            System.out.println("Damage successfully inflicted to " + ((choose == 0) ? owner.name() : adversary.name()));
         }
         
+        /***
+         * Chiedo al giocatore se vuole infliggere ad una creatura oppure ad un giocatore
+         */
         public void effect_choose() {
             int choose;
             do{
                 System.out.println("Inflict to player (0) or creature (1):");
-                choose = reader.nextInt();
+                try{
+                    choose = reader.nextInt();
+                }catch(Exception e) { choose = -1; }
             }while(choose > 1 || choose < 0);
+            
             if(choose == 1)
                 select_creature();
             else
@@ -74,6 +94,9 @@ public class VolcanicHammer implements Card {
             
         }
         
+        /***
+         * Risolvo l'effetto chiamando effect_choose(); 
+         */
         @Override
         public void resolve() {
             System.out.println("Effect actived");
