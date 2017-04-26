@@ -2,18 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/home/diletta/NetBeansProjects/POA2/CardGame/src/cardgame/cards/AuraDecorator.java</file>
-            <file>file:/home/diletta/NetBeansProjects/POA2/CardGame/src/cardgame/cards/AEtherFlash.java</file>
-            <file>file:/home/diletta/NetBeansProjects/POA2/CardGame/src/cardgame/cards/CreatureDecorator.java</file>
-            <file>file:/home/diletta/NetBeansProjects/POA2/CardGame/src/cardgame/cards/NorwoodRanger.java</file>
-            <file>file:/home/diletta/NetBeansProjects/POA2/CardGame/src/cardgame/Permanent.java</file>
-            <file>file:/home/diletta/NetBeansProjects/POA2/CardGame/src/cardgame/cards/FriendlyEnvironment.java</file>
-            <file>file:/home/diletta/NetBeansProjects/POA2/CardGame/src/cardgame/cards/Abduction.java</file>
-            <file>file:/home/diletta/NetBeansProjects/POA2/CardGame/src/cardgame/AbstractEnchantmentCardEffect.java</file>
-            <file>file:/home/diletta/NetBeansProjects/POA2/CardGame/src/cardgame/Triggers.java</file>
-            <file>file:/home/diletta/NetBeansProjects/POA2/CardGame/src/cardgame/cards/AncestralMask.java</file>
-            <file>file:/home/diletta/NetBeansProjects/POA2/CardGame/src/cardgame/cards/AEtherBarrier.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

@@ -41,12 +41,13 @@ public class Cancel implements Card {
             do{
                 System.out.println(owner.name() + ": choose target for " + name());
                 choose = reader.nextInt();
-            } while(choose < 1 || choose > i-1);
+            } while(choose < 1 || choose > i);
             
             i = 1;
             for (Effect e : stack) {
                 if(i == choose)
                     target = e;
+                i++;
             }
         }
         
