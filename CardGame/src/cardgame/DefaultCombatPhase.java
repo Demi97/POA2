@@ -48,16 +48,16 @@ public class DefaultCombatPhase implements Phase {
             if(!d.getDefenders().isEmpty()) {
                 for(Creature c: d.getDefenders()) {
                     if(damageAttacker < d.attackers.getToughness()) {
-                        System.out.println(c.name() + "(defender)");
-                        damageAttacker += c.getPower();
-                        d.attackers.inflictDamage(c.getPower());
-                        c.inflictDamage(d.attackers.getPower());
+                        System.out.println(c.name() + " (defender)");
+                        damageAttacker += c.getDecoratorHead().getPower();
+                        d.attackers.inflictDamage(c.getDecoratorHead().getPower());
+                        c.inflictDamage(d.attackers.getDecoratorHead().getPower());
                     }   
                 }
             }
             else {
-                System.out.println("No defenders");
-                CardGame.instance.getCurrentAdversary().inflictDamage(d.getAttackers().getPower());
+                System.out.println(", no defenders");
+                CardGame.instance.getCurrentAdversary().inflictDamage(d.getAttackers().getDecoratorHead().getPower());
                 System.out.println("Attacco diretto!");
             }
             if(damageAttacker < d.attackers.getToughness())
@@ -66,7 +66,15 @@ public class DefaultCombatPhase implements Phase {
         CardGame.instance.getTriggers().trigger(Triggers.END_DAMAGE_FILTER);
     }
     
-    public ArrayList<Creature> canAttackDefend(Player player) {
+    public ArrayList<Creature> canAttack(Player player) {
+        ArrayList<Creature> tmp = new ArrayList<>();
+        for(Creature c: player.getCreatures()){
+            if(!c.isTapped() && !c.isDefender())
+                tmp.add(c);
+        }
+        return tmp;
+    }
+    public ArrayList<Creature> canDefend(Player player) {
         ArrayList<Creature> tmp = new ArrayList<>();
         for(Creature c: player.getCreatures()){
             if(!c.isTapped())
@@ -85,8 +93,8 @@ public class DefaultCombatPhase implements Phase {
         Scanner reader = CardGame.instance.getScanner();
         
         // Setto chi può attaccare e chi difendere
-        ArrayList<Creature> effectiveAttacker = canAttackDefend(currentPlayer);
-        ArrayList<Creature> effectiveDefender = canAttackDefend(currentAdversary);
+        ArrayList<Creature> effectiveAttacker = canAttack(currentPlayer);
+        ArrayList<Creature> effectiveDefender = canDefend(currentAdversary);
 
         System.out.println(currentPlayer.name() + ": combat phase");
         CardGame.instance.getTriggers().trigger(Triggers.COMBAT_FILTER);

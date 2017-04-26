@@ -20,6 +20,8 @@ import cardgame.cards.AEtherBarrier;
 import cardgame.cards.Abduction;
 import cardgame.cards.Darkness;
 import cardgame.cards.AncestralMask;
+import cardgame.cards.WorldAtWar;
+import cardgame.cards.Cancel;
 /**
  *
  * @author atorsell
@@ -36,8 +38,8 @@ public class CardGame {
         //for (int i=0; i!=5; ++i) deck.add(new Reflexologist());
         //for (int i=0; i!=5; ++i) deck.add(new FriendlyEnvironment());
         for (int i=0; i!=5; ++i) deck.add(new NorwoodRanger());
+        for (int i=0; i!=5; ++i) deck.add(new AEtherBarrier());
         for (int i=0; i!=5; ++i) deck.add(new FriendlyEnvironment());
-        for (int i=0; i!=5; ++i) deck.add(new AncestralMask());
         
         instance.getPlayer(0).setDeck(deck.iterator());
         instance.getPlayer(1).setDeck(deck.iterator());
@@ -85,8 +87,8 @@ public class CardGame {
     public void removeTurnManager(TurnManager m) { turnManagerStack.remove(m); }
     
     Player getPlayer(int i) { return Players[i]; }    
-    Player getCurrentPlayer() { return turnManagerStack.peek().getCurrentPlayer(); }
-    Player getCurrentAdversary() { return turnManagerStack.peek().getCurrentAdversary(); }
+    public Player getCurrentPlayer() { return turnManagerStack.peek().getCurrentPlayer(); }
+    public Player getCurrentAdversary() { return turnManagerStack.peek().getCurrentAdversary(); }
     public Player getAdversary(Player p){ 
         if(p == Players[0]){
             return Players[1];
