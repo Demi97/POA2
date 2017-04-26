@@ -12,9 +12,11 @@ import cardgame.CardGame;
 import cardgame.Creature;
 import cardgame.Effect;
 import cardgame.Enchantment;
+import cardgame.MagicPrinter;
 import cardgame.Player;
 import cardgame.TriggerAction;
 import cardgame.Triggers;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -39,18 +41,18 @@ public class AncestralMask implements Card {
         public boolean play() {
             int i=0, index;
             Scanner scan = new Scanner(System.in);
-            List<Creature> creatures = owner.getCreatures();
-            System.out.println("Choose the creature Ancestral Mask will enchant");
-            for(Creature c : creatures){
-                System.out.println(""+(i+1)+c.name());
-                i++;
+            List<Creature> creatures = new ArrayList<Creature>();
+            if(creatures.isEmpty())
+                System.out.println("No creatures on field");
+            else {
+                MagicPrinter.instance.printCreatures(owner.getCreatures());
+                do{
+                   try{ 
+                     index = scan.nextInt();
+                   }catch(Exception e){index = -2;}
+                }while(index < 0 || index > creatures.size()-1);
+                target = creatures.get(index-1);
             }
-            do{
-               try{ 
-                 index = scan.nextInt();
-               }catch(Exception e){index = -2;}
-            }while(index < 0 || index > creatures.size()-1);
-            target = creatures.get(index-1);
             return super.play(); 
         }
         
