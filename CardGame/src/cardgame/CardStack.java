@@ -18,6 +18,7 @@ public class CardStack implements Iterable<Effect> {
     public Iterator<Effect> iterator() { return stack.iterator(); }
     
     public void add(Effect e) { 
+        CardGame.instance.getTriggers().trigger(Triggers.ENTER_EFFECT_STACK_FILTER, e);
         stack.push(e); 
     }
     

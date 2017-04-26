@@ -54,5 +54,10 @@ public class AuraDecorator extends CreatureDecorator{
         super(decoratedCreature);
     }
 
+    @Override
+    public boolean isDefender() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     
 }

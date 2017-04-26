@@ -5,6 +5,7 @@
  */
 package cardgame.cards;
 
+import cardgame.AbstractCreatureCardEffect;
 import cardgame.Card;
 import cardgame.Effect;
 import cardgame.Player;
@@ -26,8 +27,6 @@ import cardgame.MagicPrinter;
  * @author diletta
  */
 public class AEtherBarrier implements Card {
-    Object choosen;
-    int choice;
     private class AEtherBarrierEffect extends AbstractEnchantmentCardEffect{
         public AEtherBarrierEffect(Player p, Card c){
             super(p,c);
@@ -61,17 +60,17 @@ public class AEtherBarrier implements Card {
         }
         
         public void insert(){
-            CardGame.instance.getTriggers().register(Triggers.ENTER_CREATURE_FILTER, SacrificeOnCreatureEntranceAction);
+            CardGame.instance.getTriggers().register(Triggers.ENTER_EFFECT_STACK_FILTER, SacrificeOnCreatureEntranceAction);
             super.insert();
         }
         
         private final TriggerAction SacrificeOnCreatureEntranceAction = new TriggerAction(){
             
-            public void choose_permanent() {
-                int index, size, i=0;
+            public Permanent choose_permanent(Player p) {
+                int choice,index, size, i=0;
                 Scanner scan = new Scanner(System.in);
-                List<Creature> creatures = CardGame.instance.getAdversary(owner).getCreatures();
-                List<Enchantment> enchantments = CardGame.instance.getAdversary(owner).getEnchantments();
+                List<Creature> creatures = p.getCreatures();
+                List<Enchantment> enchantments = p.getEnchantments();
                 System.out.println("Creatures on the field:");
                 MagicPrinter.instance.printCreatures(creatures);
                 System.out.println("Enchantements on the  field");
@@ -98,20 +97,18 @@ public class AEtherBarrier implements Card {
                     }catch(Exception e){index = -1;}
                 }while(index<0 || index>size);
                 if(choice == 1){
-                    choosen = creatures.get(index-1);
+                    return creatures.get(index-1);
                 }else{
-                    choosen = enchantments.get(index-1);
+                    return enchantments.get(index-1);
                 }
             }
             
             @Override
             public void execute(Object args) {
-                if(args==choosen){
-                    if (choice == 1){
-                        owner.getCreatures().remove((Creature)choosen);
-                    }else{
-                        owner.getEnchantments().remove((Enchantment)choosen);
-                    }
+                Permanent choosen;
+                if(args instanceof AbstractCreatureCardEffect && args!=null){
+                    choosen = choose_permanent(((AbstractCreatureCardEffect)args).getPlayer());
+                    choosen.remove();
                 }
             }
         };
