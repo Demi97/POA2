@@ -5,17 +5,23 @@
  */
 package cardgame;
 
+import cardgame.cards.CreatureDecorator;
+import cardgame.cards.SpecialDecorator;
+
 /**
  *
  * @author atorsell
  */
 public abstract class AbstractCreature implements Creature {
-    
+    private final CreatureDecorator head;
     protected Player owner;
     protected boolean isTapped=false;
     protected int damageLeft = getToughness();
         
-        protected AbstractCreature(Player owner) { this.owner=owner; }
+        protected AbstractCreature(Player owner) { 
+            this.owner=owner; 
+            this.head = new SpecialDecorator(this);
+        }
         
     @Override
         public boolean tap() { 
@@ -80,4 +86,19 @@ public abstract class AbstractCreature implements Creature {
         public String toString() {
             return name() + " (Creature)";
         }
+    
+    @Override
+    public Creature getDecoratorHead(){
+        return head;
+    }
+
+    @Override
+    public void addDecorator(CreatureDecorator cd) {
+        getDecoratorHead().addDecorator(cd);
+    }
+
+    @Override
+    public void removeDecorator(CreatureDecorator cd) {
+        getDecoratorHead().removeDecorator(cd);
+    }
 }

@@ -5,31 +5,50 @@
  */
 package cardgame.cards;
 
+import cardgame.CardGame;
 import cardgame.Creature;
+import cardgame.Player;
+import cardgame.TriggerAction;
+import cardgame.Triggers;
 
 /**
  *
  * @author diletta
  */
 public class AuraDecorator extends CreatureDecorator{
-    int defense, attack;
     int numEnchantment;
     
     @Override
     public int getPower() {
-        attack = decoratedCreature.getPower()+(numEnchantment*2);
-        return attack;
+        return decoratedCreature.getPower()+((numEnchantment-1)*2);
     }
 
     @Override
     public int getToughness() {
-        defense = decoratedCreature.getToughness()+(numEnchantment*2);
-        return defense;
+        return decoratedCreature.getToughness()+((numEnchantment-1)*2);
     }
     
-    public void setNumEnchantment(int k){
-        numEnchantment+=k;
+    public void activation(Player me){
+        CardGame.instance.getTriggers().register(Triggers.ENTER_ENCHANTMENT_FILTER, AddOnEntranceAction);
+        CardGame.instance.getTriggers().register(Triggers.EXIT_ENCHANTMENT_FILTER, SubtractOnExitAction);
+        numEnchantment = me.getEnchantments().size()+CardGame.instance.getAdversary(me).getEnchantments().size();
     }
+    
+    private final TriggerAction AddOnEntranceAction = new TriggerAction(){
+            @Override
+            public void execute(Object args) {
+                numEnchantment++;
+            }
+            
+        };
+        
+    private final TriggerAction SubtractOnExitAction = new TriggerAction(){
+            @Override
+            public void execute(Object args) {
+                numEnchantment--;
+            }
+            
+        };
     
     public AuraDecorator(Creature decoratedCreature) {
         super(decoratedCreature);

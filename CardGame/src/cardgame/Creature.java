@@ -5,6 +5,7 @@
  */
 package cardgame;
 
+import cardgame.cards.CreatureDecorator;
 import java.util.List;
 
 /**
@@ -22,6 +23,11 @@ public interface Creature extends Permanent {
     void resetDamage();
     int getPower();
     int getToughness();
+   /* Creature getDecoratedCreature();
+    void setDecoratedShape(Creature c);*/
+    Creature getDecoratorHead();
+    void addDecorator(CreatureDecorator cd);
+    void removeDecorator(CreatureDecorator cd);
     
     // returns all the effects associated to this creature
     List<Effect> effects();

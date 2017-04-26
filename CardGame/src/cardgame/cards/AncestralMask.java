@@ -65,6 +65,7 @@ public class AncestralMask implements Card {
     }
     
     private class AncestralMaskEnchantment extends AbstractEnchantment{
+        AuraDecorator dec;
         
         public AncestralMaskEnchantment(Player owner){
             super(owner);
@@ -77,31 +78,20 @@ public class AncestralMask implements Card {
 
         @Override
         public void insert() {
-            CardGame.instance.getTriggers().register(Triggers.ENTER_ENCHANTMENT_FILTER, AddOnEntranceAction);
-            CardGame.instance.getTriggers().register(Triggers.EXIT_ENCHANTMENT_FILTER, SubtractOnExitAction);
+            dec = new AuraDecorator(target);
+            target.addDecorator(dec);
+            dec.activation(owner);
+            super.insert();
+        }
+
+        @Override
+        public void remove() {
+            target.removeDecorator(dec);
+            super.remove();
         }
         
-        private final TriggerAction AddOnEntranceAction = new TriggerAction(){
-            @Override
-            public void execute(Object args) {
-                AuraDecorator dec = new AuraDecorator(target);
-                dec.setNumEnchantment(1);
-                dec.getPower();
-                dec.getToughness();
-            }
-            
-        };
         
-        private final TriggerAction SubtractOnExitAction = new TriggerAction(){
-            @Override
-            public void execute(Object args) {
-                AuraDecorator dec = new AuraDecorator(target);
-                dec.setNumEnchantment(-1);
-                dec.getPower();
-                dec.getToughness();
-            }
-            
-        };
+       
         
     }
 
