@@ -55,10 +55,14 @@ public class AuraBlast implements Card {
                 System.out.println(owner.name() + " (1) or " + owner2.name() + " (2)");
                 choose = reader.nextInt()-1;
             }while(choose != 0&& choose != 1);
-            if(choose == 0)
+            if(choose == 0) {
                 operation(owner);
-            else
+                owner.draw();
+            }
+            else {
                 operation(owner2);
+                owner2.draw();
+            }
         }
             
         
