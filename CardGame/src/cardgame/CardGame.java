@@ -19,6 +19,7 @@ import cardgame.cards.BronzeSable;
 import cardgame.cards.AEtherBarrier;
 import cardgame.cards.Abduction;
 import cardgame.cards.Darkness;
+import cardgame.cards.AncestralMask;
 /**
  *
  * @author atorsell
@@ -35,8 +36,8 @@ public class CardGame {
         //for (int i=0; i!=5; ++i) deck.add(new Reflexologist());
         //for (int i=0; i!=5; ++i) deck.add(new FriendlyEnvironment());
         for (int i=0; i!=5; ++i) deck.add(new NorwoodRanger());
-        for (int i=0; i!=5; ++i) deck.add(new BronzeSable());
-        for (int i=0; i!=5; ++i) deck.add(new AEtherBarrier());
+        for (int i=0; i!=5; ++i) deck.add(new FriendlyEnvironment());
+        for (int i=0; i!=5; ++i) deck.add(new AncestralMask());
         
         instance.getPlayer(0).setDeck(deck.iterator());
         instance.getPlayer(1).setDeck(deck.iterator());

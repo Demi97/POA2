@@ -40,6 +40,7 @@ public class DefaultCombatPhase implements Phase {
     }
     
     public void resolution(List<Duel> duel) {
+        CardGame.instance.getTriggers().trigger(Triggers.DAMAGE_FILTER);
         int damageAttacker;
         for(Duel d : duel) {
             damageAttacker = 0;
@@ -62,7 +63,7 @@ public class DefaultCombatPhase implements Phase {
             if(damageAttacker < d.attackers.getToughness())
                 d.attackers.tap();
         }
-        
+        CardGame.instance.getTriggers().trigger(Triggers.END_DAMAGE_FILTER);
     }
     
     public ArrayList<Creature> canAttackDefend(Player player) {
