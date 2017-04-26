@@ -41,7 +41,7 @@ public class AncestralMask implements Card {
         public boolean play() {
             int i=0, index;
             Scanner scan = new Scanner(System.in);
-            List<Creature> creatures = new ArrayList<Creature>();
+            List<Creature> creatures = owner.getCreatures();
             if(creatures.isEmpty())
                 System.out.println("No creatures on field");
             else {
