@@ -91,16 +91,21 @@ public class AEtherBarrier implements Card {
                     MagicPrinter.instance.printEnchantments(enchantments);
                     size = enchantments.size();
                 }
-                do{
-                    try{
-                        index = scan.nextInt();
-                    }catch(Exception e){index = -1;}
-                }while(index<0 || index>size);
-                if(choice == 1){
-                    return creatures.get(index-1);
-                }else{
-                    return enchantments.get(index-1);
+                if(size == 0)
+                    System.out.println("No permanents on field to sacrifice");
+                else {
+                    do{
+                        try{
+                            index = scan.nextInt()-1;
+                        }catch(Exception e){index = -1;}
+                    }while(index < 0 || index >= size);
+                    if(choice == 1){
+                        return creatures.get(index);
+                    }else{
+                        return enchantments.get(index);
+                    }
                 }
+                return null;
             }
             
             @Override
@@ -108,7 +113,10 @@ public class AEtherBarrier implements Card {
                 Permanent choosen;
                 if(args instanceof AbstractCreatureCardEffect && args!=null){
                     choosen = choose_permanent(((AbstractCreatureCardEffect)args).getPlayer());
-                    choosen.remove();
+                    if(choosen == null)
+                        System.out.println("Effect not activated");
+                    else
+                        choosen.remove();
                 }
             }
         };
