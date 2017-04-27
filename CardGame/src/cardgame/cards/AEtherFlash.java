@@ -85,7 +85,7 @@ public class AEtherFlash implements Card {
 
         @Override
         public String name() {
-            return "AEtherFlashEnchantment";
+            return "AEther Flash";
         }
 
         @Override
