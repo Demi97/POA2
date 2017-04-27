@@ -11,9 +11,9 @@ import cardgame.cards.CreatureDecorator;
  *
  * @author diletta
  */
-public class SpecialDecorator extends CreatureDecorator{
+public class SpecialCreatureDecorator extends CreatureDecorator{
     
-    public SpecialDecorator(Creature decoratedCreature) {
+    public SpecialCreatureDecorator(Creature decoratedCreature) {
         super(decoratedCreature);
     }
     
