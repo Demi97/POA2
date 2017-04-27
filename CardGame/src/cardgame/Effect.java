@@ -9,7 +9,7 @@ package cardgame;
  *
  * @author atorsell
  */
-public interface Effect {
+public interface Effect{
     // pays for effect and places it in the stack
     boolean play();
     

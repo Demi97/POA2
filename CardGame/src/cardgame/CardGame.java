@@ -17,6 +17,7 @@ import cardgame.cards.NorwoodRanger;
 import cardgame.cards.VolcanicHammer;
 import cardgame.cards.BronzeSable;
 import cardgame.cards.AEtherBarrier;
+import cardgame.cards.AEtherFlash;
 import cardgame.cards.Abduction;
 import cardgame.cards.Darkness;
 import cardgame.cards.AncestralMask;
@@ -38,7 +39,7 @@ public class CardGame {
         //for (int i=0; i!=5; ++i) deck.add(new Reflexologist());
         //for (int i=0; i!=5; ++i) deck.add(new FriendlyEnvironment());
         for (int i=0; i!=5; ++i) deck.add(new NorwoodRanger());
-        for (int i=0; i!=5; ++i) deck.add(new AEtherBarrier());
+        for (int i=0; i!=5; ++i) deck.add(new AEtherFlash());
         for (int i=0; i!=5; ++i) deck.add(new FriendlyEnvironment());
         
         instance.getPlayer(0).setDeck(deck.iterator());

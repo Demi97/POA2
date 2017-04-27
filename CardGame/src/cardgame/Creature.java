@@ -17,7 +17,6 @@ public interface Creature extends Permanent {
     boolean tap();
     boolean untap();
     boolean isTapped();
-    boolean isDefender();
     void attack(Creature c);
     void defend(Creature c);
     void inflictDamage(int dmg);

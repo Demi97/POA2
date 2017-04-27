@@ -16,7 +16,6 @@ public abstract class AbstractCreature implements Creature {
     private final CreatureDecorator head;
     protected Player owner;
     protected boolean isTapped=false;
-    protected boolean defender = false;
     protected int damageLeft = getToughness();
         
         protected AbstractCreature(Player owner) { 
@@ -47,8 +46,7 @@ public abstract class AbstractCreature implements Creature {
             isTapped=false; 
             return true; 
         }
-    @Override
-    public boolean isDefender() {return defender; }
+
     @Override
         public boolean isTapped() { return isTapped; }
     @Override
