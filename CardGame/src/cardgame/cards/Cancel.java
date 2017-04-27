@@ -12,6 +12,7 @@ import cardgame.Player;
 import cardgame.CardGame;
 import cardgame.CardStack;
 import cardgame.MagicPrinter;
+import cardgame.Targets;
 import java.util.Scanner;
 
 /**
@@ -21,14 +22,14 @@ import java.util.Scanner;
 public class Cancel implements Card {
     Scanner reader = new Scanner(System.in);
     
-    private class CancelEffect extends AbstractCardEffect {
+    private class CancelEffect extends AbstractCardEffect implements Targets {
         Effect target;
         
         public CancelEffect(Player p, Card c) { 
             super(p,c); 
         }
         
-        public void selectTarget() {
+        public void checkTarget() {
             int i = 1;
             int choose;
             
@@ -55,7 +56,7 @@ public class Cancel implements Card {
         
         @Override
         public void resolve() {
-            selectTarget();
+            checkTarget();
             
             if (target == null) {
                 System.out.println(card + " has no target");

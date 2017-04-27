@@ -11,6 +11,7 @@ import cardgame.Player;
 import cardgame.AbstractCardEffect;
 import cardgame.CardGame;
 import cardgame.Creature;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -27,8 +28,8 @@ public class BoilingEarth implements Card {
         
         @Override
         public void resolve() {
-            List<Creature> creaturesEnemy = CardGame.instance.getAdversary(owner).getCreatures();        
-            List<Creature> creaturesMine = owner.getCreatures();
+            List<Creature> creaturesEnemy = new ArrayList<>(CardGame.instance.getAdversary(owner).getCreatures());        
+            List<Creature> creaturesMine = new ArrayList<>(owner.getCreatures());
             // Infliggo 1 a tutte le creature sul terreno
             for (Creature c : creaturesEnemy) {
                 c.inflictDamage(1);
