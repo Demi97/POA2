@@ -38,7 +38,7 @@ public class AncestralMask implements Card {
         }
 
         @Override
-        public boolean play() {
+        public boolean play(){
             int i=0, index;
             Scanner scan = new Scanner(System.in);
             List<Creature> creatures = owner.getCreatures();
@@ -65,7 +65,7 @@ public class AncestralMask implements Card {
     }
     
     private class AncestralMaskEnchantment extends AbstractEnchantment{
-        AuraDecorator dec;
+        AncestralMaskDecorator dec;
         
         public AncestralMaskEnchantment(Player owner){
             super(owner);
@@ -78,7 +78,7 @@ public class AncestralMask implements Card {
 
         @Override
         public void insert() {
-            dec = new AuraDecorator(target);
+            dec = new AncestralMaskDecorator(target);
             target.addDecorator(dec);
             dec.activation(owner);
             super.insert();

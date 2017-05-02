@@ -27,7 +27,7 @@ public class DefaultCombatPhase implements Phase {
     public  void printResolution(List<Duel> duel) {
         System.out.println("#### SITUAZIONE BATTAGLIA ####");
         for(Duel d : duel) {
-            System.out.println(d.getAttackers().name() + " attacks!");
+            System.out.println(d.getAttackers().name() + " attacks! (atk: " + d.getAttackers().getDecoratorHead().getPower() + ")");
             if(!d.getDefenders().isEmpty()) {
                 for(Creature c: d.getDefenders()) {
                     System.out.println(c + " defends");

@@ -15,7 +15,7 @@ import cardgame.Triggers;
  *
  * @author diletta
  */
-public class AuraDecorator extends CreatureDecorator{
+public class AncestralMaskDecorator extends CreatureDecorator{
     int numEnchantment;
     
     @Override
@@ -50,7 +50,7 @@ public class AuraDecorator extends CreatureDecorator{
             
         };
     
-    public AuraDecorator(Creature decoratedCreature) {
+    public AncestralMaskDecorator(Creature decoratedCreature) {
         super(decoratedCreature);
     }
 }

@@ -11,5 +11,4 @@ package cardgame;
  */
 public interface Targets extends Effect {
     public void checkTarget();
-    public String name();
 }
