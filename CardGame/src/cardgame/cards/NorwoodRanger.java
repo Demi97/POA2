@@ -55,15 +55,5 @@ public class NorwoodRanger implements Card {
         
         @Override
         public int getToughness() { return 2; }
-        
-        @Override
-        public boolean canAttack() {
-           return true;
-        }
-
-        @Override
-        public boolean isDefender() {
-            return false;
-        }
     }
 }

@@ -49,21 +49,10 @@ public class BronzeSable implements Card {
         @Override
         public String name() { return "Bronze Sable"; }
         
-       
         @Override
         public int getPower() { return 2; }
         
         @Override
         public int getToughness() { return 1; }
-        
-        @Override
-        public boolean canAttack() {
-           return true;
-        }
-
-        @Override
-        public boolean isDefender() {
-            return false;
-        }
     }
 }

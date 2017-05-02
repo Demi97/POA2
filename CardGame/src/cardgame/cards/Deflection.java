@@ -75,11 +75,6 @@ public class Deflection implements Card {
                 target.resolve();
             }
         }
-
-        @Override
-        public String name() {
-            return "Deflection"; 
-        }
     }
 
     @Override

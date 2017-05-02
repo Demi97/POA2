@@ -6,14 +6,16 @@
 package cardgame.cards;
 
 import cardgame.AbstractCardEffect;
+import cardgame.CardGame;
 import cardgame.Card;
 import cardgame.Creature;
 import cardgame.Effect;
-import cardgame.Player;
-import cardgame.CardGame;
 import cardgame.MagicPrinter;
+import cardgame.Player;
+import cardgame.Targets;
 import cardgame.TriggerAction;
 import cardgame.Triggers;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -22,71 +24,129 @@ import java.util.Scanner;
  * @author simonescaboro
  */
 public class AggressiveUrge implements Card {
-    Scanner reader = new Scanner(System.in);
-    private class AggressiveUrgeEffect extends AbstractCardEffect {
-        public AggressiveUrgeEffect(Player p, Card c) { super(p,c); }
-        
-        public int selectCreature() {
-            int choose = 0;
-            System.out.println(owner.name() + " creatures:");
-            if(owner.getCreatures().isEmpty())
-                System.out.println("No creatures to select");
-            else {
-                MagicPrinter.instance.printCreatures(owner.getCreatures());
-                do{
-                    System.out.println("Choose creature:");
-                    choose = reader.nextInt();
-                }while(choose < 1 || choose > owner.getCreatures().size());
-
-            }
-            return choose-1;
-        }
-        @Override
-        public void resolve() {
-            int target = selectCreature();
-            if(target == -1) {
-                System.out.println("No creatures on field");
-            }
-            else {
-                //owner.getCreatures().get(target).addPower(2)
-                //owner.getCreatures().get(target).addToughness(2)
-                CardGame.instance.getTriggers().register(Triggers.END_FILTER, resetValues);
-            
-
-            }
-        }
+    
+    @Override
+    public Effect getEffect(Player owner) {
+        return new AggressiveUrgeEffect(owner,this);
     }
 
-    private final TriggerAction resetValues = new TriggerAction(){
-        @Override
-        public void execute(Object args) {
-            //owner.getCreatures().get(target).addPower(-2)
-            //owner.getCreatures().get(target).addToughness(-2)  
-        }     
-    };
     @Override
-    public Effect getEffect(Player owner) { 
-        return new AggressiveUrgeEffect(owner, this); 
+    public String name() {
+        return "Aggressive Urge";
+    }
+
+    @Override
+    public String type() {
+        return "Instant";
+    }
+
+    @Override
+    public String ruleText() {
+        return "Target creatures gets +1/+1 until end of turn";
+    }
+
+    @Override
+    public boolean isInstant() {
+        return true;
     }
     
     @Override
-    public String name() { 
-        return "Aggressive Urge"; 
-    }
-    @Override
-    public String type() { 
-        return "Instant"; 
-    }
-    @Override
-    public String ruleText() { 
-        return "Target creature gets +2/+2 until end of turn"; 
-    }
-    @Override
-    public String toString() { 
+    public String toString() {
         return name() + " (" + type() + ") [" + ruleText() +"]";
     }
-    @Override
-    public boolean isInstant() { 
-        return true; 
+    
+    private class AggressiveUrgeEffect extends AbstractCardEffect implements Targets{
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        private Creature target;
+        
+        public AggressiveUrgeEffect(Player p, Card c) {
+            super(p,c);
+        }
+ 
+
+        @Override
+        public void resolve() {
+            checkTarget();
+            if(target == null)
+                System.out.println("No target");
+            else {
+                final AggressiveUrgeDecorator decorator = new AggressiveUrgeDecorator(target);
+                TriggerAction action = new TriggerAction() {
+                    @Override
+                    public void execute(Object args) {
+                        System.out.println("Triggered removal of  from " + target.getDecoratorHead());
+                        target.getDecoratorHead().removeDecorator(decorator);
+                    }
+                };
+                System.out.println("Ataching "  + name() + " to " + target.name() + " and registering end of turn trigger");
+                CardGame.instance.getTriggers().register(Triggers.END_FILTER, action);
+
+                decorator.setRemoveAction(action);
+                target.getDecoratorHead().addDecorator(decorator);
+            }
+        }
+
+        @Override
+        public void checkTarget() {
+            int choose;
+            List<Creature> creatures = new ArrayList<>();
+            Scanner reader = new Scanner(System.in);
+            System.out.println("Afflict to player 1 (1) or player 2 (2) creature?");
+            do{
+                try{
+                    choose = reader.nextInt()-1;
+                }catch(Exception e){ choose = -1; }
+            }while(choose != 0 && choose != 1);
+            if(choose == 0) {
+                MagicPrinter.instance.printCreatures(owner.getCreatures());
+                creatures = owner.getCreatures();
+            }
+            else {
+                MagicPrinter.instance.printCreatures(CardGame.instance.getCurrentAdversary().getCreatures());
+                creatures = CardGame.instance.getCurrentAdversary().getCreatures();
+            }
+            if(creatures.isEmpty()) {
+                target = null;
+                System.out.println("No creatures on field");
+            }
+            else {
+                do{
+                    try{
+                        choose = reader.nextInt()-1;
+                    }catch(Exception e){ choose = -1; }
+                }while(choose < 0 && choose >= creatures.size());
+                target = creatures.get(choose);
+            }
+        }
+        
+    }
+    
+    private class AggressiveUrgeDecorator extends CreatureDecorator {
+        TriggerAction dec;
+        
+        public AggressiveUrgeDecorator(Creature decoratedCreature) {
+            super(decoratedCreature);
+        }
+        
+        public void setRemoveAction(TriggerAction a){
+            dec = a;
+        }
+        
+        public void remove(){
+            System.out.println("Removing " + name() + " and deregistering end of turn trigger");
+            if (dec != null)
+                CardGame.instance.getTriggers().deregister(dec);
+            super.remove();
+        }
+
+        @Override
+        public int getPower() {
+            System.out.println("SONO QUIIIIIIIIIIIIIIIII");
+            return decoratedCreature.getPower()-1;
+        } 
+        @Override
+        public int getToughness() {
+            return decoratedCreature.getToughness()-1;
+        } 
     }
 }

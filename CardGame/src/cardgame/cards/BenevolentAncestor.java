@@ -46,7 +46,7 @@ public class BenevolentAncestor implements Card{
         Scanner scan = new Scanner(System.in);
         
         BenevolentAncestorCreature(Player owner){
-            super(owner);
+            super(owner,true);
             all_effects.add(new Effect(){
                 @Override
                 public boolean play() {
