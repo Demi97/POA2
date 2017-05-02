@@ -141,12 +141,11 @@ public class AggressiveUrge implements Card {
 
         @Override
         public int getPower() {
-            System.out.println("SONO QUIIIIIIIIIIIIIIIII");
-            return decoratedCreature.getPower()-1;
+            return decoratedCreature.getPower()+1;
         } 
         @Override
         public int getToughness() {
-            return decoratedCreature.getToughness()-1;
+            return decoratedCreature.getToughness()+1;
         } 
     }
 }
