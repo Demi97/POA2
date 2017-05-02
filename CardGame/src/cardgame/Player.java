@@ -31,6 +31,7 @@ public class Player {
     public void setDeck(Iterator<Card> deck) { library.add(deck); }
     public Library getDeck() { return library; }
     
+    private ArrayList<StrategyPlayer> strategies;
     
     
     private int life=10;
@@ -157,6 +158,17 @@ public class Player {
             hand.remove(idx);         
     }
     
+    public void addStrategy(StrategyPlayer strategy){
+        strategy.setOldStrategy(strategies.get(strategies.size()-1));
+        strategies.add(strategy);
+    }
+    
+    public void removeStrategy(StrategyPlayer strategy){
+        int index = strategies.indexOf(strategy);
+        if(index < strategies.size()-1)
+            strategies.get(index+1).setOldStrategy(strategy.getOldStrategy());
+        strategies.remove(strategy);
+    }
     
     // Creature management
     private final ArrayList<Creature> creatures = new ArrayList<>();

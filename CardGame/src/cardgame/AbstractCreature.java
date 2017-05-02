@@ -6,7 +6,7 @@
 package cardgame;
 
 import cardgame.cards.CreatureDecorator;
-import cardgame.cards.SpecialDecorator;
+import cardgame.cards.SpecialCreatureDecorator;
 
 /**
  *
@@ -16,11 +16,14 @@ public abstract class AbstractCreature implements Creature {
     private final CreatureDecorator head;
     protected Player owner;
     protected boolean isTapped=false;
+    protected boolean defender; ////////////////////////////////////////////////////////////////////////////////////////////////////////
     protected int damageLeft = getToughness();
         
-        protected AbstractCreature(Player owner) { 
+        protected AbstractCreature(Player owner, boolean canDefend) { 
             this.owner=owner; 
-            this.head = new SpecialDecorator(this);
+            this.head = new SpecialCreatureDecorator(this);
+            this.defender = canDefend;  /////////////////////////////////////////////////////////////////////////////////////////////////
+            
         }
         
     @Override
@@ -49,15 +52,22 @@ public abstract class AbstractCreature implements Creature {
 
     @Override
         public boolean isTapped() { return isTapped; }
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
-        public void attack(Creature c) {
-            c.inflictDamage(this.getPower());
-            c.defend(this);
-        } // to do in assignment 2
+        public void attack(Creature c) {}
+        
     @Override
-        public void defend(Creature c) {
-            this.inflictDamage(c.getPower());
-        } // to do in assignment 2
+        public void defend(Creature c) {}
+        
+    @Override
+    public boolean canAttack() {
+        return !(isTapped || defender);
+    }
+    @Override
+    public boolean isDefender() {
+        return defender;
+    }
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
         public void inflictDamage(int dmg) { 
             damageLeft -= dmg;

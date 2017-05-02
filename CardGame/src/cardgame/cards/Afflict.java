@@ -23,10 +23,12 @@ import java.util.Scanner;
  * @author simonescaboro
  */
 public class Afflict implements Card {
-    Creature target;
+    
     
     private class AfflictEffect extends AbstractCardEffect implements Targets{
-
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        private Creature target;
+        
         public AfflictEffect(Player p, Card c) {
             super(p,c);
         }
@@ -36,20 +38,22 @@ public class Afflict implements Card {
         public void resolve() {
             checkTarget();
             if(target.getDecoratorHead() == null)
-                return;
-            final AfflictDecorator decorator = new AfflictDecorator(target);
-            TriggerAction action = new TriggerAction() {
-                @Override
-                public void execute(Object args) {
-                    System.out.println("Triggered removal of  from " + target.getDecoratorHead());
-                    target.getDecoratorHead().removeDecorator(decorator);
-                }
-            };
-            System.out.println("Ataching "  + name() + " to " + target.name() + " and registering end of turn trigger");
-            CardGame.instance.getTriggers().register(Triggers.END_FILTER, action);
+                System.out.println("No target");
+            else {
+                final AfflictDecorator decorator = new AfflictDecorator(target);
+                TriggerAction action = new TriggerAction() {
+                    @Override
+                    public void execute(Object args) {
+                        System.out.println("Triggered removal of  from " + target.getDecoratorHead());
+                        target.getDecoratorHead().removeDecorator(decorator);
+                    }
+                };
+                System.out.println("Ataching "  + name() + " to " + target.name() + " and registering end of turn trigger");
+                CardGame.instance.getTriggers().register(Triggers.END_FILTER, action);
 
-            decorator.setRemoveAction(action);
-            target.getDecoratorHead().addDecorator(decorator);
+                decorator.setRemoveAction(action);
+                target.getDecoratorHead().addDecorator(decorator);
+            }
         }
 
         @Override

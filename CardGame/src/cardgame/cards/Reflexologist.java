@@ -35,7 +35,7 @@ public class Reflexologist implements Card {
         ArrayList<Effect> tap_effects= new ArrayList<>();
         
         ReflexologistCreature(Player owner) { 
-            super(owner);
+            super(owner,false);
             all_effects.add( new Effect() { 
                                     @Override
                                     public boolean play() { 
@@ -67,6 +67,16 @@ public class Reflexologist implements Card {
         public List<Effect> effects() { return all_effects; }
         @Override
         public List<Effect> avaliableEffects() { return (isTapped)?tap_effects:all_effects; }
+
+        @Override
+        public boolean canAttack() {
+            return true;
+        }
+
+        @Override
+        public boolean isDefender() {
+            return false;
+        }
     }
     
     

@@ -49,15 +49,15 @@ public class DefaultCombatPhase implements Phase {
                 for(Creature c: d.getDefenders()) {
                     if(damageAttacker < d.attackers.getToughness()) {
                         System.out.println(c.name() + " (defender)");
-                        damageAttacker += c.getDecoratorHead().getPower();
-                        d.attackers.inflictDamage(c.getDecoratorHead().getPower());
-                        c.inflictDamage(d.attackers.getDecoratorHead().getPower());
+                        damageAttacker += Math.max(0, c.getDecoratorHead().getPower());
+                        d.attackers.inflictDamage(Math.max(0,c.getDecoratorHead().getPower()));
+                        c.inflictDamage(Math.max(0,d.attackers.getDecoratorHead().getPower()));
                     }   
                 }
             }
             else {
                 System.out.println(", no defenders");
-                CardGame.instance.getCurrentAdversary().inflictDamage(d.getAttackers().getDecoratorHead().getPower());
+                CardGame.instance.getCurrentAdversary().inflictDamage(Math.max(0,d.getAttackers().getDecoratorHead().getPower()));
                 System.out.println("Direct attack!");
             }
             if(damageAttacker < d.attackers.getToughness())
@@ -69,7 +69,7 @@ public class DefaultCombatPhase implements Phase {
     public ArrayList<Creature> canAttack(Player player) {
         ArrayList<Creature> tmp = new ArrayList<>();
         for(Creature c: player.getCreatures()){
-            if(!c.isTapped())
+            if(!c.isTapped() && c.canAttack())
                 tmp.add(c);
         }
         return tmp;
@@ -77,7 +77,7 @@ public class DefaultCombatPhase implements Phase {
     public ArrayList<Creature> canDefend(Player player) {
         ArrayList<Creature> tmp = new ArrayList<>();
         for(Creature c: player.getCreatures()){
-            if(!c.isTapped())
+            if(!c.isTapped() && !c.isDefender())
                 tmp.add(c);
         }
         return tmp;

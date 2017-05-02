@@ -13,30 +13,36 @@ import cardgame.CardGame;
 import cardgame.CardStack;
 import cardgame.MagicPrinter;
 import cardgame.Targets;
+import cardgame.TriggerAction;
+import cardgame.Triggers;
+import java.util.List;
 import java.util.Scanner;
 
 /**
  *
  * @author Davide
  */
-public class Cancel implements Card {
+public class Deflection implements Card {
     Scanner reader = new Scanner(System.in);
     
-    private class CancelEffect extends AbstractCardEffect implements Targets {
+    private class DeflectionEffect extends AbstractCardEffect implements Targets {
         Effect target;
         
-        public CancelEffect(Player p, Card c) { 
+        public DeflectionEffect(Player p, Card c) { 
             super(p,c); 
         }
         
+        @Override
         public void checkTarget() {
             int i = 1;
             int choose;
-            
+
             CardStack stack = CardGame.instance.getStack();
             for (Effect e : stack) {
-                System.out.println(i + ") " + e.toString());
-                ++i;
+                if (e instanceof Targets) {
+                    System.out.println(i + ") " + e.toString());
+                    ++i;
+                }
             }
             
             do{
@@ -50,9 +56,11 @@ public class Cancel implements Card {
             
             i = 1;
             for (Effect e : stack) {
-                if(i == choose)
-                    target = e;
-                i++;
+                if (e instanceof Targets) {
+                    if(i == choose)
+                        target = e;
+                    i++;
+                }
             }
         }
         
@@ -64,37 +72,37 @@ public class Cancel implements Card {
                 System.out.println(card + " has no target");
             }
             else {
-                System.out.println(card + " removing " + target + " from stack");
-                CardGame.instance.getStack().remove(target);
+                target.resolve();
             }
+        }
+
+        @Override
+        public String name() {
+            return "Deflection"; 
         }
     }
 
     @Override
     public Effect getEffect(Player owner) { 
-        return new CancelEffect(owner, this); 
+        return new DeflectionEffect(owner, this); 
     }
     
     @Override
     public String name() { 
-        return "Cancel"; 
+        return "Deflection"; 
     }
-    
     @Override
     public String type() { 
         return "Instant"; 
     }
-    
     @Override
     public String ruleText() { 
-        return "Counter target spell"; 
+        return "Change the target of target spell with a single target"; 
     }
-    
     @Override
     public String toString() { 
         return name() + " (" + type() + ") [" + ruleText() +"]";
     }
-    
     @Override
     public boolean isInstant() { 
         return true; 

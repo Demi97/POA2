@@ -26,7 +26,7 @@ public class AggressiveUrge implements Card {
     private class AggressiveUrgeEffect extends AbstractCardEffect {
         public AggressiveUrgeEffect(Player p, Card c) { super(p,c); }
         
-        public int select_creature() {
+        public int selectCreature() {
             int choose = 0;
             System.out.println(owner.name() + " creatures:");
             if(owner.getCreatures().isEmpty())
@@ -43,7 +43,7 @@ public class AggressiveUrge implements Card {
         }
         @Override
         public void resolve() {
-            int target = select_creature();
+            int target = selectCreature();
             if(target == -1) {
                 System.out.println("No creatures on field");
             }
@@ -70,13 +70,23 @@ public class AggressiveUrge implements Card {
     }
     
     @Override
-    public String name() { return "Aggressive Urge"; }
+    public String name() { 
+        return "Aggressive Urge"; 
+    }
     @Override
-    public String type() { return "Instant"; }
+    public String type() { 
+        return "Instant"; 
+    }
     @Override
-    public String ruleText() { return "Target creature gets +2/+2 until end of turn"; }
+    public String ruleText() { 
+        return "Target creature gets +2/+2 until end of turn"; 
+    }
     @Override
-    public String toString() { return name() + " (" + type() + ") [" + ruleText() +"]";}
+    public String toString() { 
+        return name() + " (" + type() + ") [" + ruleText() +"]";
+    }
     @Override
-    public boolean isInstant() { return true; }
+    public boolean isInstant() { 
+        return true; 
+    }
 }

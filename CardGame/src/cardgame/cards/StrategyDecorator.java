@@ -11,23 +11,23 @@ import cardgame.Player;
  *
  * @author diletta
  */
-public class DefaultDamage implements Strategy {
+public class StrategyDecorator implements Strategy{
     protected Strategy decoratedStrategy;
     
-    public DefaultDamage(Strategy sd){
-        this.decoratedStrategy=sd;
+    public StrategyDecorator(Strategy s){
+        this.decoratedStrategy=s;
     }
-
+    
     @Override
     public void damageOperation(Player p, int pts) {
-        p.inflictDamage(pts);
+        decoratedStrategy.damageOperation(p, pts);
     }
 
-         public Strategy getDecoratedCreature(){
+         public Strategy getDecoratedStrategy(){
         return decoratedStrategy;
     }
     
-    public void setDecoratedCreature(Strategy s){
+    public void setDecoratedStrategy(Strategy s){
         decoratedStrategy=s;
     }
 

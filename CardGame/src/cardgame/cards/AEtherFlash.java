@@ -6,7 +6,6 @@
 package cardgame.cards;
 
 import cardgame.Card;
-import cardgame.Card;
 import cardgame.Effect;
 import cardgame.Enchantment;
 import cardgame.Player;
