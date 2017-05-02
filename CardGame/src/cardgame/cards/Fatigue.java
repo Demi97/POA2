@@ -13,6 +13,7 @@ import cardgame.Player;
 import java.util.Scanner;
 import cardgame.Phases;
 import cardgame.SkipPhase;
+import cardgame.Targets;
 
 /**
  *
@@ -21,7 +22,8 @@ import cardgame.SkipPhase;
 public class Fatigue implements Card{
     private Player adversary;
     
-    private class FatigueEffect extends AbstractCardEffect {
+    private class FatigueEffect extends AbstractCardEffect implements Targets{
+        Player target;
         public FatigueEffect(Player p, Card c) { 
             super(p,c);
             // definisco l'avversario
@@ -32,7 +34,7 @@ public class Fatigue implements Card{
       * Metodo per scegliere il giocatore
       * @return il giocatore al quale voglio rivolgere l'effetto
       */
-     public Player select_player() {
+     public void checkTarget() {
         int choose;
         Scanner reader = new Scanner(System.in);
         do{
@@ -41,12 +43,11 @@ public class Fatigue implements Card{
                 choose = reader.nextInt()-1;
             }catch(Exception e) { choose = -1; }
         }while(choose != 1 && choose != 0);
-        return (choose == 0) ? owner : adversary;
+        target = ( (choose == 0) ? owner : adversary);
     }
     @Override
     public void resolve() {
-        Player target;
-        target = select_player();
+        checkTarget();
         // gli skippo la draw phase
         target.setPhase(Phases.DRAW,new SkipPhase(Phases.DRAW));
         System.out.println(target.name() + "'ll skips his/her draw phase");

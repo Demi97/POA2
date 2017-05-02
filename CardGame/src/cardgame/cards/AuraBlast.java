@@ -12,6 +12,7 @@ import cardgame.Player;
 import cardgame.CardGame;
 import cardgame.Enchantment;
 import cardgame.MagicPrinter;
+import cardgame.Targets;
 import java.util.Scanner;
 
 /**
@@ -21,7 +22,7 @@ import java.util.Scanner;
 public class AuraBlast implements Card {
     private Player adversary;
     Scanner reader = new Scanner(System.in);
-    private class AuraBlastEffect extends AbstractCardEffect {
+    private class AuraBlastEffect extends AbstractCardEffect implements Targets{
         public AuraBlastEffect(Player p, Card c) { 
             super(p,c); 
             adversary = CardGame.instance.getAdversary(owner);
@@ -56,7 +57,7 @@ public class AuraBlast implements Card {
             }
         }
         
-        public void select_enchantments() {
+        public void checkTarget() {
             int choose;
             do{
                 System.out.println(owner.name() + " (1) or " + adversary.name() + " (2)");
@@ -80,7 +81,7 @@ public class AuraBlast implements Card {
         
         @Override
         public void resolve() {
-            select_enchantments();
+            checkTarget();
         }
     }
 

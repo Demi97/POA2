@@ -13,6 +13,7 @@ import cardgame.Player;
 import java.util.Scanner;
 import cardgame.Phases;
 import cardgame.SkipPhase;
+import cardgame.Targets;
 
 /**
  *
@@ -20,14 +21,14 @@ import cardgame.SkipPhase;
  */
 public class FalsePeace implements Card{
     private Player adversary;
-    
-    private class FalsePeaceEffect extends AbstractCardEffect {
+    private class FalsePeaceEffect extends AbstractCardEffect implements Targets {
+        Player target;
         public FalsePeaceEffect(Player p, Card c) { 
             super(p,c);
             adversary = CardGame.instance.getAdversary(owner);
         }
   
-     public Player select_player() {
+     public void checkTarget() {
         int choose;
         Scanner reader = new Scanner(System.in);
         do{
@@ -36,12 +37,12 @@ public class FalsePeace implements Card{
                 choose = reader.nextInt()-1;
             }catch(Exception e) { choose = -1; }
         }while(choose != 1 && choose != 0);
-        return (choose == 0) ? owner : adversary;
+        target = ((choose == 0) ? owner : adversary);
     }
     @Override
     public void resolve() {
-        Player target;
-        target = select_player();
+        
+        checkTarget();
         target.setPhase(Phases.COMBAT,new SkipPhase(Phases.COMBAT));
         System.out.println(target.name() + "'ll skips his/her combat phase");
         }
