@@ -7,6 +7,8 @@ package cardgame;
 
 import cardgame.cards.CreatureDecorator;
 import cardgame.cards.SpecialCreatureDecorator;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -110,5 +112,14 @@ public abstract class AbstractCreature implements Creature {
     @Override
     public void removeDecorator(CreatureDecorator cd) {
         getDecoratorHead().removeDecorator(cd);
+    }
+    
+    @Override
+    public List<Effect> effects() {
+        return new ArrayList<>();
+    }
+    @Override
+    public List<Effect> avaliableEffects(){
+        return new ArrayList<>();
     }
 }

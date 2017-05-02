@@ -40,7 +40,7 @@ public class CardGame {
         //for (int i=0; i!=5; ++i) deck.add(new Reflexologist());
         //for (int i=0; i!=5; ++i) deck.add(new FriendlyEnvironment());
         for (int i=0; i!=5; ++i) deck.add(new NorwoodRanger());
-        for (int i=0; i!=5; ++i) deck.add(new AEtherFlash());
+        for (int i=0; i!=5; ++i) deck.add(new BronzeSable());
         for (int i=0; i!=5; ++i) deck.add(new Afflict());
         
         instance.getPlayer(0).setDeck(deck.iterator());

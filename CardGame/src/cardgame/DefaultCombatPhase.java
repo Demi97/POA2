@@ -44,14 +44,14 @@ public class DefaultCombatPhase implements Phase {
         int damageAttacker;
         for(Duel d : duel) {
             damageAttacker = 0;
-            System.out.print(d.getAttackers().name() + " attacks ");
+            System.out.print(d.getAttackers().name() + " attacks ("+d.getAttackers().getDecoratorHead().getPower()+"/"+d.getAttackers().getDecoratorHead().getToughness()+")");
             if(!d.getDefenders().isEmpty()) {
                 for(Creature c: d.getDefenders()) {
                     if(damageAttacker < d.attackers.getToughness()) {
-                        System.out.println(c.name() + " (defender)");
+                        System.out.println(c.name() + " (defender" +"(" + c.getDecoratorHead().getPower() + "/" + c.getDecoratorHead().getToughness() + "))");
                         damageAttacker += Math.max(0, c.getDecoratorHead().getPower());
-                        d.attackers.inflictDamage(Math.max(0,c.getDecoratorHead().getPower()));
-                        c.inflictDamage(Math.max(0,d.attackers.getDecoratorHead().getPower()));
+                        d.attackers.getDecoratorHead().inflictDamage(Math.max(0,c.getDecoratorHead().getPower()));
+                        c.getDecoratorHead().inflictDamage(Math.max(0,d.attackers.getDecoratorHead().getPower()));
                     }   
                 }
             }
@@ -59,6 +59,7 @@ public class DefaultCombatPhase implements Phase {
                 System.out.println(", no defenders");
                 CardGame.instance.getCurrentAdversary().inflictDamage(Math.max(0,d.getAttackers().getDecoratorHead().getPower()));
                 System.out.println("Direct attack!");
+                System.out.println("VITA: " + CardGame.instance.getCurrentAdversary().getLife());
             }
             if(damageAttacker < d.attackers.getToughness())
                 d.attackers.tap();
