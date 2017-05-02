@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package cardgame.cards;
 
 import cardgame.AbstractCreature;
@@ -23,61 +28,42 @@ public class BronzeSable implements Card {
     }
     @Override
     public Effect getEffect(Player p) { return new BronzeSableEffect(p,this); }
-    
-    private class BronzeSableCreature extends AbstractCreature {
-        ArrayList<Effect> all_effects= new ArrayList<>();
-        ArrayList<Effect> tap_effects= new ArrayList<>();
-        
-        BronzeSableCreature(Player owner) { 
-            super(owner,false);
-            all_effects.add( new Effect() { 
-                                    @Override
-                                    public boolean play() { 
-                                        CardGame.instance.getStack().add(this);
-                                        return tap(); 
-                                    }
-                                    @Override
-                                    public void resolve() {}
-                                    @Override
-                                    public String toString() 
-                                        { return ""; }
-                                }
-                ); 
-        }
-        
-        @Override
-        public String name() { return "Bronze Sable"; }
-        
-        @Override
-        public void attack(Creature c) {}
-        @Override
-        public void defend(Creature c) {}
-        @Override
-        public int getPower() { return 2; }
-        @Override
-        public int getToughness() { return 1; }
-
-        @Override
-        public List<Effect> effects() { return all_effects; }
-        @Override
-        public List<Effect> avaliableEffects() { return (isTapped)?tap_effects:all_effects; }
-
-        @Override
-        public boolean canAttack() { return true; }
-
-        @Override
-        public boolean isDefender() { return false; }
-    }
         
     @Override
     public String name() { return "Bronze Sable"; }
     @Override
     public String type() { return "Creature"; }
     @Override
-    public String ruleText() { return "Put in play a creature Bronze Sable(2/1)"; }
+    public String ruleText() { return "Put in play a creature Bronze Sable (2/1)"; }
     @Override
     public String toString() { return name() + " (" + type() + ") [" + ruleText() +"]";}
     @Override
     public boolean isInstant() { return false; }
     
+        private class BronzeSableCreature extends AbstractCreature {
+
+        BronzeSableCreature(Player owner) { 
+            super(owner,false);
+        }
+        
+        @Override
+        public String name() { return "Bronze Sable"; }
+        
+       
+        @Override
+        public int getPower() { return 2; }
+        
+        @Override
+        public int getToughness() { return 1; }
+        
+        @Override
+        public boolean canAttack() {
+           return true;
+        }
+
+        @Override
+        public boolean isDefender() {
+            return false;
+        }
+    }
 }
