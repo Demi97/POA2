@@ -43,8 +43,8 @@ public class CardGame {
         for (int i=0; i!=5; ++i) deck.add(new NorwoodRanger());
         for (int i=0; i!=5; ++i) deck.add(new BronzeSable());
         //for (int i=0; i!=5; ++i) deck.add(new AncestralMask());
-        //for (int i=0; i!=5; ++i) deck.add(new Afflict());
-        for (int i=0; i!=5; ++i) deck.add(new Darkness());
+        for (int i=0; i!=5; ++i) deck.add(new Afflict());
+        //for (int i=0; i!=5; ++i) deck.add(new Darkness());
         instance.getPlayer(0).setDeck(deck.iterator());
         instance.getPlayer(1).setDeck(deck.iterator());
         

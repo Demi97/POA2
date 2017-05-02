@@ -70,7 +70,7 @@ public class DefaultCombatPhase implements Phase {
     public ArrayList<Creature> canAttack(Player player) {
         ArrayList<Creature> tmp = new ArrayList<>();
         for(Creature c: player.getCreatures()){
-            if(!c.isTapped() && c.canAttack())
+            if(!c.isTapped() && c.canAttack() && !c.isDefender())
                 tmp.add(c);
         }
         return tmp;
@@ -78,7 +78,7 @@ public class DefaultCombatPhase implements Phase {
     public ArrayList<Creature> canDefend(Player player) {
         ArrayList<Creature> tmp = new ArrayList<>();
         for(Creature c: player.getCreatures()){
-            if(!c.isTapped() && !c.isDefender())
+            if(!c.isTapped())
                 tmp.add(c);
         }
         return tmp;
