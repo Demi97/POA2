@@ -44,9 +44,15 @@ public class Deflection implements Card {
                     ++i;
                 }
             }
-            
+            i = 1;
             do{
                 System.out.println(owner.name() + ": choose target for " + name());
+                for(Effect e : stack) {
+                    if(e instanceof Targets) {
+                        System.out.println(i + ") " + e.toString());
+                        i++;
+                    }
+                }
                 try{
                     choose = reader.nextInt();
                 }catch(Exception e) { 

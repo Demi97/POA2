@@ -24,6 +24,7 @@ import cardgame.cards.AncestralMask;
 import cardgame.cards.WorldAtWar;
 import cardgame.cards.Cancel;
 import cardgame.cards.Afflict;
+import cardgame.cards.Deflection;
 
 /**
  *
@@ -39,11 +40,13 @@ public class CardGame {
         ArrayList<Card> deck = new ArrayList<>();
         //for (int i=0; i!=5; ++i) deck.add(new Homeopathy());
         //for (int i=0; i!=5; ++i) deck.add(new Reflexologist());
-        //for (int i=0; i!=5; ++i) deck.add(new FriendlyEnvironment());
-        for (int i=0; i!=5; ++i) deck.add(new NorwoodRanger());
+        for (int i=0; i!=5; ++i) deck.add(new FriendlyEnvironment());
+        //for (int i=0; i!=5; ++i) deck.add(new NorwoodRanger());
         for (int i=0; i!=5; ++i) deck.add(new BronzeSable());
-        //for (int i=0; i!=5; ++i) deck.add(new AncestralMask());
-        for (int i=0; i!=5; ++i) deck.add(new Afflict());
+        for (int i=0; i!=5; ++i) deck.add(new AncestralMask());
+        //for (int i=0; i!=5; ++i) deck.add(new Afflict());
+        //for (int i=0; i!=5; ++i) deck.add(new Deflection());
+        for (int i=0; i!=5; ++i) deck.add(new Abduction());
         //for (int i=0; i!=5; ++i) deck.add(new Darkness());
         instance.getPlayer(0).setDeck(deck.iterator());
         instance.getPlayer(1).setDeck(deck.iterator());
