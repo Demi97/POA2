@@ -28,7 +28,7 @@ public class Darkness implements Card {
 
     @Override
     public Effect getEffect(Player owner) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new DarknessEffect(owner,this);
     }
     private class DarknessEffect extends AbstractCardEffect {
 
