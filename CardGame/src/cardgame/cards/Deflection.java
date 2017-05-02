@@ -72,7 +72,7 @@ public class Deflection implements Card {
                 System.out.println(card + " has no target");
             }
             else {
-                target.play();
+                target.resolve();
             }
         }
 
