@@ -41,13 +41,26 @@ public class CardGame {
         //for (int i=0; i!=5; ++i) deck.add(new Homeopathy());
         //for (int i=0; i!=5; ++i) deck.add(new Reflexologist());
         //for (int i=0; i!=5; ++i) deck.add(new FriendlyEnvironment());
-        for (int i=0; i!=5; ++i) deck.add(new NorwoodRanger());
-        for (int i=0; i!=5; ++i) deck.add(new BronzeSable());
+        //for (int i=0; i!=5; ++i) deck.add(new NorwoodRanger());
+        //for (int i=0; i!=5; ++i) deck.add(new BronzeSable());
         //for (int i=0; i!=5; ++i) deck.add(new AncestralMask());
-        for (int i=0; i!=5; ++i) deck.add(new Afflict());
+        //for (int i=0; i!=5; ++i) deck.add(new Afflict());
         //for (int i=0; i!=5; ++i) deck.add(new Deflection());
         //for (int i=0; i!=5; ++i) deck.add(new Abduction());
         //for (int i=0; i!=5; ++i) deck.add(new Darkness());
+        CardFactory factory = new CardFactory();
+        factory.menu();
+        Scanner reader = new Scanner(System.in);
+        int choose;
+        for(int i = 0; i < 10; i++) {
+            System.out.println("Select card to add: ");
+            do{
+                try{
+                    choose = reader.nextInt();
+                }catch(Exception e) {choose = -1;}
+            }while(choose < 0 || choose > 22);
+            deck.add(factory.getCard(i));
+        }
         instance.getPlayer(0).setDeck(deck.iterator());
         instance.getPlayer(1).setDeck(deck.iterator());
         
