@@ -15,11 +15,13 @@ import java.util.Scanner;
  * @author atorsell
  */
 public class DefaultCombatPhase implements Phase {
+   
+    
     
     public void printPlayerField(List<Creature> creatures) {
         int i = 0;
         for(Creature creature: creatures) {
-            System.out.println(Integer.toString(i+1)+") " + creature.name() + " ["+ creature + "]" );
+            System.out.println((i+1)+") " + creature.name() + " ["+ creature + "]" );
             ++i;
         }
     }
@@ -59,7 +61,7 @@ public class DefaultCombatPhase implements Phase {
                 System.out.println(", no defenders");
                 CardGame.instance.getCurrentAdversary().inflictDamage(Math.max(0,d.getAttackers().getDecoratorHead().getPower()));
                 System.out.println("Direct attack!");
-                System.out.println("VITA: " + CardGame.instance.getCurrentAdversary().getLife());
+                System.out.println("LIFE: " + CardGame.instance.getCurrentAdversary().getLife());
             }
             if(damageAttacker < d.attackers.getToughness())
                 d.attackers.tap();
@@ -83,6 +85,57 @@ public class DefaultCombatPhase implements Phase {
         }
         return tmp;
     }
+    
+    private boolean playAvailableEffect(Player activePlayer, boolean isMain) {
+        //collect and display available effects...
+        ArrayList<Effect> availableEffects = new ArrayList<>();
+        Scanner reader = CardGame.instance.getScanner();
+
+        //...cards first
+        System.out.println(activePlayer.name() + " select card/effect to play, 0 to pass");
+        int i=0;
+        for( Card c:activePlayer.getHand() ) {
+            if ( isMain || c.isInstant() ) {
+                availableEffects.add( c.getEffect(activePlayer) );
+                System.out.println(Integer.toString(i+1)+") " + c );
+                ++i;
+            }
+        }
+        
+        //...creature effects last
+        for ( Creature c:activePlayer.getCreatures()) {
+            for (Effect e:c.avaliableEffects()) {
+                availableEffects.add(e);
+                System.out.println(Integer.toString(i+1)+") " + c.name() + 
+                    " ["+ e + "]" );
+                ++i;
+            }
+        }
+        
+        //get user choice and play it
+        int idx= reader.nextInt()-1;
+        if (idx<0 || idx>=availableEffects.size()) return false;
+
+        availableEffects.get(idx).play();
+        return true;
+    }
+    
+    private void stackResolution() {
+        int numberPasses=0;
+        Player currentPlayer = CardGame.instance.getCurrentPlayer();
+        int responsePlayerIdx = ((CardGame.instance.getPlayer(0) == currentPlayer)?1:0);
+        if (!playAvailableEffect(currentPlayer, true))
+            ++numberPasses;
+        
+        while (numberPasses<2) {
+            if (playAvailableEffect(CardGame.instance.getPlayer(responsePlayerIdx),false))
+                numberPasses=0;
+            else ++numberPasses;
+            
+            responsePlayerIdx = (responsePlayerIdx+1)%2;
+        }
+    }
+    
     @Override
     public void execute() {
         /**
@@ -106,6 +159,8 @@ public class DefaultCombatPhase implements Phase {
         //int i = 0;
         List<Duel> duel = new ArrayList<>();
         //int i = 0;
+        
+        //DICHIARAZIONE ATTACCANTI
         if(effectiveAttacker.isEmpty())
             System.out.println("... no creatures on field");
         if(!effectiveAttacker.isEmpty()) {
@@ -126,9 +181,13 @@ public class DefaultCombatPhase implements Phase {
             }
         System.out.println("###### FINE DICHIARAZIONE ATTACCANTI ######");
         System.out.println();
-        } 
+        stackResolution();
         System.out.println("Stack's resolution");
         CardGame.instance.getStack().resolve();
+        } 
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        
+        // DICHIARAZIONE DIFENSORI
         if(effectiveDefender.isEmpty())
             System.out.println("... no creatures can defend");
         if(duel.isEmpty())
@@ -152,10 +211,10 @@ public class DefaultCombatPhase implements Phase {
             }
         System.out.println();
         System.out.println("###### FINE DICHIARAZIONE DIFENSORI ######");
-        }
-
+        stackResolution();
         System.out.println("Stack's resolution");
         CardGame.instance.getStack().resolve();
+        }
         printResolution(duel);
         resolution(duel);
     }
