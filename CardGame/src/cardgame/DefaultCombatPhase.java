@@ -25,46 +25,83 @@ public class DefaultCombatPhase implements Phase {
             ++i;
         }
     }
-    
-    public  void printResolution(List<Duel> duel) {
-        System.out.println("#### SITUAZIONE BATTAGLIA ####");
+    public void checkRemoved(List<Duel> duel) {
+        System.out.println("Checking removed attackers");
+        List<Duel> tmp = new ArrayList<>(duel);
         for(Duel d : duel) {
-            System.out.println(d.getAttackers().name() + " attacks! (atk: " + d.getAttackers().getDecoratorHead().getPower() + ")");
-            if(!d.getDefenders().isEmpty()) {
-                for(Creature c: d.getDefenders()) {
-                    System.out.println(c + " defends");
+            if(d.getAttackers().getDecoratorHead().isRemoved()) {
+                System.out.println(d.getAttackers().name() + " removed");
+                tmp.remove(d);
+            }
+            else {
+                List<Creature> defTmp = new ArrayList<>(d.getDefenders());
+                for(Creature c : d.getDefenders()){
+                    if(c.isRemoved()) {
+                        System.out.println(c.name() + " (defender) removed");
+                        defTmp.remove(c);
+                    }
                 }
             }
-            else
-                System.out.println("No defenders");
+        }
+    }
+    public  void printResolution(List<Duel> duel) {
+        System.out.println("#### SITUAZIONE BATTAGLIA ####");
+        checkRemoved(duel);
+        for(Duel d : duel) {
+            if(d.getAttackers().getDecoratorHead().getToughness() <= 0) {
+                System.out.println(d.getAttackers().name() + " was removed!");
+            }
+            else {
+                System.out.println(d.getAttackers().name() + " attacks! (atk: " + d.getAttackers().getDecoratorHead().getPower() + ")");
+                if(!d.getDefenders().isEmpty()) {
+                    for(Creature c: d.getDefenders()) {
+                        if(c.getDecoratorHead().getToughness() <= 0)
+                            System.out.println(c.name() + " was removed!");
+                        else
+                            System.out.println(c + " defends");
+                    }
+                }
+                else
+                    System.out.println("No defenders");
+            }   
         }
         System.out.println("###############################");
     }
     
     public void resolution(List<Duel> duel) {
         CardGame.instance.getTriggers().trigger(Triggers.DAMAGE_FILTER);
+        checkRemoved(duel);
         int damageAttacker;
         for(Duel d : duel) {
             damageAttacker = 0;
-            System.out.print(d.getAttackers().name() + " attacks ("+d.getAttackers().getDecoratorHead().getPower()+"/"+d.getAttackers().getDecoratorHead().getToughness()+")");
-            if(!d.getDefenders().isEmpty()) {
-                for(Creature c: d.getDefenders()) {
-                    if(damageAttacker < d.attackers.getToughness()) {
-                        System.out.println(c.name() + " (defender" +"(" + c.getDecoratorHead().getPower() + "/" + c.getDecoratorHead().getToughness() + "))");
-                        damageAttacker += Math.max(0, c.getDecoratorHead().getPower());
-                        d.attackers.getDecoratorHead().inflictDamage(Math.max(0,c.getDecoratorHead().getPower()));
-                        c.getDecoratorHead().inflictDamage(Math.max(0,d.attackers.getDecoratorHead().getPower()));
-                    }   
-                }
+            if(d.getAttackers().getDecoratorHead().getToughness() <= 0) {
+                System.out.println(d.getAttackers().name() + " can't attack, is dead!");
             }
             else {
-                System.out.println(", no defenders");
-                CardGame.instance.getCurrentAdversary().inflictDamage(Math.max(0,d.getAttackers().getDecoratorHead().getPower()));
-                System.out.println("Direct attack!");
-                System.out.println("LIFE: " + CardGame.instance.getCurrentAdversary().getLife());
+                System.out.print(d.getAttackers().name() + " attacks ("+d.getAttackers().getDecoratorHead().getPower()+"/"+d.getAttackers().getDecoratorHead().getToughness()+")");
+                if(!d.getDefenders().isEmpty()) {
+                    for(Creature c: d.getDefenders()) {
+                        if(c.getDecoratorHead().getToughness() <= 0)
+                            System.out.println(c.name() + " can't defend, is dead!");
+                        else{
+                            if(damageAttacker < d.attackers.getToughness()) {
+                                System.out.println(c.name() + " (defender" +"(" + c.getDecoratorHead().getPower() + "/" + c.getDecoratorHead().getToughness() + "))");
+                                damageAttacker += Math.max(0, c.getDecoratorHead().getPower());
+                                d.attackers.getDecoratorHead().inflictDamage(Math.max(0,c.getDecoratorHead().getPower()));
+                                c.getDecoratorHead().inflictDamage(Math.max(0,d.attackers.getDecoratorHead().getPower()));
+                            }   
+                        }
+                    }
+                }
+                else {
+                    System.out.println(", no defenders");
+                    CardGame.instance.getCurrentAdversary().inflictDamage(Math.max(0,d.getAttackers().getDecoratorHead().getPower()));
+                    System.out.println("Direct attack!");
+                    System.out.println("LIFE: " + CardGame.instance.getCurrentAdversary().getLife());
+                }
+                if(damageAttacker < d.attackers.getToughness())
+                    d.attackers.tap();
             }
-            if(damageAttacker < d.attackers.getToughness())
-                d.attackers.tap();
         }
         CardGame.instance.getTriggers().trigger(Triggers.END_DAMAGE_FILTER);
     }
@@ -72,7 +109,7 @@ public class DefaultCombatPhase implements Phase {
     public ArrayList<Creature> canAttack(Player player) {
         ArrayList<Creature> tmp = new ArrayList<>();
         for(Creature c: player.getCreatures()){
-            if(!c.isTapped() && c.canAttack() && !c.isDefender())
+            if(!c.isTapped() && c.canAttack() && !c.isDefender() && !c.isRemoved())
                 tmp.add(c);
         }
         return tmp;
@@ -80,7 +117,7 @@ public class DefaultCombatPhase implements Phase {
     public ArrayList<Creature> canDefend(Player player) {
         ArrayList<Creature> tmp = new ArrayList<>();
         for(Creature c: player.getCreatures()){
-            if(!c.isTapped())
+            if(!c.isTapped() && !c.isRemoved())
                 tmp.add(c);
         }
         return tmp;
@@ -95,7 +132,7 @@ public class DefaultCombatPhase implements Phase {
         System.out.println(activePlayer.name() + " select card/effect to play, 0 to pass");
         int i=0;
         for( Card c:activePlayer.getHand() ) {
-            if ( isMain || c.isInstant() ) {
+            if (c.isInstant() ) {
                 availableEffects.add( c.getEffect(activePlayer) );
                 System.out.println(Integer.toString(i+1)+") " + c );
                 ++i;

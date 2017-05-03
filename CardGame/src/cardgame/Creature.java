@@ -26,6 +26,7 @@ public interface Creature extends Permanent {
     ////////////////////
     boolean canAttack();
     boolean isDefender();
+    boolean isRemoved();
     ////////////////////
    /* Creature getDecoratedCreature();
     void setDecoratedShape(Creature c);*/

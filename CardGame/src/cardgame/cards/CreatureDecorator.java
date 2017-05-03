@@ -55,6 +55,11 @@ public abstract class CreatureDecorator implements Creature{
     public boolean isDefender(){
         return decoratedCreature.isDefender();
     }
+    
+    @Override
+    public boolean isRemoved(){
+        return decoratedCreature.isRemoved();
+    }
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public void inflictDamage(int dmg) {

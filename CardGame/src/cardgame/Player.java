@@ -174,7 +174,9 @@ public class Player {
     private final ArrayList<Creature> creatures = new ArrayList<>();
     public List<Creature> getCreatures() {return creatures;}
     // destroy a creature in play
-    public void destroy(Creature c) {creatures.remove(c);} 
+    public void destroy(Creature c) {
+        creatures.remove(c);
+    } 
     
     
     
