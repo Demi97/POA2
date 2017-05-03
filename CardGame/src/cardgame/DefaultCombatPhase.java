@@ -16,85 +16,85 @@ import java.util.Scanner;
  */
 public class DefaultCombatPhase implements Phase {
    
-    
-    
-    public void printPlayerField(List<Creature> creatures) {
-        int i = 0;
-        for(Creature creature: creatures) {
-            System.out.println((i+1)+") " + creature.name() + " ["+ creature + "]" );
-            ++i;
-        }
-    }
-    public void checkRemoved(List<Duel> duel) {
-        System.out.println("Checking removed attackers");
-        List<Duel> tmp = new ArrayList<>(duel);
-        for(Duel d : duel) {
-            if(d.getAttackers().getDecoratorHead().isRemoved()) {
-                System.out.println(d.getAttackers().name() + " removed");
-                tmp.remove(d);
-            }
-            else {
-                List<Creature> defTmp = new ArrayList<>(d.getDefenders());
-                for(Creature c : d.getDefenders()){
-                    if(c.isRemoved()) {
-                        System.out.println(c.name() + " (defender) removed");
-                        defTmp.remove(c);
-                    }
-                }
-            }
-        }
-    }
+    // SITUAZIONE ATTACCANTI E DIFENSORI
+    /*
     public  void printResolution(List<Duel> duel) {
         System.out.println("#### SITUAZIONE BATTAGLIA ####");
-        checkRemoved(duel);
+        //checkRemoved(duel);
         for(Duel d : duel) {
-            if(d.getAttackers().getDecoratorHead().getToughness() <= 0) {
-                System.out.println(d.getAttackers().name() + " was removed!");
-            }
-            else {
+            if(!d.getAttackers().getDecoratorHead().isRemoved()) {
                 System.out.println(d.getAttackers().name() + " attacks! (atk: " + d.getAttackers().getDecoratorHead().getPower() + ")");
                 if(!d.getDefenders().isEmpty()) {
                     for(Creature c: d.getDefenders()) {
-                        if(c.getDecoratorHead().getToughness() <= 0)
-                            System.out.println(c.name() + " was removed!");
-                        else
+                        if(!c.getDecoratorHead().isRemoved())
                             System.out.println(c + " defends");
+                        //else
+                        //    System.out.println(c.name() + " was removed!");
+                            
                     }
                 }
-                else
-                    System.out.println("No defenders");
-            }   
+            else
+                System.out.println("No defenders");
+            }
+            //else
+            //    System.out.println(d.getAttackers().name() + " was removed!");
         }
         System.out.println("###############################");
     }
+    */
+   /* 
+    public void control(List<Duel> duel) {
+        int i = 0;
+        List<Duel> tmp = new ArrayList<>(duel);
+        for(Duel d : tmp) {
+            if(d.getAttackers().isRemoved()) {
+                System.out.println("LO RIMUOVO");
+                duel.remove(i);
+                i--;
+            }
+            i++;
+        }
+    }
+    */
     
+    public boolean allRemoved(List<Creature> defenders) {
+        for(Creature c : defenders)
+        {
+            if(!c.getDecoratorHead().isRemoved())
+                return false;
+        }
+        return true;    
+    }
+    // CALCOLO DEI DANNI
     public void resolution(List<Duel> duel) {
         CardGame.instance.getTriggers().trigger(Triggers.DAMAGE_FILTER);
-        checkRemoved(duel);
+        //checkRemoved(duel);
         int damageAttacker;
+        boolean action = false;
+        System.out.println("_________COMBAT PHASE________");
         for(Duel d : duel) {
             damageAttacker = 0;
-            if(d.getAttackers().getDecoratorHead().getToughness() <= 0) {
+            if(d.getAttackers().getDecoratorHead().isRemoved()) {
                 System.out.println(d.getAttackers().name() + " can't attack, is dead!");
             }
             else {
-                System.out.print(d.getAttackers().name() + " attacks ("+d.getAttackers().getDecoratorHead().getPower()+"/"+d.getAttackers().getDecoratorHead().getToughness()+")");
-                if(!d.getDefenders().isEmpty()) {
-                    for(Creature c: d.getDefenders()) {
-                        if(c.getDecoratorHead().getToughness() <= 0)
-                            System.out.println(c.name() + " can't defend, is dead!");
-                        else{
-                            if(damageAttacker < d.attackers.getToughness()) {
-                                System.out.println(c.name() + " (defender" +"(" + c.getDecoratorHead().getPower() + "/" + c.getDecoratorHead().getToughness() + "))");
-                                damageAttacker += Math.max(0, c.getDecoratorHead().getPower());
-                                d.attackers.getDecoratorHead().inflictDamage(Math.max(0,c.getDecoratorHead().getPower()));
-                                c.getDecoratorHead().inflictDamage(Math.max(0,d.attackers.getDecoratorHead().getPower()));
-                            }   
-                        }
+                System.out.println(d.getAttackers().name() + " attacks ("+d.getAttackers().getDecoratorHead().getPower()+"/"+d.getAttackers().getDecoratorHead().getToughness()+")");
+                for(Creature c: d.getDefenders()) {
+                    if(c.getDecoratorHead().isRemoved())
+                        System.out.println(c.name() + " can't defend, is dead!");
+                    else{
+                        if(damageAttacker < d.attackers.getToughness()) {
+                            action = true;
+                            System.out.println(c.name() + " (defender" +"(" + c.getDecoratorHead().getPower() + "/" + c.getDecoratorHead().getToughness() + "))");
+                            damageAttacker += Math.max(0, c.getDecoratorHead().getPower());
+                            c.getDecoratorHead().inflictDamage(Math.max(0,d.attackers.getDecoratorHead().getPower()));
+                            d.attackers.getDecoratorHead().inflictDamage(Math.max(0,c.getDecoratorHead().getPower()));
+                        }   
                     }
                 }
-                else {
-                    System.out.println(", no defenders");
+                
+                if(action == false){
+                    System.out.println("No defenders");
                     CardGame.instance.getCurrentAdversary().inflictDamage(Math.max(0,d.getAttackers().getDecoratorHead().getPower()));
                     System.out.println("Direct attack!");
                     System.out.println("LIFE: " + CardGame.instance.getCurrentAdversary().getLife());
@@ -102,8 +102,10 @@ public class DefaultCombatPhase implements Phase {
                 if(damageAttacker < d.attackers.getToughness())
                     d.attackers.tap();
             }
+            System.out.println("- - - - - - - - - - - - - - - -");
         }
         CardGame.instance.getTriggers().trigger(Triggers.END_DAMAGE_FILTER);
+        System.out.println("_________________________________");
     }
     
     public ArrayList<Creature> canAttack(Player player) {
@@ -205,7 +207,8 @@ public class DefaultCombatPhase implements Phase {
             System.out.println("These creatures can attack: ");
             while(attack_index != 0 && effectiveAttacker.size() > 0) {
                 do{
-                    printPlayerField(effectiveAttacker);
+                    //printPlayerField(effectiveAttacker);
+                    MagicPrinter.instance.printCreatures(effectiveAttacker);
                     System.out.println("Attack with: (0 to pass)");          
                     attack_index = reader.nextInt();
                 }while(attack_index < 0 || attack_index-1 >= effectiveAttacker.size());
@@ -230,19 +233,23 @@ public class DefaultCombatPhase implements Phase {
         if(duel.isEmpty())
             System.out.println("... no creatures da cui difendersi");
         if(!effectiveDefender.isEmpty() && !duel.isEmpty()) {     
-            System.out.println(currentAdversary.name() + " scegli i difensori: "); 
+            System.out.println(currentAdversary.name() + " choose defenders: ");
+            //control(duel);
             for(Duel d : duel) {
                 int defend_index = 1;
-                System.out.println("Who defends for " + d.getAttackers().name() + "?");    
-                while(defend_index != 0 && effectiveDefender.size() > 0) {
-                    do{
-                        printPlayerField(effectiveDefender);
-                        System.out.println("Defend (" + d.getAttackers().name() + ") with: (0 to pass)");
-                        defend_index = reader.nextInt();
-                    }while(defend_index < 0 || defend_index-1 >= effectiveDefender.size());
-                    if(defend_index != 0) {
-                        d.getDefenders().add(effectiveDefender.get(defend_index-1));
-                        effectiveDefender.remove(defend_index-1);
+                if(!d.getAttackers().getDecoratorHead().isRemoved()) {
+                    System.out.println("Who defends for " + d.getAttackers().name() + "?");    
+                    while(defend_index != 0 && effectiveDefender.size() > 0) {
+                        do{
+                            //printPlayerField(effectiveDefender);
+                            MagicPrinter.instance.printCreatures(effectiveDefender);
+                            System.out.println("Defend with: (0 to pass)");
+                            defend_index = reader.nextInt();
+                        }while(defend_index < 0 || defend_index-1 >= effectiveDefender.size());
+                        if(defend_index != 0) {
+                            d.getDefenders().add(effectiveDefender.get(defend_index-1));
+                            effectiveDefender.remove(defend_index-1);
+                        }
                     }
                 }
             }
@@ -252,7 +259,7 @@ public class DefaultCombatPhase implements Phase {
         System.out.println("Stack's resolution");
         CardGame.instance.getStack().resolve();
         }
-        printResolution(duel);
+        //printResolution(duel);
         resolution(duel);
     }
     

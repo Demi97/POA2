@@ -18,7 +18,7 @@ public abstract class AbstractCreature implements Creature {
     private final CreatureDecorator head;
     protected Player owner;
     protected boolean isTapped=false;
-    protected boolean isRemoved = false;
+    protected boolean removed = false;
     protected boolean defender; ////////////////////////////////////////////////////////////////////////////////////////////////////////
     protected int damageLeft = getToughness();
         
@@ -72,7 +72,7 @@ public abstract class AbstractCreature implements Creature {
     }
     @Override
     public boolean isRemoved() {
-        return isRemoved;
+        return removed;
     }
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
@@ -81,7 +81,7 @@ public abstract class AbstractCreature implements Creature {
             System.out.println("Infliggo " + dmg + " a " + this.name());
             if (damageLeft<=0) {
                 System.out.println(this.name() + " muore!");
-                this.isRemoved = true;
+                this.removed = true;
                 owner.destroy(this);  
             }
         }

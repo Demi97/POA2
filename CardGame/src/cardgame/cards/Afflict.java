@@ -75,14 +75,14 @@ public class Afflict implements Card {
                     @Override
                     public void execute(Object args) {
                         System.out.println("Triggered removal " + target.getDecoratorHead());
-                        target.getDecoratorHead().removeDecorator(decorator);
+                        target.removeDecorator(decorator);
                     }
                 };
                 System.out.println("Ataching to " + target.name() + " and registering end of turn trigger");
                 CardGame.instance.getTriggers().register(Triggers.END_FILTER, action);
 
                 decorator.setRemoveAction(action);
-                target.getDecoratorHead().addDecorator(decorator);
+                target.addDecorator(decorator);
             }
         }
 
@@ -126,6 +126,7 @@ public class Afflict implements Card {
         
         public AfflictDecorator(Creature decoratedCreature) {
             super(decoratedCreature);
+            decoratedCreature.inflictDamage(1);
         }
         
         public void setRemoveAction(TriggerAction a){
@@ -133,7 +134,7 @@ public class Afflict implements Card {
         }
         
         public void remove(){
-            System.out.println("Removing " + name() + " and deregistering end of turn trigger");
+            System.out.println("Removing " + name());
             if (dec != null)
                 CardGame.instance.getTriggers().deregister(dec);
             super.remove();
@@ -145,12 +146,15 @@ public class Afflict implements Card {
         } 
         @Override
         public int getToughness() {
-            decoratedCreature.inflictDamage(1);
             return decoratedCreature.getToughness()-1;
         }
         @Override
         public boolean isRemoved(){
-            return decoratedCreature.isRemoved();
+            if(decoratedCreature.getToughness()-1 <= 0){
+                return true;
+            }
+            else
+                return false;
         }
     }
 }
