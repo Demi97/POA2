@@ -62,11 +62,15 @@ public class Afflict implements Card {
         public AfflictEffect(Player p, Card c) {
             super(p,c);
         }
- 
+        
+        @Override
+        public boolean play() {
+            checkTarget();
+            return super.play();
+        }
 
         @Override
         public void resolve() {
-            checkTarget();
             if(target == null)
                 System.out.println("No target");
             else {

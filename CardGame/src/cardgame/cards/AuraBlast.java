@@ -21,6 +21,7 @@ import java.util.Scanner;
  */
 public class AuraBlast implements Card {
     private Player adversary;
+    private Player target;
     Scanner reader = new Scanner(System.in);
     private class AuraBlastEffect extends AbstractCardEffect implements Targets{
         public AuraBlastEffect(Player p, Card c) { 
@@ -67,21 +68,23 @@ public class AuraBlast implements Card {
             }while(choose != 0 && choose != 1);
             if(choose == 0) {
                 // svolgo l'operazione di rimozione 
-                operation(owner);
-                // il giocatore pesca una carta
-                owner.draw();
+                target = owner;
             }
             else {
-                operation(adversary);
-                adversary.draw();
+                target = adversary;
             }
         }
             
-        
+        @Override
+        public boolean play() {
+            checkTarget();
+            return super.play();
+        }
         
         @Override
         public void resolve() {
-            checkTarget();
+            operation(target);
+            target.draw();
         }
     }
 

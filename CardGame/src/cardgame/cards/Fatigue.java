@@ -45,9 +45,13 @@ public class Fatigue implements Card{
         }while(choose != 1 && choose != 0);
         target = ( (choose == 0) ? owner : adversary);
     }
+        @Override
+        public boolean play() {
+            checkTarget();
+            return super.play();
+        }
     @Override
     public void resolve() {
-        checkTarget();
         // gli skippo la draw phase
         target.setPhase(Phases.DRAW,new SkipPhase(Phases.DRAW));
         System.out.println(target.name() + "'ll skips his/her draw phase");

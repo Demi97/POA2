@@ -40,9 +40,13 @@ public class FalsePeace implements Card{
         target = ((choose == 0) ? owner : adversary);
     }
     @Override
-    public void resolve() {
-        
+    public boolean play() {
         checkTarget();
+        return super.play();
+    }
+    
+    @Override
+    public void resolve() {
         target.setPhase(Phases.COMBAT,new SkipPhase(Phases.COMBAT));
         System.out.println(target.name() + "'ll skips his/her combat phase");
         }
