@@ -99,7 +99,7 @@ public class Afflict implements Card {
             int choose;
             List<Creature> creatures = new ArrayList<>();
             Scanner reader = new Scanner(System.in);
-            System.out.println("Afflict to" +  owner.name() +"(1) or"+ CardGame.instance.getCurrentAdversary().name() +"(2) creature?");
+            System.out.println("Afflict to" +  owner.name() +" (1) or"+ CardGame.instance.getAdversary(owner).name() +" (2) creature?");
             do{
                 try{
                     choose = reader.nextInt();
