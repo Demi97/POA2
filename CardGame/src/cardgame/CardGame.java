@@ -43,7 +43,7 @@ public class CardGame {
         factory.menu();
         Scanner reader = new Scanner(System.in);
         int choose;
-        for(int i = 0; i < 10; i++) {
+        for(int i = 0; i < 15; i++) {
             System.out.print("Select card to add: ");
             do{
                 try{

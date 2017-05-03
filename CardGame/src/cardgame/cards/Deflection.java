@@ -26,7 +26,7 @@ public class Deflection implements Card {
     Scanner reader = new Scanner(System.in);
     
     private class DeflectionEffect extends AbstractCardEffect implements Targets {
-        Effect target;
+        Targets target;
         
         public DeflectionEffect(Player p, Card c) { 
             super(p,c); 
@@ -64,21 +64,24 @@ public class Deflection implements Card {
             for (Effect e : stack) {
                 if (e instanceof Targets) {
                     if(i == choose)
-                        target = e;
+                        target = (Targets)e;
                     i++;
                 }
             }
         }
         
         @Override
-        public void resolve() {
+        public boolean play(){
             checkTarget();
-            
+            return super.play();
+        }
+        @Override
+        public void resolve() {
             if (target == null) {
                 System.out.println(card + " has no target");
             }
             else {
-                target.resolve();
+                target.checkTarget();
             }
         }
     }

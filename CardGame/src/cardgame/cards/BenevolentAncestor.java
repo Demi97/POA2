@@ -145,27 +145,27 @@ public class BenevolentAncestor implements Card {
 
         @Override
         public int getPower() {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            return 0;
         }
 
         @Override
         public int getToughness() {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            return 4;
         }
 
         @Override
         public List<Effect> effects() {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
-
+/*
         @Override
         public List<Effect> avaliableEffects() {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
-
+*/
         @Override
         public String name() {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            return "Benevolent Ancestor";
         }
     }
 
@@ -183,7 +183,9 @@ public class BenevolentAncestor implements Card {
     public String ruleText() {
         return "Defender (This creature can't attack). Prevent the next 1 damage that would be dealt to target creature or player this turn";
     }
-
+    @Override
+    public String toString() { return name() + " (" + type() + ") [" + ruleText() +"]";}
+    
     @Override
     public boolean isInstant() {
         return false;
