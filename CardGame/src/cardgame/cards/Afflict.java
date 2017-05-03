@@ -134,7 +134,7 @@ public class Afflict implements Card {
         
         public AfflictDecorator(Creature decoratedCreature) {
             super(decoratedCreature);
-            decoratedCreature.inflictDamage(1);
+            decoratedCreature.getDecoratorHead().inflictDamage(1);
         }
         
         public void setRemoveAction(TriggerAction a){

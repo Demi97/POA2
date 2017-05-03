@@ -82,7 +82,7 @@ public abstract class AbstractCreature implements Creature {
             if (damageLeft<=0) {
                 System.out.println(this.name() + " muore!");
                 this.removed = true;
-                owner.destroy(this);  
+                owner.destroy(this.getDecoratorHead());  
             }
         }
         
