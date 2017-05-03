@@ -50,7 +50,7 @@ public class CardGame {
                     choose = reader.nextInt();
                 }catch(Exception e) {choose = -1;}
             }while(choose < 0 || choose > 22);
-            deck.add(factory.getCard(i));
+            deck.add(factory.getCard(choose));
         }
         instance.getPlayer(0).setDeck(deck.iterator());
         instance.getPlayer(1).setDeck(deck.iterator());

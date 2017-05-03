@@ -74,7 +74,7 @@ public class CardFactory {
                 return new AggressiveUrge();
             case 6:
                 return new AncestralMask();
-            case 7:
+            //case 7:
                 //return new ArgothianEnchantress();
             case 8:
                 return new AuraBlast();
@@ -107,6 +107,6 @@ public class CardFactory {
             case 22:
                 return new WorldAtWar();
         }
-        return null;
+        return new WorldAtWar();
     }
 }
