@@ -53,6 +53,9 @@ public class Abduction implements Card {
                 }while(index < 0 || index-1 >= temp.size());
                 target = temp.get(index-1);
             }
+            target.untap();
+            temp.remove(target);
+            owner.getCreatures().add(target);
             return super.play(); 
         }       
     }
@@ -75,10 +78,6 @@ public class Abduction implements Card {
         
         @Override
         public void insert(){
-            List<Creature> temp = CardGame.instance.getAdversary(owner).getCreatures();
-            target.untap();
-            temp.remove(target);
-            owner.getCreatures().add(target);
             CardGame.instance.getTriggers().register(Triggers.EXIT_CREATURE_FILTER, ReturnOnDeathAction);
             super.insert();
         }
