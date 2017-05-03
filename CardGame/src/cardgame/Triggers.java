@@ -13,53 +13,64 @@ import java.util.ArrayList;
  * @author atorsell
  */
 public class Triggers {
-    private class Entry { 
-        public int filter; 
+
+    private class Entry {
+
+        public int filter;
         public TriggerAction action;
-        public Entry(int f, TriggerAction a) { filter=f; action=a; }
-        
+
+        public Entry(int f, TriggerAction a) {
+            filter = f;
+            action = a;
+        }
+
     }
-    
+
     ArrayList<Triggers.Entry> actions = new ArrayList<Triggers.Entry>();
-    
-    
+
     public void register(int phaseTrigger, TriggerAction a) {
         actions.add(new Triggers.Entry(phaseTrigger, a));
     }
-    
+
     public void deregister(TriggerAction a) {
-        for(int i=actions.size(); i>=0; --i) {
-            if (a.equals(actions.get(i))) actions.remove(i);
+        for (int i = actions.size() - 1; i >= 0; --i) {
+            if (a.equals(actions.get(i).action)) {
+                actions.remove(i);
+            }
         }
     }
-    
-    
-    public void trigger(int event) { trigger(event, null); }
+
+    public void trigger(int event) {
+        trigger(event, null);
+    }
+
     public void trigger(int event, Object args) {
         ArrayDeque<Triggers.Entry> triggerableActions = new ArrayDeque<>();
-        
-        for (Triggers.Entry p:actions) {
-            if ((p.filter & event)!=0) triggerableActions.push(p);
+
+        for (Triggers.Entry p : actions) {
+            if ((p.filter & event) != 0) {
+                triggerableActions.push(p);
+            }
         }
-        
+
         //execute last-inserted-first
         while (!triggerableActions.isEmpty()) {
-            Triggers.Entry entry=triggerableActions.pop();
+            Triggers.Entry entry = triggerableActions.pop();
             entry.action.execute(args);
         }
     }
-    
-    public static final int DRAW_FILTER=1;
-    public static final int UNTAP_FILTER=2;
-    public static final int COMBAT_FILTER=4;
-    public static final int MAIN_FILTER=8;
-    public static final int END_FILTER=16;
-    public static final int ENTER_CREATURE_FILTER=32;
-    public static final int EXIT_CREATURE_FILTER=64;
-    public static final int ENTER_ENCHANTMENT_FILTER=128;
-    public static final int EXIT_ENCHANTMENT_FILTER=256;
-    public static final int DAMAGE_FILTER=512;
-    public static final int END_DAMAGE_FILTER=1024;
+
+    public static final int DRAW_FILTER = 1;
+    public static final int UNTAP_FILTER = 2;
+    public static final int COMBAT_FILTER = 4;
+    public static final int MAIN_FILTER = 8;
+    public static final int END_FILTER = 16;
+    public static final int ENTER_CREATURE_FILTER = 32;
+    public static final int EXIT_CREATURE_FILTER = 64;
+    public static final int ENTER_ENCHANTMENT_FILTER = 128;
+    public static final int EXIT_ENCHANTMENT_FILTER = 256;
+    public static final int DAMAGE_FILTER = 512;
+    public static final int END_DAMAGE_FILTER = 1024;
     public static final int ENTER_EFFECT_STACK_FILTER = 2048;
-    
+
 }

@@ -15,41 +15,42 @@ import cardgame.Triggers;
  *
  * @author diletta
  */
-public class AncestralMaskDecorator extends CreatureDecorator{
+public class AncestralMaskDecorator extends CreatureDecorator {
+
     int numEnchantment;
-    
+
     @Override
     public int getPower() {
-        return decoratedCreature.getPower()+((numEnchantment-1)*2);
+        return decoratedCreature.getPower() + ((numEnchantment - 1) * 2);
     }
 
     @Override
     public int getToughness() {
-        return decoratedCreature.getToughness()+((numEnchantment-1)*2);
+        return decoratedCreature.getToughness() + ((numEnchantment - 1) * 2);
     }
-    
-    public void activation(Player me){
+
+    public void activation(Player me) {
         CardGame.instance.getTriggers().register(Triggers.ENTER_ENCHANTMENT_FILTER, AddOnEntranceAction);
         CardGame.instance.getTriggers().register(Triggers.EXIT_ENCHANTMENT_FILTER, SubtractOnExitAction);
-        numEnchantment = me.getEnchantments().size()+CardGame.instance.getAdversary(me).getEnchantments().size();
+        numEnchantment = me.getEnchantments().size() + CardGame.instance.getAdversary(me).getEnchantments().size();
     }
-    
-    private final TriggerAction AddOnEntranceAction = new TriggerAction(){
-            @Override
-            public void execute(Object args) {
-                numEnchantment++;
-            }
-            
-        };
-        
-    private final TriggerAction SubtractOnExitAction = new TriggerAction(){
-            @Override
-            public void execute(Object args) {
-                numEnchantment--;
-            }
-            
-        };
-    
+
+    private final TriggerAction AddOnEntranceAction = new TriggerAction() {
+        @Override
+        public void execute(Object args) {
+            numEnchantment++;
+        }
+
+    };
+
+    private final TriggerAction SubtractOnExitAction = new TriggerAction() {
+        @Override
+        public void execute(Object args) {
+            numEnchantment--;
+        }
+
+    };
+
     public AncestralMaskDecorator(Creature decoratedCreature) {
         super(decoratedCreature);
     }
