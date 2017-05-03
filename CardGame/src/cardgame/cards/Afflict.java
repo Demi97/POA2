@@ -146,7 +146,8 @@ public class Afflict implements Card {
         } 
         @Override
         public int getToughness() {
+            decoratedCreature.inflictDamage(1);
             return decoratedCreature.getToughness()-1;
-        } 
+        }
     }
 }
