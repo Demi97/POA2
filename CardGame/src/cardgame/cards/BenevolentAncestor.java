@@ -5,6 +5,9 @@
  */
 package cardgame.cards;
 
+import cardgame.PreventOneDamage;
+import cardgame.StrategyDecorator;
+import cardgame.Strategy;
 import cardgame.AbstractCreature;
 import cardgame.AbstractCreatureCardEffect;
 import cardgame.Card;

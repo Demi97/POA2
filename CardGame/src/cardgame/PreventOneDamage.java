@@ -3,26 +3,36 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cardgame.cards;
+package cardgame;
 
+import cardgame.StrategyDecorator;
+import cardgame.Strategy;
+import cardgame.Creature;
 import cardgame.Player;
 
 /**
  *
  * @author diletta
  */
-public class StrategyDecorator implements Strategy{
+public class PreventOneDamage extends StrategyDecorator{
     protected Strategy decoratedStrategy;
     
-    public StrategyDecorator(Strategy s){
-        this.decoratedStrategy=s;
+    public PreventOneDamage(Strategy sd){
+        super(sd);
+        this.decoratedStrategy=sd;
+    }
+    
+    @Override
+    public void damageOperation(int pts) {
+        pts = pts-1;
+        decoratedStrategy.damageOperation(pts);
     }
 
-    public Strategy getDecoratedStrategy(){
+     public Strategy getDecoratedCreature(){
         return decoratedStrategy;
     }
     
-    public void setDecoratedStrategy(Strategy s){
+    public void setDecoratedCreature(Strategy s){
         decoratedStrategy=s;
     }
 
@@ -39,11 +49,6 @@ public class StrategyDecorator implements Strategy{
     @Override
     public Strategy getDecoratorHead() {
         return decoratedStrategy.getDecoratorHead();
-    }
-
-    @Override
-    public void damageOperation(int pts) {
-        decoratedStrategy.damageOperation(pts);
     }
     
 }

@@ -6,7 +6,6 @@
 package cardgame;
 
 import cardgame.cards.CreatureDecorator;
-import cardgame.cards.SpecialCreatureDecorator;
 import java.util.ArrayList;
 import java.util.List;
 

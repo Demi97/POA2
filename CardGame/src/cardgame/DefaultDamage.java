@@ -3,8 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cardgame.cards;
+package cardgame;
 
+import cardgame.StrategyDecorator;
+import cardgame.Strategy;
+import cardgame.SpecialStrategyDecorator;
 import cardgame.Player;
 
 /**
