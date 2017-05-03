@@ -5,7 +5,6 @@
  */
 package cardgame.cards;
 
-import cardgame.Creature;
 
 /**
  *

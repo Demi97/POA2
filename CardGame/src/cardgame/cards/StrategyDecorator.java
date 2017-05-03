@@ -17,13 +17,8 @@ public class StrategyDecorator implements Strategy{
     public StrategyDecorator(Strategy s){
         this.decoratedStrategy=s;
     }
-    
-    @Override
-    public void damageOperation(Player p, int pts) {
-        decoratedStrategy.damageOperation(p, pts);
-    }
 
-         public Strategy getDecoratedStrategy(){
+    public Strategy getDecoratedStrategy(){
         return decoratedStrategy;
     }
     
@@ -44,6 +39,11 @@ public class StrategyDecorator implements Strategy{
     @Override
     public Strategy getDecoratorHead() {
         return decoratedStrategy.getDecoratorHead();
+    }
+
+    @Override
+    public void damageOperation(int pts) {
+        decoratedStrategy.damageOperation(pts);
     }
     
 }

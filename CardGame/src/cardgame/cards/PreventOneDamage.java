@@ -12,17 +12,18 @@ import cardgame.Player;
  *
  * @author diletta
  */
-public class PreventOneDamage implements Strategy{
+public class PreventOneDamage extends StrategyDecorator{
     protected Strategy decoratedStrategy;
     
     public PreventOneDamage(Strategy sd){
+        super(sd);
         this.decoratedStrategy=sd;
     }
     
     @Override
-    public void damageOperation(Player p, int pts) {
+    public void damageOperation(int pts) {
         pts = pts-1;
-        p.inflictDamage(pts);
+        decoratedStrategy.damageOperation(pts);
     }
 
      public Strategy getDecoratedCreature(){

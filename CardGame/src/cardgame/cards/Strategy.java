@@ -12,7 +12,7 @@ import cardgame.Player;
  * @author diletta
  */
 public interface Strategy {
-    void damageOperation(Player p, int pts);
+    void damageOperation(int pts);
     void addDecorator(StrategyDecorator sd);
     void removeDecorator(StrategyDecorator sd);
     Strategy getDecoratorHead();

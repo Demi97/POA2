@@ -11,39 +11,26 @@ import cardgame.Player;
  *
  * @author diletta
  */
-public class DefaultDamage implements Strategy {
-    protected Strategy decoratedStrategy;
+public abstract class DefaultDamage implements Strategy {
+    private final StrategyDecorator head;
     
-    public DefaultDamage(Strategy sd){
-        this.decoratedStrategy=sd;
-    }
-
-    @Override
-    public void damageOperation(Player p, int pts) {
-        p.inflictDamage(pts);
-    }
-
-         public Strategy getDecoratedCreature(){
-        return decoratedStrategy;
-    }
-    
-    public void setDecoratedCreature(Strategy s){
-        decoratedStrategy=s;
+    public DefaultDamage(){
+        head = new SpecialStrategyDecorator(this);
     }
 
     @Override
     public void addDecorator(StrategyDecorator sd) {
-        decoratedStrategy.addDecorator(sd);
+        head.addDecorator(sd);
     }
 
     @Override
     public void removeDecorator(StrategyDecorator sd) {
-        decoratedStrategy.removeDecorator(sd);
+        head.removeDecorator(sd);
     }
 
     @Override
     public Strategy getDecoratorHead() {
-        return decoratedStrategy.getDecoratorHead();
+        return head;
     }
     
 }

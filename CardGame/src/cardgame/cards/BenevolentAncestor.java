@@ -21,57 +21,67 @@ import java.util.Scanner;
  *
  * @author diletta
  */
-public class BenevolentAncestor implements Card{
-    
-    private class BenevolentAncestorEffect extends AbstractCreatureCardEffect{
-       
-        public BenevolentAncestorEffect(Player p, Card c){
-            super(p,c);
+public class BenevolentAncestor implements Card {
+
+    private class BenevolentAncestorEffect extends AbstractCreatureCardEffect {
+
+        public BenevolentAncestorEffect(Player p, Card c) {
+            super(p, c);
         }
 
         @Override
         protected Creature createCreature() {
             return new BenevolentAncestorCreature(owner);
-        }         
+        }
     }
-    
+
     @Override
     public Effect getEffect(Player p) {
         return new BenevolentAncestorEffect(p, this);
     }
 
-    private class BenevolentAncestorCreature extends AbstractCreature{
-        ArrayList<Effect> all_effects=new ArrayList<>();
-        ArrayList<Effect> tap_effects=new ArrayList<>();
+    private class BenevolentAncestorCreature extends AbstractCreature {
+        int choice;
+        ArrayList<Effect> all_effects;
+        ArrayList<Effect> tap_effects;
         Scanner scan = new Scanner(System.in);
-        
-        BenevolentAncestorCreature(Player owner){
-            super(owner,true);
-            all_effects.add(new Effect(){
+
+        BenevolentAncestorCreature(Player owner) {
+            super(owner, true);
+            tap_effects = new ArrayList<>();
+        }
+
+        @Override
+        public void insert() {
+            all_effects = new ArrayList<>();
+            all_effects.add(new Effect() {
                 @Override
                 public boolean play() {
-                    int choice, index;
+                    int index;
                     System.out.println("Your target is a creature (press 1) or a player (press 2)?");
-                     do{
-                        try{
+                    do {
+                        try {
                             choice = scan.nextInt();
-                        }catch(Exception e){
+                        } catch (Exception e) {
                             choice = -1;
                         }
-                    }while(choice!=1 && choice!=2);
-                    if(choice==1){
-                        MagicPrinter.instance.printCreatures(owner.getCreatures());
-                    }
+                    } while (choice != 1 && choice != 2);
                     CardGame.instance.getStack().add(this);
                     return tap();
+
                 }
 
                 @Override
                 public void resolve() {
-                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                    if (choice == 1) {
+                        MagicPrinter.instance.printCreatures(owner.getCreatures());
+                    } else {
+                        owner.getStrategy().addDecorator(new PreventOneDamage(owner.getStrategy()));
+                    }
                 }
-                
-            }
+
+            });
+            super.insert(); //To change body of generated methods, choose Tools | Templates.
         }
 
         @Override
@@ -99,7 +109,7 @@ public class BenevolentAncestor implements Card{
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
     }
-    
+
     @Override
     public String name() {
         return "Benevolent Ancestor";
@@ -119,5 +129,5 @@ public class BenevolentAncestor implements Card{
     public boolean isInstant() {
         return false;
     }
-    
+
 }
