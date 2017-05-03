@@ -70,19 +70,23 @@ public class Afflict implements Card {
             if(target == null)
                 System.out.println("No target");
             else {
-                final AfflictDecorator decorator = new AfflictDecorator(target);
-                TriggerAction action = new TriggerAction() {
-                    @Override
-                    public void execute(Object args) {
-                        System.out.println("Triggered removal " + target.getDecoratorHead());
-                        target.removeDecorator(decorator);
-                    }
-                };
-                System.out.println("Ataching to " + target.name() + " and registering end of turn trigger");
-                CardGame.instance.getTriggers().register(Triggers.END_FILTER, action);
+                if(target.isRemoved())
+                    System.out.println("Target already removed");
+                else {
+                    final AfflictDecorator decorator = new AfflictDecorator(target);
+                    TriggerAction action = new TriggerAction() {
+                        @Override
+                        public void execute(Object args) {
+                            System.out.println("Triggered removal " + target.getDecoratorHead());
+                            target.removeDecorator(decorator);
+                        }
+                    };
+                    System.out.println("Ataching to " + target.name() + " and registering end of turn trigger");
+                    CardGame.instance.getTriggers().register(Triggers.END_FILTER, action);
 
-                decorator.setRemoveAction(action);
-                target.addDecorator(decorator);
+                    decorator.setRemoveAction(action);
+                    target.addDecorator(decorator);
+                }
             }
         }
 
@@ -91,13 +95,13 @@ public class Afflict implements Card {
             int choose;
             List<Creature> creatures = new ArrayList<>();
             Scanner reader = new Scanner(System.in);
-            System.out.println("Afflict to player 1 (1) or player 2 (2) creature?");
+            System.out.println("Afflict to" +  owner.name() +"(1) or"+ CardGame.instance.getCurrentAdversary().name() +"(2) creature?");
             do{
                 try{
-                    choose = reader.nextInt()-1;
+                    choose = reader.nextInt();
                 }catch(Exception e){ choose = -1; }
-            }while(choose != 0 && choose != 1);
-            if(choose == 0) {
+            }while(choose != 1 && choose != 1);
+            if(choose == 1) {
                 MagicPrinter.instance.printCreatures(owner.getCreatures());
                 creatures = owner.getCreatures();
             }

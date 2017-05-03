@@ -15,56 +15,6 @@ import java.util.Scanner;
  * @author atorsell
  */
 public class DefaultCombatPhase implements Phase {
-   
-    // SITUAZIONE ATTACCANTI E DIFENSORI
-    /*
-    public  void printResolution(List<Duel> duel) {
-        System.out.println("#### SITUAZIONE BATTAGLIA ####");
-        //checkRemoved(duel);
-        for(Duel d : duel) {
-            if(!d.getAttackers().getDecoratorHead().isRemoved()) {
-                System.out.println(d.getAttackers().name() + " attacks! (atk: " + d.getAttackers().getDecoratorHead().getPower() + ")");
-                if(!d.getDefenders().isEmpty()) {
-                    for(Creature c: d.getDefenders()) {
-                        if(!c.getDecoratorHead().isRemoved())
-                            System.out.println(c + " defends");
-                        //else
-                        //    System.out.println(c.name() + " was removed!");
-                            
-                    }
-                }
-            else
-                System.out.println("No defenders");
-            }
-            //else
-            //    System.out.println(d.getAttackers().name() + " was removed!");
-        }
-        System.out.println("###############################");
-    }
-    */
-   /* 
-    public void control(List<Duel> duel) {
-        int i = 0;
-        List<Duel> tmp = new ArrayList<>(duel);
-        for(Duel d : tmp) {
-            if(d.getAttackers().isRemoved()) {
-                System.out.println("LO RIMUOVO");
-                duel.remove(i);
-                i--;
-            }
-            i++;
-        }
-    }
-    */
-    
-    public boolean allRemoved(List<Creature> defenders) {
-        for(Creature c : defenders)
-        {
-            if(!c.getDecoratorHead().isRemoved())
-                return false;
-        }
-        return true;    
-    }
     // CALCOLO DEI DANNI
     public void resolution(List<Duel> duel) {
         CardGame.instance.getTriggers().trigger(Triggers.DAMAGE_FILTER);
