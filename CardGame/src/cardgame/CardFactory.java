@@ -33,15 +33,16 @@ import cardgame.cards.WorldAtWar;
  */
 public class CardFactory {
     public void menu() {
-        System.out.println("1. Abduction");
-        System.out.println("2. AEther Barrier");
-        System.out.println("3. Aether Flash");
-        System.out.println("4. Afflict");
-        System.out.println("5. Aggressive Urge");
-        System.out.println("6. Ancestral Mask");
-        System.out.println("7. Argothian Enchantress");
-        System.out.println("8. Aura Blast");
-        System.out.println("9. Benevolent Ancestor");
+        System.out.println("======== Cards ========");
+        System.out.println("1.  Abduction");
+        System.out.println("2.  AEther Barrier");
+        System.out.println("3.  AEther Flash");
+        System.out.println("4.  Afflict");
+        System.out.println("5.  Aggressive Urge");
+        System.out.println("6.  Ancestral Mask");
+        System.out.println("7.  Argothian Enchantress");
+        System.out.println("8.  Aura Blast");
+        System.out.println("9.  Benevolent Ancestor");
         System.out.println("10. Boiling Earth");
         System.out.println("11. Bronze Sable");
         System.out.println("12. Calming Verse");
@@ -55,7 +56,7 @@ public class CardFactory {
         System.out.println("20. Savor the Moment");
         System.out.println("21. Volcanic Hammer");
         System.out.println("22. World at War");
-        
+        System.out.println("======================");
         
         
     }

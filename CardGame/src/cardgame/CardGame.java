@@ -38,22 +38,13 @@ public class CardGame {
     public static void main(String[] args) {
         //create decks
         ArrayList<Card> deck = new ArrayList<>();
-        //for (int i=0; i!=5; ++i) deck.add(new Homeopathy());
-        //for (int i=0; i!=5; ++i) deck.add(new Reflexologist());
-        //for (int i=0; i!=5; ++i) deck.add(new FriendlyEnvironment());
-        //for (int i=0; i!=5; ++i) deck.add(new NorwoodRanger());
-        //for (int i=0; i!=5; ++i) deck.add(new BronzeSable());
-        //for (int i=0; i!=5; ++i) deck.add(new AncestralMask());
-        //for (int i=0; i!=5; ++i) deck.add(new Afflict());
-        //for (int i=0; i!=5; ++i) deck.add(new Deflection());
-        //for (int i=0; i!=5; ++i) deck.add(new Abduction());
-        //for (int i=0; i!=5; ++i) deck.add(new Darkness());
+        System.out.println("~~~~~~~~~~~~~STARTING GAME~~~~~~~~~~~~~");
         CardFactory factory = new CardFactory();
         factory.menu();
         Scanner reader = new Scanner(System.in);
         int choose;
         for(int i = 0; i < 10; i++) {
-            System.out.println("Select card to add: ");
+            System.out.print("Select card to add: ");
             do{
                 try{
                     choose = reader.nextInt();
