@@ -27,38 +27,27 @@ import java.util.Scanner;
 public class AggressiveUrge implements Card {
 
     @Override
+    public String name() { return "Aggressive Urge"; }
+
+    @Override
+    public String type() { return "Instant"; }
+
+    @Override
+    public String ruleText() { return "Target creatures gets +1/+1 until end of turn"; }
+
+    @Override
+    public boolean isInstant() { return true; }
+
+    @Override
+    public String toString() { return name() + " (" + type() + ") [" + ruleText() + "]"; }
+
+    @Override
     public Effect getEffect(Player owner) {
         return new AggressiveUrgeEffect(owner, this);
     }
 
-    @Override
-    public String name() {
-        return "Aggressive Urge";
-    }
-
-    @Override
-    public String type() {
-        return "Instant";
-    }
-
-    @Override
-    public String ruleText() {
-        return "Target creatures gets +1/+1 until end of turn";
-    }
-
-    @Override
-    public boolean isInstant() {
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return name() + " (" + type() + ") [" + ruleText() + "]";
-    }
-
     private class AggressiveUrgeEffect extends AbstractCardEffect implements Targets {
 
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
         private Creature target;
 
         public AggressiveUrgeEffect(Player p, Card c) {
@@ -76,19 +65,23 @@ public class AggressiveUrge implements Card {
             if (target == null) {
                 System.out.println("No target");
             } else {
-                final AggressiveUrgeDecorator decorator = new AggressiveUrgeDecorator(target);
-                TriggerAction action = new TriggerAction() {
-                    @Override
-                    public void execute(Object args) {
-                        System.out.println("Triggered removal of  from " + target.getDecoratorHead());
-                        target.getDecoratorHead().removeDecorator(decorator);
-                    }
-                };
-                System.out.println("Ataching " + name() + " to " + target.name() + " and registering end of turn trigger");
-                CardGame.instance.getTriggers().register(Triggers.END_FILTER, action);
+                if(target.isRemoved())
+                    System.out.println("Target already removed");
+                else {
+                    final AggressiveUrgeDecorator decorator = new AggressiveUrgeDecorator(target);
+                    TriggerAction action = new TriggerAction() {
+                        @Override
+                        public void execute(Object args) {
+                            System.out.println("Triggered removal of  from " + target.getDecoratorHead());
+                            target.getDecoratorHead().removeDecorator(decorator);
+                        }
+                    };
+                    System.out.println("Ataching " + name() + " to " + target.name() + " and registering end of turn trigger");
+                    CardGame.instance.getTriggers().register(Triggers.END_FILTER, action);
 
-                decorator.setRemoveAction(action);
-                target.getDecoratorHead().addDecorator(decorator);
+                    decorator.setRemoveAction(action);
+                    target.getDecoratorHead().addDecorator(decorator);
+                }
             }
         }
 
@@ -97,15 +90,15 @@ public class AggressiveUrge implements Card {
             int choose;
             List<Creature> creatures = new ArrayList<>();
             Scanner reader = new Scanner(System.in);
-            System.out.println("Afflict to player 1 (1) or player 2 (2) creature?");
+            System.out.println("Afflict to" +  owner.name() +" (1) or"+ CardGame.instance.getAdversary(owner).name() +" (2) creature?");
             do {
                 try {
-                    choose = reader.nextInt() - 1;
+                    choose = reader.nextInt();
                 } catch (Exception e) {
                     choose = -1;
                 }
-            } while (choose != 0 && choose != 1);
-            if (choose == 0) {
+            } while (choose != 1 && choose != 2);
+            if (choose == 1) {
                 MagicPrinter.instance.printCreatures(owner.getCreatures());
                 creatures = owner.getCreatures();
             } else {

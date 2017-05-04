@@ -20,15 +20,49 @@ import java.util.Scanner;
  * @author simonescaboro
  */
 public class AuraBlast implements Card {
-    private Player adversary;
-    private Player target;
+    
+    @Override
+    public String name() { return "Aura Blast"; }
+    @Override
+    public String type() { return "Instant"; }
+    @Override
+    public String ruleText() { return "Destroy target enchantment. Draw a card"; }
+    @Override
+    public String toString() { return name() + " (" + type() + ") [" + ruleText() +"]";}
+    @Override
+    public boolean isInstant() { return true; }
+    
+    @Override
+    public Effect getEffect(Player owner) { 
+        return new AuraBlastEffect(owner, this); 
+    }
+
     Scanner reader = new Scanner(System.in);
+    
     private class AuraBlastEffect extends AbstractCardEffect implements Targets{
+        
+        private Player adversary = CardGame.instance.getAdversary(owner);
+        private Player target;
+        
         public AuraBlastEffect(Player p, Card c) { 
-            super(p,c); 
-            adversary = CardGame.instance.getAdversary(owner);
+            super(p,c);  
+        }
+                    
+        @Override
+        public boolean play() {
+            checkTarget();
+            return super.play();
         }
         
+        @Override
+        public void resolve() {
+            if(target == null) {
+                System.out.println("No target for " + name());
+            } else {
+                operation(target);
+                target.draw();
+            }
+        }
         /***
          * Scelgo l'incantamento da distruggere
          * @param player
@@ -74,33 +108,5 @@ public class AuraBlast implements Card {
                 target = adversary;
             }
         }
-            
-        @Override
-        public boolean play() {
-            checkTarget();
-            return super.play();
-        }
-        
-        @Override
-        public void resolve() {
-            operation(target);
-            target.draw();
-        }
     }
-
-    @Override
-    public Effect getEffect(Player owner) { 
-        return new AuraBlastEffect(owner, this); 
-    }
-    
-    @Override
-    public String name() { return "Aura Blast"; }
-    @Override
-    public String type() { return "Instant"; }
-    @Override
-    public String ruleText() { return "Destroy target enchantment. Draw a card"; }
-    @Override
-    public String toString() { return name() + " (" + type() + ") [" + ruleText() +"]";}
-    @Override
-    public boolean isInstant() { return true; }
 }

@@ -23,73 +23,6 @@ import java.util.Scanner;
  * @author Davide
  */
 public class Deflection implements Card {
-    Scanner reader = new Scanner(System.in);
-    
-    private class DeflectionEffect extends AbstractCardEffect implements Targets {
-        Targets target;
-        
-        public DeflectionEffect(Player p, Card c) { 
-            super(p,c); 
-        }
-        
-        @Override
-        public void checkTarget() {
-            int i = 1;
-            int choose;
-
-            CardStack stack = CardGame.instance.getStack();
-            for (Effect e : stack) {
-                if (e instanceof Targets) {
-                    System.out.println(i + ") " + e.toString());
-                    ++i;
-                }
-            }
-            i = 1;
-            do{
-                System.out.println(owner.name() + ": choose target for " + name());
-                for(Effect e : stack) {
-                    if(e instanceof Targets) {
-                        System.out.println(i + ") " + e.toString());
-                        i++;
-                    }
-                }
-                try{
-                    choose = reader.nextInt();
-                }catch(Exception e) { 
-                    choose = -1; 
-                }
-            } while(choose < 1 || choose > i);
-            
-            i = 1;
-            for (Effect e : stack) {
-                if (e instanceof Targets) {
-                    if(i == choose)
-                        target = (Targets)e;
-                    i++;
-                }
-            }
-        }
-        
-        @Override
-        public boolean play(){
-            checkTarget();
-            return super.play();
-        }
-        @Override
-        public void resolve() {
-            if (target == null) {
-                System.out.println(card + " has no target");
-            }
-            else {
-                target.checkTarget();
-            }
-        }
-    }
-
-    @Override
-    public Effect getEffect(Player owner) { 
-        return new DeflectionEffect(owner, this); 
-    }
     
     @Override
     public String name() { 
@@ -110,5 +43,75 @@ public class Deflection implements Card {
     @Override
     public boolean isInstant() { 
         return true; 
+    }
+ 
+    @Override
+    public Effect getEffect(Player owner) { 
+        return new DeflectionEffect(owner, this); 
+    }
+    
+    private class DeflectionEffect extends AbstractCardEffect implements Targets {
+        Targets target;
+        Scanner reader = new Scanner(System.in);
+        
+        public DeflectionEffect(Player p, Card c) { 
+            super(p,c); 
+        }
+                
+        @Override
+        public boolean play(){
+            checkTarget();
+            return super.play();
+        }
+        
+        @Override
+        public void resolve() {
+            if (target == null) {
+                System.out.println(card + " has no target");
+            }
+            else {
+                target.checkTarget();
+            }
+        }
+        
+        @Override
+        public void checkTarget() {
+            int i = 1;
+            int choose;
+
+            CardStack stack = CardGame.instance.getStack();
+            for (Effect e : stack) {
+                if (e instanceof Targets) {
+                    System.out.println(i + ") " + e.toString());
+                    ++i;
+                }
+            }
+            i = 1;
+            // printo i possibili target
+            do{
+                System.out.println(owner.name() + ": choose target for " + name());
+                for(Effect e : stack) {
+                    if(e instanceof Targets) {
+                        System.out.println(i + ") " + e.toString());
+                        i++;
+                    }
+                }
+                try{
+                    choose = reader.nextInt();
+                }catch(Exception e) { 
+                    choose = -1; 
+                }
+            } while(choose < 1 || choose > i);
+            
+            i = 1;
+            // scelgo il target
+            for (Effect e : stack) {
+                if (e instanceof Targets) {
+                    if(i == choose)
+                        target = (Targets)e;
+                    i++;
+                }
+            }
+        }
     }
 }

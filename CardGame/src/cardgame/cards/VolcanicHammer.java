@@ -13,9 +13,8 @@ import cardgame.Player;
 import cardgame.CardGame;
 import java.util.Scanner;
 import cardgame.MagicPrinter;
-/**
- * ciao
- */
+import cardgame.Targets;
+
 /**
  *
  * @author simonescaboro
@@ -23,14 +22,15 @@ import cardgame.MagicPrinter;
 public class VolcanicHammer implements Card {
     
     // Definisco l'avversario come "l'avversario del giocatore"
-    Player adversary;
+    Player currentAdversary = CardGame.instance.getCurrentAdversary();
     Scanner reader = new Scanner(System.in);
-    int target;
+    Player player_target = null;
+    Creature creature_target = null;
     
-    private class VolcanicHammerEffect extends AbstractCardEffect {
+    private class VolcanicHammerEffect extends AbstractCardEffect implements Targets {
         public VolcanicHammerEffect(Player p, Card c) { 
             super(p,c); 
-            adversary = CardGame.instance.getAdversary(owner);
+            //adversary = CardGame.instance.getAdversary(owner);
         }
         /***
          * Metodo per la selezione della creatura
@@ -39,6 +39,7 @@ public class VolcanicHammer implements Card {
             int i = 0;
             int choose;
             System.out.println(owner.name() + " creatures:");
+            
             // se non ci sono creature lo comunica al giocatore
             if(owner.getCreatures().isEmpty())
                 System.out.println("... no creatures to select");
@@ -50,57 +51,73 @@ public class VolcanicHammer implements Card {
                         choose = reader.nextInt();
                     }catch(Exception e) { choose = -1; }
                 }while(choose < 1 || choose > i-1);
+                
                 // infligge il danno alla creatura selezionata
-                owner.getCreatures().get(choose-1).inflictDamage(3);
+                creature_target = owner.getCreatures().get(choose-1);
             }
         }
         
         /***
-         * Chiedo al giocatore a quale gicatore infliggere il danno, sai mai
+         * Chiedo al giocatore a quale gicatore infliggere il danno
          */
         public void select_player() {
             int choose;
             do{
-                System.out.println(owner.name() + " (1) or " + adversary.name() + " (2)");
+                System.out.println(owner.name() + " (1) or " + currentAdversary.name() + " (2)");
                 try{
                     choose = reader.nextInt()-1;
                 }catch(Exception e) { choose = -1; }
             }while(choose != 1 && choose != 0);
+            
             // infliggo il danno al giocatore selezionato
             if(choose == 0)
-                owner.inflictDamage(3);
+                player_target = owner;
             else
-                adversary.inflictDamage(3);
-            // comunico di aver inflitto il danno al giocatore
-            System.out.println("Damage successfully inflicted to " + ((choose == 0) ? owner.name() : adversary.name()));
+                player_target = currentAdversary;
         }
         
         /***
          * Chiedo al giocatore se vuole infliggere ad una creatura oppure ad un giocatore
          */
-        public void effect_choose() {
+        public void checkTarget() {
             int choose;
             do{
                 System.out.println("Inflict to player (0) or creature (1):");
                 try{
                     choose = reader.nextInt();
                 }catch(Exception e) { choose = -1; }
-            }while(choose > 1 || choose < 0);
-            
+            }while(choose != 1 && choose != 0);
+            // attivo l'effetto sulla creatura
             if(choose == 1)
                 select_creature();
+            // attivo l'effetto su un giocatore
             else
                 select_player();
             
         }
-        
+        @Override
+        public boolean play(){
+            checkTarget();
+            return super.play();
+        }
         /***
          * Risolvo l'effetto chiamando effect_choose(); 
          */
         @Override
         public void resolve() {
-            System.out.println("Effect actived");
-            effect_choose();
+            if(player_target != null)  {
+                player_target.inflictDamage(3);
+                // comunico di aver inflitto il danno al giocatore
+                System.out.println("Damage successfully inflicted to " + player_target.name());
+            } else {
+                if(creature_target.isRemoved())
+                    System.out.println("Creature removed");
+                else {
+                    creature_target.getDecoratorHead().inflictDamage(3);
+                    // comunico di aver inflitto il danno alla creatura
+                    System.out.println("Damage successfully inflicted to " + creature_target.name());
+                }
+            }
         }
     }
 

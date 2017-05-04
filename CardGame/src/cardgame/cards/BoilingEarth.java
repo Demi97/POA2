@@ -20,6 +20,30 @@ import java.util.List;
  * @author davide
  */
 public class BoilingEarth implements Card {
+    @Override
+    public String name() {
+        return "Boiling Earth";
+    }
+
+    @Override
+    public String type() {
+        return "Sorcery";
+    }
+
+    @Override
+    public String ruleText() {
+        return name() + " deals 1 damage to each creature";
+    }
+
+    @Override
+    public boolean isInstant() {
+        return false;
+    }
+            
+    @Override
+    public Effect getEffect(Player owner) {
+        return new BoilingEarthEffect(owner, this);
+    }
     
     private class BoilingEarthEffect extends AbstractCardEffect{
         public BoilingEarthEffect(Player p, Card c){
@@ -40,30 +64,4 @@ public class BoilingEarth implements Card {
             System.out.println("Damages succesfully afflicted");
         }
     }
-    
-    @Override
-    public Effect getEffect(Player owner) {
-        return new BoilingEarthEffect(owner, this);
-    }
-    
-    @Override
-    public String name() {
-        return "Boiling Earth";
-    }
-
-    @Override
-    public String type() {
-        return "Sorcery";
-    }
-
-    @Override
-    public String ruleText() {
-        return name() + " deals 1 damage to each creature";
-    }
-
-    @Override
-    public boolean isInstant() {
-        return false;
-    }
-    
 }

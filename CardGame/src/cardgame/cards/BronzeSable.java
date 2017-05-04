@@ -8,26 +8,15 @@ package cardgame.cards;
 import cardgame.AbstractCreature;
 import cardgame.AbstractCreatureCardEffect;
 import cardgame.Card;
-import cardgame.CardGame;
 import cardgame.Creature;
 import cardgame.Effect;
 import cardgame.Player;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
  * @author simonescaboro
  */
 public class BronzeSable implements Card {
-    
-    private class BronzeSableEffect extends AbstractCreatureCardEffect {
-        public BronzeSableEffect(Player p, Card c) { super(p,c); }
-        @Override
-        protected Creature createCreature() { return new BronzeSable.BronzeSableCreature(owner); }
-    }
-    @Override
-    public Effect getEffect(Player p) { return new BronzeSableEffect(p,this); }
         
     @Override
     public String name() { return "Bronze Sable"; }
@@ -39,20 +28,30 @@ public class BronzeSable implements Card {
     public String toString() { return name() + " (" + type() + ") [" + ruleText() +"]";}
     @Override
     public boolean isInstant() { return false; }
+        
+    @Override
+    public Effect getEffect(Player p) { return new BronzeSableEffect(p,this); }
     
+    private class BronzeSableEffect extends AbstractCreatureCardEffect {
+        public BronzeSableEffect(Player p, Card c) { super(p,c); }
+        
+        @Override
+        protected Creature createCreature() { return new BronzeSable.BronzeSableCreature(owner); }
+    }
+
         private class BronzeSableCreature extends AbstractCreature {
 
-        BronzeSableCreature(Player owner) { 
-            super(owner);
+            BronzeSableCreature(Player owner) { 
+                super(owner);
+            }
+
+            @Override
+            public String name() { return "Bronze Sable"; }
+
+            @Override
+            public int getPower() { return 2; }
+
+            @Override
+            public int getToughness() { return 1; }
         }
-        
-        @Override
-        public String name() { return "Bronze Sable"; }
-        
-        @Override
-        public int getPower() { return 2; }
-        
-        @Override
-        public int getToughness() { return 1; }
-    }
 }

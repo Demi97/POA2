@@ -48,8 +48,7 @@ public class NorwoodRanger implements Card {
         
         @Override
         public String name() { return "Norwood Ranger"; }
-        
-       
+ 
         @Override
         public int getPower() { return 1; }
         

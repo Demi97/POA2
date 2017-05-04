@@ -16,6 +16,7 @@ import cardgame.Triggers;
  *
  * @author diletta
  */
+/*
 public class AncestralMaskDecorator extends CreatureDecorator {
 
     int numEnchantment;
@@ -61,3 +62,4 @@ public class AncestralMaskDecorator extends CreatureDecorator {
         return decoratedCreature.isAttackable();
     }
 }
+*/

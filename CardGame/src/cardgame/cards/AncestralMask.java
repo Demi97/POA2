@@ -27,85 +27,7 @@ import java.util.Scanner;
  * @author diletta
  */
 public class AncestralMask implements Card {
-    Creature target;
-    private class AncestralMaskEffect extends AbstractEnchantmentCardEffect implements Targets{
-        
-        public AncestralMaskEffect(Player p, Card c){
-            super(p,c);
-        }
-        
-        @Override
-        protected Enchantment createEnchantment() {
-            return new AncestralMaskEnchantment(owner);
-        }
-        
-        @Override
-        public void checkTarget(){
-            int i=0, index;
-            Scanner scan = new Scanner(System.in);
-            List<Creature> creatures = owner.getCreatures();
-            if(creatures.isEmpty()) {
-                System.out.println("No creatures on field");
-                target = null;
-            }
-            else {
-                MagicPrinter.instance.printCreatures(owner.getCreatures());
-                do{
-                   try{ 
-                     index = scan.nextInt();
-                   }catch(Exception e){index = -2;}
-                }while(index < 0 || index-1 >= creatures.size());
-                target = creatures.get(index-1);
-            }
-        }
-
-        @Override
-        public boolean play(){
-            checkTarget();
-            return super.play(); 
-        }
-        
-        
-                
-    }
-    @Override
-    public Effect getEffect(Player owner) {
-        return new AncestralMaskEffect(owner, this);
-    }
     
-    private class AncestralMaskEnchantment extends AbstractEnchantment{
-        AncestralMaskDecorator dec;
-        
-        public AncestralMaskEnchantment(Player owner){
-            super(owner);
-        }
-        
-        @Override
-        public String name() {
-            return "Ancestral Mask";
-        }
-
-        @Override
-        public void insert() {
-            if(target != null) {
-                dec = new AncestralMaskDecorator(target);
-                target.addDecorator(dec);
-                dec.activation(owner);
-            }
-            super.insert();
-        }
-
-        @Override
-        public void remove() {
-            target.removeDecorator(dec);
-            super.remove();
-        }
-        
-        
-       
-        
-    }
-
     @Override
     public String name() {
         return "Ancestral Mask";
@@ -131,4 +53,127 @@ public class AncestralMask implements Card {
         return name() + " (" + type() + ") [" + ruleText() +"]";
     }
     
+    @Override
+    public Effect getEffect(Player owner) {
+        return new AncestralMaskEffect(owner, this);
+    }
+    
+    Creature target;
+    
+    private class AncestralMaskEffect extends AbstractEnchantmentCardEffect implements Targets{
+        
+        public AncestralMaskEffect(Player p, Card c){
+            super(p,c);
+        }
+        
+        @Override
+        public boolean play(){
+            checkTarget();
+            return super.play(); 
+        }         
+
+        @Override
+        public void checkTarget(){
+            int i=0, index;
+            Scanner scan = new Scanner(System.in);
+            List<Creature> creatures = owner.getCreatures();
+            if(creatures.isEmpty()) {
+                System.out.println("No creatures on field");
+                target = null;
+            }
+            else {
+                MagicPrinter.instance.printCreatures(owner.getCreatures());
+                do{
+                   try{ 
+                     index = scan.nextInt();
+                   }catch(Exception e){index = -2;}
+                }while(index < 0 || index-1 >= creatures.size());
+                target = creatures.get(index-1);
+            }
+        }
+        
+        @Override
+        protected Enchantment createEnchantment() {
+            return new AncestralMaskEnchantment(owner);
+        }
+    }
+    
+    private class AncestralMaskEnchantment extends AbstractEnchantment{
+        AncestralMaskDecorator dec;
+        
+        public AncestralMaskEnchantment(Player owner){
+            super(owner);
+        }
+        
+        @Override
+        public String name() {
+            return "Ancestral Mask";
+        }
+
+        @Override
+        public void insert() {
+            if(target != null) {
+                if(target.isRemoved())
+                    System.out.println("Target already removed");
+                else {
+                    dec = new AncestralMaskDecorator(target);
+                    target.addDecorator(dec);
+                    dec.activation(owner);
+                }
+            }
+            super.insert();
+        }
+
+        @Override
+        public void remove() {
+            target.removeDecorator(dec);
+            super.remove();
+        }
+    }
+    
+    public class AncestralMaskDecorator extends CreatureDecorator {
+
+        int numEnchantment;
+
+        public AncestralMaskDecorator(Creature decoratedCreature) {
+            super(decoratedCreature);
+        }
+        
+        @Override
+        public int getPower() {
+            return decoratedCreature.getPower() + ((numEnchantment - 1) * 2);
+        }
+
+        @Override
+        public int getToughness() {
+            return decoratedCreature.getToughness() + ((numEnchantment - 1) * 2);
+        }
+
+        public void activation(Player me) {
+            CardGame.instance.getTriggers().register(Triggers.ENTER_ENCHANTMENT_FILTER, AddOnEntranceAction);
+            CardGame.instance.getTriggers().register(Triggers.EXIT_ENCHANTMENT_FILTER, SubtractOnExitAction);
+            numEnchantment = me.getEnchantments().size() + CardGame.instance.getAdversary(me).getEnchantments().size();
+        }
+
+        private final TriggerAction AddOnEntranceAction = new TriggerAction() {
+            @Override
+            public void execute(Object args) {
+                numEnchantment++;
+            }
+
+        };
+
+        private final TriggerAction SubtractOnExitAction = new TriggerAction() {
+            @Override
+            public void execute(Object args) {
+                numEnchantment--;
+            }
+
+        };
+
+        @Override
+        public boolean isAttackable() {
+            return decoratedCreature.isAttackable();
+        }
+    }
 }

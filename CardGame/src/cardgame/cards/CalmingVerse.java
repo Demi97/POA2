@@ -13,16 +13,34 @@ import cardgame.Player;
 import cardgame.CardGame;
 import java.util.Scanner;
 /**
- * ciao
- */
-/**
  *
- * @author atorsell
+ * @author simonescaboro
  */
 public class CalmingVerse implements Card {
+
+    @Override
+    public String name() { return "Calming Verse"; }
+    @Override
+    public String type() { return "Sorcery"; }
+    @Override
+    public String ruleText() { return "Destroy all enchantments you don't control"; }
+    @Override
+    public String toString() { return name() + " (" + type() + ") [" + ruleText() +"]";}
+    @Override
+    public boolean isInstant() { return false; }
+        
+    @Override
+    public Effect getEffect(Player owner) { 
+        return new CalmingVerseEffect(owner, this); 
+    }
     
     private class CalmingVerseEffect extends AbstractCardEffect {
         public CalmingVerseEffect(Player p, Card c) { super(p,c); }
+        
+        @Override
+        public void resolve() {
+            clearEnchantments(CardGame.instance.getAdversary(owner));
+        }
         
         public void clearEnchantments(Player player) {
             // Controllo se ci sono incantamenti da distruggere
@@ -35,25 +53,5 @@ public class CalmingVerse implements Card {
             }
             
         }
-        @Override
-        public void resolve() {
-            clearEnchantments(CardGame.instance.getAdversary(owner));
-        }
     }
-
-    @Override
-    public Effect getEffect(Player owner) { 
-        return new CalmingVerseEffect(owner, this); 
-    }
-    
-    @Override
-    public String name() { return "Calming Verse"; }
-    @Override
-    public String type() { return "Sorcery"; }
-    @Override
-    public String ruleText() { return "Destroy all enchantments you don't control"; }
-    @Override
-    public String toString() { return name() + " (" + type() + ") [" + ruleText() +"]";}
-    @Override
-    public boolean isInstant() { return false; }
 }

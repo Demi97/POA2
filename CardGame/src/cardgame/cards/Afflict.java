@@ -27,11 +27,6 @@ import java.util.Scanner;
 public class Afflict implements Card {
     
     @Override
-    public Effect getEffect(Player owner) {
-        return new AfflictEffect(owner,this);
-    }
-
-    @Override
     public String name() {
         return "Afflict";
     }
@@ -56,8 +51,13 @@ public class Afflict implements Card {
         return name() + " (" + type() + ") [" + ruleText() +"]";
     }
     
+    @Override
+    public Effect getEffect(Player owner) {
+        return new AfflictEffect(owner,this);
+    }
+
     private class AfflictEffect extends AbstractCardEffect implements Targets{
-        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        
         private Creature target;
         
         public AfflictEffect(Player p, Card c) {

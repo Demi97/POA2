@@ -75,18 +75,19 @@ public class AEtherFlash implements Card {
             CardGame.instance.getTriggers().register(Triggers.ENTER_CREATURE_FILTER, DamageOnEntranceAction);
             super.insert();
         }
-            @Override
-            public void remove(){
-                System.out.println("MUOIOOOOOOOOOO1");
-                 super.remove();
-                CardGame.instance.getTriggers().deregister(DamageOnEntranceAction);
-            }
+        
+        @Override
+        public void remove(){
+             super.remove();
+            CardGame.instance.getTriggers().deregister(DamageOnEntranceAction);
+        }
 
         private final TriggerAction DamageOnEntranceAction = new TriggerAction() {
 
             @Override
             public void execute(Object args) {
                 if (args instanceof Creature) {
+                    // infliggo sempre 2 danni alla creatura entrante
                     ((Creature) args).inflictDamage(2);
                 }
             }

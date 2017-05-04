@@ -20,49 +20,7 @@ import cardgame.Targets;
  * @author simonescaboro
  */
 public class Fatigue implements Card{
-    private Player adversary;
-    
-    private class FatigueEffect extends AbstractCardEffect implements Targets{
-        Player target;
-        public FatigueEffect(Player p, Card c) { 
-            super(p,c);
-            // definisco l'avversario
-            adversary = CardGame.instance.getAdversary(owner);
-        }
-    
-     /***
-      * Metodo per scegliere il giocatore
-      * @return il giocatore al quale voglio rivolgere l'effetto
-      */
-     public void checkTarget() {
-        int choose;
-        Scanner reader = new Scanner(System.in);
-        do{
-            System.out.println(owner.name() + " (1) or " + adversary.name() + " (2)");
-            try{
-                choose = reader.nextInt()-1;
-            }catch(Exception e) { choose = -1; }
-        }while(choose != 1 && choose != 0);
-        target = ( (choose == 0) ? owner : adversary);
-    }
-        @Override
-        public boolean play() {
-            checkTarget();
-            return super.play();
-        }
-    @Override
-    public void resolve() {
-        // gli skippo la draw phase
-        target.setPhase(Phases.DRAW,new SkipPhase(Phases.DRAW));
-        System.out.println(target.name() + "'ll skips his/her draw phase");
-        }
-    }
 
-    @Override
-    public Effect getEffect(Player owner) { 
-        return new FatigueEffect(owner, this); 
-    }
-    
     @Override
     public String name() { return "Fatigue"; }
     @Override
@@ -73,4 +31,47 @@ public class Fatigue implements Card{
     public String toString() { return name() + " (" + type() + ") [" + ruleText() +"]";}
     @Override
     public boolean isInstant() { return false; }
+    
+    @Override
+    public Effect getEffect(Player owner) { 
+        return new FatigueEffect(owner, this); 
+    }
+    
+    private class FatigueEffect extends AbstractCardEffect implements Targets{
+        Player target;
+        public FatigueEffect(Player p, Card c) { 
+            super(p,c);
+        }
+        // definisco l'avversario
+        private Player currentAdversary = CardGame.instance.getAdversary(owner);
+        
+        @Override
+        public boolean play() {
+            checkTarget();
+            return super.play();
+        }
+    
+        @Override
+        public void resolve() {
+            // gli skippo la draw phase
+            target.setPhase(Phases.DRAW,new SkipPhase(Phases.DRAW));
+            System.out.println(target.name() + "'ll skips his/her draw phase");
+        }
+        
+        /***
+         * Metodo per scegliere il giocatore
+         * @return il giocatore al quale voglio rivolgere l'effetto
+         */
+        public void checkTarget() {
+            int choose;
+            Scanner reader = new Scanner(System.in);
+            do{
+                System.out.println(owner.name() + " (1) or " + currentAdversary.name() + " (2)");
+                try{
+                    choose = reader.nextInt();
+                }catch(Exception e) { choose = -1; }
+            }while(choose != 1 && choose != 2);
+            target = ( (choose == 1) ? owner : currentAdversary);
+        }
+    }
 }

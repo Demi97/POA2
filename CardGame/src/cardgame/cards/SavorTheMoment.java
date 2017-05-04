@@ -21,25 +21,6 @@ import cardgame.TurnManager;
  */
 public class SavorTheMoment implements Card{
 
-    private class SavorTheMomentEffect extends AbstractCardEffect {
-        public SavorTheMomentEffect(Player p, Card c) { 
-            super(p,c);
-        }
-        
-    @Override
-    public void resolve() {
-        // rimuovo la fase di UNTAP del prossimo turno
-        owner.setPhase(Phases.UNTAP, new SkipPhase(Phases.UNTAP));
-        // aggiungo il turno extra
-        CardGame.instance.setTurnManager(new Extra(owner));
-        }
-    }
-
-    @Override
-    public Effect getEffect(Player owner) { 
-        return new SavorTheMomentEffect(owner, this); 
-    }
-    
     @Override
     public String name() { return "Savor The Moment"; }
     @Override
@@ -50,6 +31,26 @@ public class SavorTheMoment implements Card{
     public String toString() { return name() + " (" + type() + ") [" + ruleText() +"]";}
     @Override
     public boolean isInstant() { return false; }
+    
+    @Override
+    public Effect getEffect(Player owner) { 
+        return new SavorTheMomentEffect(owner, this); 
+    }
+    
+    private class SavorTheMomentEffect extends AbstractCardEffect {
+        
+        public SavorTheMomentEffect(Player p, Card c) { 
+            super(p,c);
+        }
+        
+        @Override
+        public void resolve() {
+            // rimuovo la fase di UNTAP del prossimo turno
+            owner.setPhase(Phases.UNTAP, new SkipPhase(Phases.UNTAP));
+            // aggiungo il turno extra
+            CardGame.instance.setTurnManager(new Extra(owner));
+        }
+    }
     
     /***
      * Creo una classe che estende TurnManager per creare un turno exstra 
