@@ -5,37 +5,33 @@
  */
 package cardgame;
 
-import cardgame.StrategyDecorator;
-import cardgame.Strategy;
-import cardgame.Creature;
-import cardgame.Player;
-
 /**
  *
  * @author diletta
  */
-public class PreventOneDamage extends StrategyDecorator{
+public class PreventAllDamages extends StrategyDecorator {
+
     protected Strategy decoratedStrategy;
-    
-    public PreventOneDamage(Strategy sd){
-        super(sd);
-        this.decoratedStrategy=sd;
+
+    public PreventAllDamages(Strategy s) {
+        super(s);
+        this.decoratedStrategy = s;
     }
-    
+
     @Override
     public void damageOperation(int pts) {
-        pts = pts-1;
+        pts = 0;
         decoratedStrategy.damageOperation(pts);
     }
 
     @Override
-     public Strategy getDecoratedStrategy(){
+    public Strategy getDecoratedStrategy() {
         return decoratedStrategy;
     }
-    
+
     @Override
-    public void setDecoratedStrategy(Strategy s){
-        this.decoratedStrategy=s;
+    public void setDecoratedStrategy(Strategy s) {
+        this.decoratedStrategy = s;
     }
 
     @Override
@@ -52,5 +48,4 @@ public class PreventOneDamage extends StrategyDecorator{
     public Strategy getDecoratorHead() {
         return decoratedStrategy.getDecoratorHead();
     }
-    
 }
