@@ -144,7 +144,7 @@ public class BenevolentAncestor implements Card {
                 }
 
             });
-            super.insert(); //To change body of generated methods, choose Tools | Templates.
+            super.insert();
         }
 
         @Override
