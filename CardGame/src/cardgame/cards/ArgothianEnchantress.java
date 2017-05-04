@@ -61,8 +61,9 @@ public class ArgothianEnchantress implements Card {
                         @Override
                         public void execute(Object args) {
                             if (args instanceof Enchantment) {
+                                System.out.println("PESCOOOOOOOOOOO");
                                 if (CardGame.instance.getCurrentPlayer().getEnchantments().contains((Enchantment) args)) {
-                                    CardGame.instance.getCurrentAdversary().draw();
+                                    CardGame.instance.getCurrentPlayer().draw();
                                 }
                             }
                         }
