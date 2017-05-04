@@ -21,7 +21,7 @@ import java.util.ArrayList;
  *
  * @author diletta
  */
-public class ArgothianEnchantress2 implements Card {
+public class ArgothianEnchantress implements Card {
 
     @Override
     public String name() {
@@ -60,17 +60,17 @@ public class ArgothianEnchantress2 implements Card {
 
         @Override
         protected Creature createCreature() {
-            return new ArgothianEnchantress2Creature(owner);
+            return new ArgothianEnchantressCreature(owner);
         }
 
     }
 
-    private class ArgothianEnchantress2Creature extends AbstractCreature {
+    private class ArgothianEnchantressCreature extends AbstractCreature {
 
         //ArrayList<Effect> all_effects = new ArrayList<>();
         //ArrayList<Effect> tap_effects = new ArrayList<>();
 
-        ArgothianEnchantress2Creature(Player owner) {
+        ArgothianEnchantressCreature(Player owner) {
             super(owner);
             /*
             all_effects.add(new Effect() {
