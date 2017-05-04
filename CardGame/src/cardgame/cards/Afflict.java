@@ -104,8 +104,9 @@ public class Afflict implements Card {
                 try{
                     choose = reader.nextInt();
                 }catch(Exception e){ choose = -1; }
-            }while(choose != 1 && choose != 1);
-            if(choose == 1) {
+            }while(choose != 1 && choose != 2);
+            System.out.println("Choose creature to afflict: ");
+            if(choose == 1) { 
                 MagicPrinter.instance.printCreatures(owner.getCreatures());
                 creatures = owner.getCreatures();
             }

@@ -14,6 +14,7 @@ import cardgame.AbstractEnchantment;
 import cardgame.CardGame;
 import cardgame.Creature;
 import cardgame.MagicPrinter;
+import cardgame.Targets;
 import cardgame.TriggerAction;
 import cardgame.Triggers;
 import java.util.List;
@@ -26,7 +27,10 @@ import java.util.Scanner;
  */
 public class Abduction implements Card {
     Creature target;
-    private class AbductionEffect extends AbstractEnchantmentCardEffect{
+    
+    private class AbductionEffect extends AbstractEnchantmentCardEffect implements Targets{
+        List<Creature> temp = CardGame.instance.getAdversary(owner).getCreatures();
+        
         public AbductionEffect(Player p, Card c){
             super(p,c);
         }
@@ -35,14 +39,16 @@ public class Abduction implements Card {
         protected Enchantment createEnchantment() {
             return new AbductionEnchantment(owner);
         }
-
+        
         @Override
-        public boolean play() {
-            int index, i=0;
+        public void checkTarget(){
+            int index, i;
+            i = 0;
             Scanner scan = new Scanner(System.in);
-            List<Creature> temp = CardGame.instance.getAdversary(owner).getCreatures();
-            if(temp.isEmpty())
+            if(temp.isEmpty()) {
+                target = null;
                 System.out.println("No creatures on field");
+            }
             else {
                 MagicPrinter.instance.printCreatures(temp);
                 System.out.println("Choose your target");
@@ -51,11 +57,20 @@ public class Abduction implements Card {
                     index = scan.nextInt();
                    }catch(Exception e){index = -1;}
                 }while(index < 0 || index-1 >= temp.size());
+               
                 target = temp.get(index-1);
             }
-            target.untap();
-            temp.remove(target);
-            owner.getCreatures().add(target);
+        }
+        @Override
+        public boolean play() {
+            checkTarget();
+            if(target == null)
+                System.out.println("No target for " + name());
+            else {
+                target.untap();
+                temp.remove(target);
+                owner.getCreatures().add(target);
+            }
             return super.play(); 
         }       
     }

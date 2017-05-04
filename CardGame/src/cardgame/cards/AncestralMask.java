@@ -14,6 +14,7 @@ import cardgame.Effect;
 import cardgame.Enchantment;
 import cardgame.MagicPrinter;
 import cardgame.Player;
+import cardgame.Targets;
 import cardgame.TriggerAction;
 import cardgame.Triggers;
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ import java.util.Scanner;
  */
 public class AncestralMask implements Card {
     Creature target;
-    private class AncestralMaskEffect extends AbstractEnchantmentCardEffect{
+    private class AncestralMaskEffect extends AbstractEnchantmentCardEffect implements Targets{
         
         public AncestralMaskEffect(Player p, Card c){
             super(p,c);
@@ -36,14 +37,16 @@ public class AncestralMask implements Card {
         protected Enchantment createEnchantment() {
             return new AncestralMaskEnchantment(owner);
         }
-
+        
         @Override
-        public boolean play(){
+        public void checkTarget(){
             int i=0, index;
             Scanner scan = new Scanner(System.in);
             List<Creature> creatures = owner.getCreatures();
-            if(creatures.isEmpty())
+            if(creatures.isEmpty()) {
                 System.out.println("No creatures on field");
+                target = null;
+            }
             else {
                 MagicPrinter.instance.printCreatures(owner.getCreatures());
                 do{
@@ -53,6 +56,11 @@ public class AncestralMask implements Card {
                 }while(index < 0 || index-1 >= creatures.size());
                 target = creatures.get(index-1);
             }
+        }
+
+        @Override
+        public boolean play(){
+            checkTarget();
             return super.play(); 
         }
         
@@ -78,9 +86,11 @@ public class AncestralMask implements Card {
 
         @Override
         public void insert() {
-            dec = new AncestralMaskDecorator(target);
-            target.addDecorator(dec);
-            dec.activation(owner);
+            if(target != null) {
+                dec = new AncestralMaskDecorator(target);
+                target.addDecorator(dec);
+                dec.activation(owner);
+            }
             super.insert();
         }
 
