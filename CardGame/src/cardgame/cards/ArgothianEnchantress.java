@@ -94,6 +94,10 @@ public class ArgothianEnchantress implements Card {
         public boolean isAttackable() {
             return false;
         }
+        @Override
+        public String toString() {
+            return name() + " (" + type() + ") [" + ruleText() +"]";
+        }
         
         
 
@@ -117,6 +121,10 @@ public class ArgothianEnchantress implements Card {
     @Override
     public boolean isInstant() {
         return false;
+    }
+    @Override
+    public String toString() {
+        return name() + " (" + type() + ") [" + ruleText() +"]";
     }
 
 }

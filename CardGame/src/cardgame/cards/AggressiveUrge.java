@@ -9,6 +9,7 @@ import cardgame.AbstractCardEffect;
 import cardgame.CardGame;
 import cardgame.Card;
 import cardgame.Creature;
+import cardgame.CreatureDecorator;
 import cardgame.Effect;
 import cardgame.MagicPrinter;
 import cardgame.Player;

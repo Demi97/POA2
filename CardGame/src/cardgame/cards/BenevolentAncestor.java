@@ -14,6 +14,7 @@ import cardgame.Card;
 import cardgame.CardGame;
 import cardgame.Creature;
 import cardgame.Effect;
+import cardgame.CreatureDecorator;
 import cardgame.MagicPrinter;
 import cardgame.Player;
 import cardgame.TriggerAction;

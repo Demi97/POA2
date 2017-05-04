@@ -6,6 +6,7 @@
 package cardgame.cards;
 
 import cardgame.AbstractCardEffect;
+import cardgame.CreatureDecorator;
 import cardgame.CardGame;
 import cardgame.Card;
 import cardgame.Creature;

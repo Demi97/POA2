@@ -11,6 +11,7 @@ import cardgame.cards.Abduction;
 import cardgame.cards.Afflict;
 import cardgame.cards.AggressiveUrge;
 import cardgame.cards.AncestralMask;
+import cardgame.cards.ArgothianEnchantress;
 import cardgame.cards.AuraBlast;
 import cardgame.cards.BenevolentAncestor;
 import cardgame.cards.BoilingEarth;
@@ -74,8 +75,8 @@ public class CardFactory {
                 return new AggressiveUrge();
             case 6:
                 return new AncestralMask();
-            //case 7:
-                //return new ArgothianEnchantress();
+            case 7:
+                return new ArgothianEnchantress();
             case 8:
                 return new AuraBlast();
             case 9:
