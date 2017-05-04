@@ -45,7 +45,7 @@ public class Player {
         return library;
     }
 
-    private ArrayList<StrategyPlayer> strategies;
+    private ArrayList<Strategy> strategies;
 
     private int life = 10;
 
@@ -210,16 +210,17 @@ public class Player {
         }
     }
 
-    public void addStrategy(StrategyPlayer strategy) {
-        strategy.setOldStrategy(strategies.get(strategies.size() - 1));
+    public void addStrategy(Strategy strategy) {
+        /*strategy.setOldStrategy(strategies.get(strategies.size() - 1));
+        strategies.add(strategy);*/
         strategies.add(strategy);
     }
 
-    public void removeStrategy(StrategyPlayer strategy) {
-        int index = strategies.indexOf(strategy);
+    public void removeStrategy(Strategy strategy) {
+        /*int index = strategies.indexOf(strategy);
         if (index < strategies.size() - 1) {
-            strategies.get(index + 1).setOldStrategy(strategy.getOldStrategy());
-        }
+            strategies.get(index + 1).setOldStrategy(strategy.getDecoratorHead());
+        }*/
         strategies.remove(strategy);
     }
 
