@@ -24,7 +24,11 @@ public class WorldAtWar implements Card{
     public String name() {
         return "World At War";
     }
-
+    
+    @Override
+    public String toString() {
+        return name() + " (" + type() + ") [" + ruleText() +"]";
+    }
     @Override
     public String type() {
         return "Sorcery";
