@@ -97,10 +97,10 @@ public class AuraBlast implements Card {
             do{
                 System.out.println(owner.name() + " (1) or " + adversary.name() + " (2)");
                 try{
-                    choose = reader.nextInt()-1;
+                    choose = reader.nextInt();
                 }catch(Exception e) { choose = -1; }
-            }while(choose != 0 && choose != 1);
-            if(choose == 0) {
+            }while(choose != 1 && choose != 2);
+            if(choose == 1) {
                 // svolgo l'operazione di rimozione 
                 target = owner;
             }

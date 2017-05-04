@@ -85,10 +85,10 @@ public class AncestralMask implements Card {
                 MagicPrinter.instance.printCreatures(owner.getCreatures());
                 do{
                    try{ 
-                     index = scan.nextInt();
+                     index = scan.nextInt()-1;
                    }catch(Exception e){index = -2;}
                 }while(index < 0 || index-1 >= creatures.size());
-                target = creatures.get(index-1);
+                target = creatures.get(index);
             }
         }
         
