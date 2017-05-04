@@ -23,6 +23,7 @@ import cardgame.cards.DayOfJudgment;
 import cardgame.cards.Deflection;
 import cardgame.cards.FalsePeace;
 import cardgame.cards.Fatigue;
+import cardgame.cards.FriendlyEnvironment;
 import cardgame.cards.NorwoodRanger;
 import cardgame.cards.SavorTheMoment;
 import cardgame.cards.VolcanicHammer;
@@ -108,6 +109,6 @@ public class CardFactory {
             case 22:
                 return new WorldAtWar();
         }
-        return new WorldAtWar();
+        return new FriendlyEnvironment();
     }
 }
