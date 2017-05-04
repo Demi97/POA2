@@ -1,24 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package cardgame.cards;
 
 import cardgame.AbstractCardEffect;
 import cardgame.AbstractStrategyPlayer;
 import cardgame.Card;
-import cardgame.Creature;
 import cardgame.Effect;
 import cardgame.Player;
 import cardgame.CardGame;
-import cardgame.MagicPrinter;
 import cardgame.Phases;
-import cardgame.StrategyPlayer;
+import cardgame.Strategy;
+import cardgame.StrategyDecorator;
 import cardgame.TriggerAction;
-import cardgame.Triggers;
-import java.util.List;
-import java.util.Scanner;
+
 
 /**
  *
@@ -38,36 +30,29 @@ public class Darkness implements Card {
 
         @Override
         public void resolve() {
-            StrategyPlayer stp = new DarknessStrategy();
-            // applica lo strategy ad entrambi i giocatori
-            CardGame.instance.getCurrentPlayer().addStrategy(stp);
-            CardGame.instance.getCurrentAdversary().addStrategy(stp);
-            TriggerAction dt = new DarknessTrigger(stp);
-            // registra il trigger per la rimozione dello strategy
+            
+            Strategy stp = new DarknessStrategy();
+            CardGame.instance.getCurrentPlayer().inflictDamage(0);
+            CardGame.instance.getAdversary(owner).inflictDamage(0);
+            
+            TriggerAction dt = new DarknessTrigger((StrategyDecorator)stp);
             CardGame.instance.getTriggers().register(Phases.COMBAT.getIdx(),dt);
+
         }
         public class DarknessStrategy extends AbstractStrategyPlayer {
 
             public DarknessStrategy() {
                 super();
             }
-
-            @Override
-            public void inflictDamage(int dmg) {
-                super.inflictDamage(0);
-            }
             
-            @Override
-            public void inflictCombatDamageCreature(Creature c,int dmg) {
-                super.inflictCombatDamageCreature(c,0);
-            }
+            
         }
 
         private class DarknessTrigger implements TriggerAction {
 
-            StrategyPlayer stp;
+            StrategyDecorator stp;
 
-            private DarknessTrigger(StrategyPlayer stp) {
+            private DarknessTrigger(StrategyDecorator stp) {
                 this.stp = stp;
             }
 
