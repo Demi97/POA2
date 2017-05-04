@@ -65,7 +65,7 @@ public class BenevolentAncestor implements Card {
             all_effects.add(new Effect() {
                 @Override
                 public boolean play() {
-                    System.out.println("Your target is: 1.a creature of yours\n2.a creature of your adversary\n3.your adversary\n4.yourself?");
+                    System.out.println("Your target is:\n1.a creature of yours\n2.a creature of your adversary\n3.your adversary\n4.yourself?");
                     do {
                         try {
                             choice = scan.nextInt();
@@ -82,9 +82,9 @@ public class BenevolentAncestor implements Card {
                 public void resolve() {
                     BenevolentAncestorDecorator dec;
                     int index;
-                    if (choice == 1 || choice == 3) {
+                    if (choice == 2 || choice == 3) {
                         targetPlayer = CardGame.instance.getAdversary(owner);
-                    } else if (choice == 2 || choice == 4) {
+                    } else if (choice == 1 || choice == 4) {
                         targetPlayer = owner;
                     }
                     if (choice == 1 || choice == 2) {
