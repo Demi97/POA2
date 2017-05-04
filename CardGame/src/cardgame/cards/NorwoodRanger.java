@@ -43,7 +43,7 @@ public class NorwoodRanger implements Card {
         private class NorwoodRangerCreature extends AbstractCreature {
 
         NorwoodRangerCreature(Player owner) { 
-            super(owner,false);
+            super(owner);
         }
         
         @Override

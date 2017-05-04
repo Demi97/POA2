@@ -24,8 +24,9 @@ public interface Creature extends Permanent {
     int getPower();
     int getToughness();
     ////////////////////
-    boolean canAttack();
+   /* boolean canAttack();*/
     boolean isDefender();
+    boolean isAttackable();
     boolean isRemoved();
     ////////////////////
    /* Creature getDecoratedCreature();

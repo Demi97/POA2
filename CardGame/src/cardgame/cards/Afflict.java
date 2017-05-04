@@ -164,5 +164,10 @@ public class Afflict implements Card {
             else
                 return false;
         }
+
+        @Override
+        public boolean isAttackable() {
+            return decoratedCreature.isAttackable();
+        }
     }
 }

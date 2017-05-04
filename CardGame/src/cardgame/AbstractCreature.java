@@ -14,99 +14,112 @@ import java.util.List;
  * @author atorsell
  */
 public abstract class AbstractCreature implements Creature {
+
     private final CreatureDecorator head;
     protected Player owner;
-    protected boolean isTapped=false;
+    protected boolean isTapped = false;
     protected boolean removed = false;
-    protected boolean defender; ////////////////////////////////////////////////////////////////////////////////////////////////////////
     protected int damageLeft = getToughness();
-        
-        protected AbstractCreature(Player owner, boolean canDefend) { 
-            this.owner=owner; 
-            this.head = new SpecialCreatureDecorator(this);
-            this.defender = canDefend;  /////////////////////////////////////////////////////////////////////////////////////////////////
-            
-        }
-        
-    @Override
-        public boolean tap() { 
-            if (isTapped) {
-                System.out.println("creature " + name() + " already tapped");
-                return false;
-            }
-            
-            System.out.println("tapping creature " + name());
-            isTapped=true; 
-            return true; 
-        }
-        
-    @Override
-        public boolean untap() { 
-            if (!isTapped) {
-                System.out.println("creature " + name() + " not tapped");
-                return false;
-            }
-            
-            System.out.println("untapping creature " + name());
-            isTapped=false; 
-            return true; 
-        }
+
+    protected AbstractCreature(Player owner) {
+        this.owner = owner;
+        this.head = new SpecialCreatureDecorator(this);
+    }
 
     @Override
-        public boolean isTapped() { return isTapped; }
+    public boolean tap() {
+        if (isTapped) {
+            System.out.println("creature " + name() + " already tapped");
+            return false;
+        }
+
+        System.out.println("tapping creature " + name());
+        isTapped = true;
+        return true;
+    }
+
+    @Override
+    public boolean untap() {
+        if (!isTapped) {
+            System.out.println("creature " + name() + " not tapped");
+            return false;
+        }
+
+        System.out.println("untapping creature " + name());
+        isTapped = false;
+        return true;
+    }
+
+    @Override
+    public boolean isTapped() {
+        return isTapped;
+    }
+
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
-        public void attack(Creature c) {}
-        
+    public void attack(Creature c) {
+    }
+
     @Override
-        public void defend(Creature c) {}
-        
-    @Override
+    public void defend(Creature c) {
+    }
+
+    /* @Override
     public boolean canAttack() {
         return !(isTapped || defender);
-    }
+    }*/
+    
     @Override
     public boolean isDefender() {
-        return defender;
+        return false;
     }
+
+    @Override
+    public boolean isAttackable() {
+        return true;
+    }
+
     @Override
     public boolean isRemoved() {
         return removed;
     }
+
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
-        public void inflictDamage(int dmg) { 
-            damageLeft -= dmg;
-            System.out.println("Infliggo " + dmg + " a " + this.name());
-            if (damageLeft<=0) {
-                System.out.println(this.name() + " muore!");
-                this.removed = true;
-                owner.destroy(this.getDecoratorHead());  
-            }
+    public void inflictDamage(int dmg) {
+        damageLeft -= dmg;
+        System.out.println("Infliggo " + dmg + " a " + this.name());
+        if (damageLeft <= 0) {
+            System.out.println(this.name() + " muore!");
+            this.removed = true;
+            owner.destroy(this.getDecoratorHead());
         }
-        
+    }
+
     @Override
-        public void resetDamage() { damageLeft = getToughness(); }
-    
+    public void resetDamage() {
+        damageLeft = getToughness();
+    }
+
     @Override
-        public void insert() {
-            owner.getCreatures().add(head);
-            CardGame.instance.getTriggers().trigger(Triggers.ENTER_CREATURE_FILTER,head);
-        }
-    
+    public void insert() {
+        owner.getCreatures().add(head);
+        CardGame.instance.getTriggers().trigger(Triggers.ENTER_CREATURE_FILTER, head);
+    }
+
     @Override
-        public void remove() {
-            owner.getCreatures().remove(head);
-            CardGame.instance.getTriggers().trigger(Triggers.EXIT_CREATURE_FILTER,head);
-        }
-    
+    public void remove() {
+        owner.getCreatures().remove(head);
+        CardGame.instance.getTriggers().trigger(Triggers.EXIT_CREATURE_FILTER, head);
+    }
+
     @Override
-        public String toString() {
-            return name() + " (Creature)";
-        }
-    
+    public String toString() {
+        return name() + " (Creature)";
+    }
+
     @Override
-    public Creature getDecoratorHead(){
+    public Creature getDecoratorHead() {
         return head;
     }
 
@@ -119,13 +132,14 @@ public abstract class AbstractCreature implements Creature {
     public void removeDecorator(CreatureDecorator cd) {
         getDecoratorHead().removeDecorator(cd);
     }
-    
+
     @Override
     public List<Effect> effects() {
         return new ArrayList<>();
     }
+
     @Override
-    public List<Effect> avaliableEffects(){
+    public List<Effect> avaliableEffects() {
         return new ArrayList<>();
     }
 }

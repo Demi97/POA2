@@ -13,17 +13,17 @@ import java.util.List;
  *
  * @author diletta
  */
-public abstract class CreatureDecorator implements Creature{
+public abstract class CreatureDecorator implements Creature {
+
     protected Creature decoratedCreature;
-    
-    public CreatureDecorator(Creature decoratedCreature){
-        this.decoratedCreature=decoratedCreature;
+
+    public CreatureDecorator(Creature decoratedCreature) {
+        this.decoratedCreature = decoratedCreature;
     }
-    
-    
+
     @Override
     public boolean tap() {
-       return decoratedCreature.tap();
+        return decoratedCreature.tap();
     }
 
     @Override
@@ -46,20 +46,17 @@ public abstract class CreatureDecorator implements Creature{
         decoratedCreature.defend(c);
     }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     @Override
-    public boolean canAttack(){
-        return decoratedCreature.canAttack();
-    }
-    
-    @Override
-    public boolean isDefender(){
+    public boolean isDefender() {
         return decoratedCreature.isDefender();
     }
-    
+
     @Override
-    public boolean isRemoved(){
+    public boolean isRemoved() {
         return decoratedCreature.isRemoved();
     }
+
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public void inflictDamage(int dmg) {
@@ -105,13 +102,13 @@ public abstract class CreatureDecorator implements Creature{
     public void remove() {
         decoratedCreature.remove();
     }
-    
-    public Creature getDecoratedCreature(){
+
+    public Creature getDecoratedCreature() {
         return decoratedCreature;
     }
-    
-    public void setDecoratedCreature(Creature c){
-        decoratedCreature=c;
+
+    public void setDecoratedCreature(Creature c) {
+        decoratedCreature = c;
     }
 
     @Override
@@ -128,10 +125,5 @@ public abstract class CreatureDecorator implements Creature{
     public Creature getDecoratorHead() {
         return decoratedCreature.getDecoratorHead();
     }
-    
-    
-    
-    
-    
-            
+
 }

@@ -43,7 +43,7 @@ public class BronzeSable implements Card {
         private class BronzeSableCreature extends AbstractCreature {
 
         BronzeSableCreature(Player owner) { 
-            super(owner,false);
+            super(owner);
         }
         
         @Override

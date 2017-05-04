@@ -54,7 +54,7 @@ public class BenevolentAncestor implements Card {
         Scanner scan = new Scanner(System.in);
 
         BenevolentAncestorCreature(Player owner) {
-            super(owner, true);
+            super(owner);
             tap_effects = new ArrayList<>();
         }
 
@@ -116,6 +116,7 @@ public class BenevolentAncestor implements Card {
                                     this.tC = c;
                                     this.dec = d;
                                     return this;
+
                                 }
 
                             }.start(targetCreature, dec));
@@ -147,6 +148,11 @@ public class BenevolentAncestor implements Card {
         }
 
         @Override
+        public boolean isDefender() {
+            return true;
+        }
+
+        @Override
         public int getPower() {
             return 0;
         }
@@ -163,7 +169,7 @@ public class BenevolentAncestor implements Card {
 
         @Override
         public List<Effect> avaliableEffects() {
-            return (isTapped)?tap_effects:all_effects;
+            return (isTapped) ? tap_effects : all_effects;
         }
 
         @Override
@@ -186,9 +192,12 @@ public class BenevolentAncestor implements Card {
     public String ruleText() {
         return "Defender (This creature can't attack). Prevent the next 1 damage that would be dealt to target creature or player this turn";
     }
+
     @Override
-    public String toString() { return name() + " (" + type() + ") [" + ruleText() +"]";}
-    
+    public String toString() {
+        return name() + " (" + type() + ") [" + ruleText() + "]";
+    }
+
     @Override
     public boolean isInstant() {
         return false;

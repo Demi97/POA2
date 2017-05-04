@@ -27,4 +27,9 @@ public class BenevolentAncestorDecorator extends CreatureDecorator {
         super.inflictDamage(dmg);
     }
 
+    @Override
+    public boolean isAttackable() {
+        return decoratedCreature.isAttackable();
+    }
+
 }

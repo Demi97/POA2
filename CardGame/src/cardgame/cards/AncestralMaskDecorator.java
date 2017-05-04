@@ -54,4 +54,9 @@ public class AncestralMaskDecorator extends CreatureDecorator {
     public AncestralMaskDecorator(Creature decoratedCreature) {
         super(decoratedCreature);
     }
+
+    @Override
+    public boolean isAttackable() {
+        return decoratedCreature.isAttackable();
+    }
 }

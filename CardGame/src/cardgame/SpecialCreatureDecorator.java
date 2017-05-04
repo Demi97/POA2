@@ -145,6 +145,11 @@ public class SpecialCreatureDecorator extends CreatureDecorator{
         decoratedCreature.remove();
     }
     */
+
+    @Override
+    public boolean isAttackable() {
+        return decoratedCreature.isAttackable();
+    }
 }
 
 
