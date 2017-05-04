@@ -158,14 +158,14 @@ public class BenevolentAncestor implements Card {
 
         @Override
         public List<Effect> effects() {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            return all_effects;
         }
-/*
+
         @Override
         public List<Effect> avaliableEffects() {
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            return (isTapped)?tap_effects:all_effects;
         }
-*/
+
         @Override
         public String name() {
             return "Benevolent Ancestor";
