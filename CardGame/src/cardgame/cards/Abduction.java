@@ -5,6 +5,7 @@
  */
 package cardgame.cards;
 
+import cardgame.AbstractCreature;
 import cardgame.Card;
 import cardgame.Effect;
 import cardgame.Enchantment;
@@ -14,6 +15,7 @@ import cardgame.AbstractEnchantment;
 import cardgame.CardGame;
 import cardgame.Creature;
 import cardgame.MagicPrinter;
+import cardgame.SpecialCreatureDecorator;
 import cardgame.Targets;
 import cardgame.TriggerAction;
 import cardgame.Triggers;
@@ -27,6 +29,7 @@ import java.util.Scanner;
  */
 public class Abduction implements Card {
     Creature target;
+    SpecialCreatureDecorator target_copy;
     
     private class AbductionEffect extends AbstractEnchantmentCardEffect implements Targets{
         List<Creature> temp = CardGame.instance.getAdversary(owner).getCreatures();
@@ -67,9 +70,11 @@ public class Abduction implements Card {
             if(target == null)
                 System.out.println("No target for " + name());
             else {
+                target_copy = new SpecialCreatureDecorator(target);
                 target.untap();
                 temp.remove(target);
                 owner.getCreatures().add(target);
+                target = owner.getCreatures().get(owner.getCreatures().size()-1);
             }
             return super.play(); 
         }       
@@ -93,18 +98,23 @@ public class Abduction implements Card {
         
         @Override
         public void insert(){
-            CardGame.instance.getTriggers().register(Triggers.EXIT_CREATURE_FILTER, ReturnOnDeathAction);
             super.insert();
+            CardGame.instance.getTriggers().register(Triggers.EXIT_CREATURE_FILTER, ReturnOnDeathAction);
+        }
+        
+        @Override
+        public void remove(){
+            super.remove();
+            CardGame.instance.getTriggers().deregister(ReturnOnDeathAction);
         }
         
         private final TriggerAction ReturnOnDeathAction = new TriggerAction(){
             @Override
             public void execute(Object args) {
                 if(args == target){
-                    List<Creature> temp = CardGame.instance.getAdversary(owner).getCreatures();
-                    owner.getCreatures().remove(target);
-                    temp.add(target);
-                    CardGame.instance.getTriggers().deregister(this);
+                    CardGame.instance.getAdversary(owner).getCreatures().add(target_copy);
+                    owner.getCreatures().remove((Creature)target);
+                    
                 }
             }     
         };

@@ -9,6 +9,7 @@ import cardgame.AbstractEnchantment;
 import cardgame.AbstractEnchantmentCardEffect;
 import cardgame.Card;
 import cardgame.CardGame;
+import cardgame.CreatureDecorator;
 import cardgame.Creature;
 import cardgame.Effect;
 import cardgame.Enchantment;

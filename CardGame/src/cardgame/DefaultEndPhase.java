@@ -10,6 +10,14 @@ package cardgame;
  * @author atorsell
  */
 public class DefaultEndPhase implements Phase {
+    public void checkRemoved(){
+        Player currentPlayer = CardGame.instance.getCurrentPlayer();
+        Player currentAdversary = CardGame.instance.getCurrentAdversary();
+        for(Enchantment e : currentPlayer.getEnchantments()) {
+            if()
+        }
+    }
+    
     public void execute() {
         Player currentPlayer = CardGame.instance.getCurrentPlayer();
         
@@ -26,5 +34,7 @@ public class DefaultEndPhase implements Phase {
             System.out.println("...reset damage to adversary creature " + c.name());
             c.resetDamage();
         }
+        checkRemoved();
+        System.out.println("∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞∞");
     }
 }

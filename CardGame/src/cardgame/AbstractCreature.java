@@ -5,7 +5,6 @@
  */
 package cardgame;
 
-import cardgame.cards.CreatureDecorator;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -92,6 +91,8 @@ public abstract class AbstractCreature implements Creature {
         if (damageLeft <= 0) {
             System.out.println(this.name() + " muore!");
             this.removed = true;
+            System.out.println("STA MORENDO");
+            CardGame.instance.getTriggers().trigger(Triggers.EXIT_CREATURE_FILTER, head);
             owner.destroy(this.getDecoratorHead());
         }
     }
@@ -110,6 +111,7 @@ public abstract class AbstractCreature implements Creature {
     @Override
     public void remove() {
         owner.getCreatures().remove(head);
+        System.out.println("STA MORENDO");
         CardGame.instance.getTriggers().trigger(Triggers.EXIT_CREATURE_FILTER, head);
     }
 
