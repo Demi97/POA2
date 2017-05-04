@@ -11,7 +11,10 @@ import cardgame.Card;
 import cardgame.CardGame;
 import cardgame.Creature;
 import cardgame.Effect;
+import cardgame.Enchantment;
 import cardgame.Player;
+import cardgame.TriggerAction;
+import cardgame.Triggers;
 import java.util.ArrayList;
 
 /**
@@ -42,10 +45,10 @@ public class ArgothianEnchantress implements Card {
 
         ArrayList<Effect> all_effects = new ArrayList<>();
         ArrayList<Effect> tap_effects = new ArrayList<>();
-        
-        ArgothianEnchantressCreature(Player owner){
+
+        ArgothianEnchantressCreature(Player owner) {
             super(owner);
-            all_effects.add(new Effect(){
+            all_effects.add(new Effect() {
                 @Override
                 public boolean play() {
                     CardGame.instance.getStack().add(this);
@@ -54,12 +57,22 @@ public class ArgothianEnchantress implements Card {
 
                 @Override
                 public void resolve() {
-                    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                    CardGame.instance.getTriggers().register(Triggers.ENTER_ENCHANTMENT_FILTER, new TriggerAction() {
+                        @Override
+                        public void execute(Object args) {
+                            if (args instanceof Enchantment) {
+                                if (CardGame.instance.getCurrentPlayer().getEnchantments().contains((Enchantment) args)) {
+                                    CardGame.instance.getCurrentAdversary().draw();
+                                }
+                            }
+                        }
+
+                    });
                 }
-                
+
             });
             super.insert();
-            
+
         }
 
         @Override
@@ -76,6 +89,13 @@ public class ArgothianEnchantress implements Card {
         public String name() {
             return "Argorthian Enchantress";
         }
+
+        @Override
+        public boolean isAttackable() {
+            return false;
+        }
+        
+        
 
     }
 
