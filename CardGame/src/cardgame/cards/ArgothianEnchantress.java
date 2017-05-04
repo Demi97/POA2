@@ -81,14 +81,27 @@ public class ArgothianEnchantress implements Card {
                 }
             */
             }
+            /*
+            @Override
+            public void resolve(){
+                if(!this.isRemoved()){
+                    System.out.println("NON SONO ANCORA STATO RIMOSSO");
+                } else {
+                    System.out.println("SONO STATO RIMOSSO");
+                    CardGame.instance.getTriggers().deregister(drawCard);
+                }
+            }
+*/
             @Override
             public void insert() {
                 super.insert();
-                CardGame.instance.getTriggers().register(Triggers.ENTER_ENCHANTMENT_FILTER, drawCard);
-
+                if(!this.isRemoved())
+                    CardGame.instance.getTriggers().register(Triggers.ENTER_ENCHANTMENT_FILTER, drawCard);
+                    
             }
             @Override
             public void remove(){
+                System.out.println("MUOIOOOOOOOOOO1");
                  super.remove();
                 CardGame.instance.getTriggers().deregister(drawCard);
             }
@@ -96,11 +109,9 @@ public class ArgothianEnchantress implements Card {
             @Override
             public void execute(Object args) {
                 if (args instanceof Enchantment) {
-                    System.out.println("PESCOOOOOOOOO");
-                    if (CardGame.instance.getCurrentPlayer().getEnchantments().contains((Enchantment) args))
-                        CardGame.instance.getCurrentAdversary().draw();
-                    if(CardGame.instance.getCurrentAdversary().getEnchantments().contains((Enchantment) args))
-                        CardGame.instance.getCurrentAdversary().draw();           
+                    if (owner.getEnchantments().contains((Enchantment) args))
+                        owner.draw();
+                    //CardGame.instance.getTriggers().deregister(drawCard);
                 }
             }     
         };

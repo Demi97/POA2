@@ -18,6 +18,7 @@ public class MagicPrinter {
         int i = 0;
         for(Creature c : list) { 
             System.out.println((i+1) + ") " + c.name());
+            i++;
         }
     }
     
@@ -25,6 +26,7 @@ public class MagicPrinter {
         int i = 0;
         for(Enchantment e : list) { 
             System.out.println((i+1) + ") " + e.name());
+            i++;
         } 
     }
 }
