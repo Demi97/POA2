@@ -21,88 +21,7 @@ import java.util.ArrayList;
  *
  * @author diletta
  */
-public class ArgothianEnchantress implements Card {
-
-    private class ArgothianEnchantressEffect extends AbstractCreatureCardEffect {
-
-        public ArgothianEnchantressEffect(Player p, Card c) {
-            super(p, c);
-        }
-
-        @Override
-        protected Creature createCreature() {
-            return new ArgothianEnchantressCreature(owner);
-        }
-
-    }
-
-    @Override
-    public Effect getEffect(Player owner) {
-        return new ArgothianEnchantressEffect(owner, this);
-    }
-
-    private class ArgothianEnchantressCreature extends AbstractCreature {
-
-        ArrayList<Effect> all_effects = new ArrayList<>();
-        ArrayList<Effect> tap_effects = new ArrayList<>();
-
-        ArgothianEnchantressCreature(Player owner) {
-            super(owner);
-            all_effects.add(new Effect() {
-                @Override
-                public boolean play() {
-                    CardGame.instance.getStack().add(this);
-                    return tap();
-                }
-
-                @Override
-                public void resolve() {
-                    CardGame.instance.getTriggers().register(Triggers.ENTER_ENCHANTMENT_FILTER, new TriggerAction() {
-                        @Override
-                        public void execute(Object args) {
-                            if (args instanceof Enchantment) {
-                                System.out.println("PESCOOOOOOOOOOO");
-                                if (CardGame.instance.getCurrentPlayer().getEnchantments().contains((Enchantment) args)) {
-                                    CardGame.instance.getCurrentPlayer().draw();
-                                }
-                            }
-                        }
-
-                    });
-                }
-
-            });
-            super.insert();
-
-        }
-
-        @Override
-        public int getPower() {
-            return 0;
-        }
-
-        @Override
-        public int getToughness() {
-            return 1;
-        }
-
-        @Override
-        public String name() {
-            return "Argorthian Enchantress";
-        }
-
-        @Override
-        public boolean isAttackable() {
-            return false;
-        }
-        @Override
-        public String toString() {
-            return name() + " (" + type() + ") [" + ruleText() +"]";
-        }
-        
-        
-
-    }
+public class ArgothianEnchantress2 implements Card {
 
     @Override
     public String name() {
@@ -127,5 +46,91 @@ public class ArgothianEnchantress implements Card {
     public String toString() {
         return name() + " (" + type() + ") [" + ruleText() +"]";
     }
+    
+    @Override
+    public Effect getEffect(Player owner) {
+        return new ArgothianEnchantressEffect(owner, this);
+    }
+    
+    private class ArgothianEnchantressEffect extends AbstractCreatureCardEffect {
+
+        public ArgothianEnchantressEffect(Player p, Card c) {
+            super(p, c);
+        }
+
+        @Override
+        protected Creature createCreature() {
+            return new ArgothianEnchantress2Creature(owner);
+        }
+
+    }
+
+    private class ArgothianEnchantress2Creature extends AbstractCreature {
+
+        //ArrayList<Effect> all_effects = new ArrayList<>();
+        //ArrayList<Effect> tap_effects = new ArrayList<>();
+
+        ArgothianEnchantress2Creature(Player owner) {
+            super(owner);
+            /*
+            all_effects.add(new Effect() {
+                @Override
+                public boolean play() {
+                    //CardGame.instance.getStack().add(this);
+                    return tap();
+                }
+            */
+            }
+            @Override
+            public void insert() {
+                super.insert();
+                CardGame.instance.getTriggers().register(Triggers.ENTER_ENCHANTMENT_FILTER, drawCard);
+
+            }
+            @Override
+            public void remove(){
+                 super.remove();
+                CardGame.instance.getTriggers().deregister(drawCard);
+            }
+            private final TriggerAction drawCard = new TriggerAction(){
+            @Override
+            public void execute(Object args) {
+                if (args instanceof Enchantment) {
+                    System.out.println("PESCOOOOOOOOO");
+                    if (CardGame.instance.getCurrentPlayer().getEnchantments().contains((Enchantment) args))
+                        CardGame.instance.getCurrentAdversary().draw();
+                    if(CardGame.instance.getCurrentAdversary().getEnchantments().contains((Enchantment) args))
+                        CardGame.instance.getCurrentAdversary().draw();           
+                }
+            }     
+        };
+
+        @Override
+        public int getPower() {
+            return 0;
+        }
+
+        @Override
+        public int getToughness() {
+            return 1;
+        }
+
+        @Override
+        public String name() {
+            return "Argorthian Enchantress";
+        }
+
+        @Override
+        public boolean isAttackable() {
+            return false;
+        }
+        @Override
+        public String toString() {
+            return name() + " (" + type() + ") [" + ruleText() +"]";
+        } 
+
+    }
+
+    
 
 }
