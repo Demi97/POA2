@@ -9,55 +9,28 @@ package cardgame;
  *
  * @author nikitabaldan
  */
-public abstract class AbstractStrategyPlayer implements StrategyPlayer {
+public abstract class AbstractStrategyPlayer implements Strategy {
 
-    private StrategyPlayer underStrategy;
+    private Strategy underStrategy;
 
-    public AbstractStrategyPlayer() {
+    @Override
+    public void damageOperation(int pts) {
+        underStrategy.damageOperation(pts);
     }
 
     @Override
-    public void inflictDamage(int pts) {
-        underStrategy.inflictDamage(pts);
+    public void addDecorator(StrategyDecorator sd) {
+        underStrategy.addDecorator(sd);
     }
 
     @Override
-    public void heal(int pts) {
-        underStrategy.heal(pts);
+    public void removeDecorator(StrategyDecorator sd) {
+        underStrategy.removeDecorator(sd);
     }
 
     @Override
-    public void lose(String s) {
-        underStrategy.lose(s);
-    }
-
-    @Override
-    public void draw() {
-        underStrategy.draw();
-    }
-
-    @Override
-    public void setOldStrategy(StrategyPlayer p) {
-        underStrategy = p;
-    }
-
-    @Override
-    public StrategyPlayer getOldStrategy() {
+    public Strategy getDecoratorHead() {
         return underStrategy;
-    }
-
-    @Override
-    public Player getOwner() {
-        return underStrategy.getOwner();
-    }
-
-    @Override
-    public int damageCreature(int dmg) {
-        return underStrategy.damageCreature(dmg);
-    }
-
-    @Override
-    public void inflictCombatDamageCreature(Creature def, int dmg) {
-        underStrategy.inflictCombatDamageCreature(def,dmg);
-    }
+    } 
+    
 }
