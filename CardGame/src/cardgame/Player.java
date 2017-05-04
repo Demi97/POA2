@@ -117,7 +117,7 @@ public class Player {
             } else {
                 System.out.println(fieldsPlayer.name() + "'s creatures in play:");
                 for (Creature c : creatures) {
-                    System.out.println("  " + c);
+                    System.out.println("  " + c.name());
                 }
             }
             List<Enchantment> enchantments = fieldsPlayer.getEnchantments();
@@ -126,7 +126,7 @@ public class Player {
             } else {
                 System.out.println(fieldsPlayer.name() + "'s enchantments in play:");
                 for (Enchantment e : enchantments) {
-                    System.out.println("  " + e);
+                    System.out.println("  " + e.name());
                 }
             }
         }
