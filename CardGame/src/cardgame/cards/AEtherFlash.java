@@ -15,6 +15,7 @@ import cardgame.CardGame;
 import cardgame.Creature;
 import cardgame.TriggerAction;
 import cardgame.Triggers;
+import cardgame.Visitor;
 
 /**
  *
@@ -41,12 +42,12 @@ public class AEtherFlash implements Card {
     public String ruleText() {
         return "Whenever a creature comes into play" + name() + "deals 2 damage to it";
     }
-    
+
     @Override
     public String toString() {
-        return name() + " (" + type() + ") [" + ruleText() +"]";
+        return name() + " (" + type() + ") [" + ruleText() + "]";
     }
-    
+
     @Override
     public boolean isInstant() {
         return false;
@@ -75,10 +76,10 @@ public class AEtherFlash implements Card {
             CardGame.instance.getTriggers().register(Triggers.ENTER_CREATURE_FILTER, DamageOnEntranceAction);
             super.insert();
         }
-        
+
         @Override
-        public void remove(){
-             System.out.println("SONO UN INCANTAMENTO E MUOIO 2");
+        public void remove() {
+            System.out.println("SONO UN INCANTAMENTO E MUOIO 2");
             CardGame.instance.getTriggers().deregister(DamageOnEntranceAction);
             super.remove();
         }
@@ -103,6 +104,11 @@ public class AEtherFlash implements Card {
         @Override
         public String toString() {
             return name() + " (" + type() + ") [" + ruleText() + "]";
+        }
+
+        @Override
+        public void acceptVisit(Visitor visitor) {
+            visitor.visit(this);
         }
 
     }

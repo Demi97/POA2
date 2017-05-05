@@ -26,5 +26,10 @@ public class DarknessDecorator extends CreatureDecorator{
     public boolean isAttackable() {
         return decoratedCreature.isAttackable();
     }
+
+    @Override
+    public void acceptVisit(Visitor visitor) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

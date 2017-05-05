@@ -144,4 +144,11 @@ public abstract class AbstractCreature implements Creature {
     public List<Effect> avaliableEffects() {
         return new ArrayList<>();
     }
+
+    @Override
+    public void acceptVisit(Visitor visitor){
+        head.acceptVisit(visitor);
+    }
+    
+    
 }

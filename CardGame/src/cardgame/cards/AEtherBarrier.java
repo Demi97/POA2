@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import cardgame.MagicPrinter;
+import cardgame.Visitor;
 
 /**
  *
@@ -120,6 +121,11 @@ public class AEtherBarrier implements Card {
                 }
             }
         };
+
+        @Override
+        public void acceptVisit(Visitor visitor) {
+            visitor.visit(this);
+        }
         
     }
 

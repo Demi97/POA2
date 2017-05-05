@@ -17,7 +17,7 @@ import java.util.Scanner;
  *
  * @author atorsell
  */
-public class Player {
+public class Player implements Visited{
 
     // basic properties: name, library, deck, and life
     private String name;
@@ -250,5 +250,10 @@ public class Player {
     public void destroy(Enchantment c) {
         //enchantments.remove(c);
         c.remove();
+    }
+
+    @Override
+    public void acceptVisit(Visitor visitor) {
+        visitor.visit(this);
     }
 }

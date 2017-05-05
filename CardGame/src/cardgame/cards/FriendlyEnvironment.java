@@ -15,6 +15,7 @@ import cardgame.CardGame;
 import cardgame.Creature;
 import cardgame.TriggerAction;
 import cardgame.Triggers;
+import cardgame.Visitor;
 
 
 /**
@@ -62,6 +63,11 @@ public class FriendlyEnvironment implements Card {
         
         @Override
         public String name() { return "Friendly Environment"; }
+
+        @Override
+        public void acceptVisit(Visitor visitor) {
+            visitor.visit(this);
+        }
     }
     
     

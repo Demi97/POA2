@@ -153,6 +153,11 @@ public class SpecialCreatureDecorator extends CreatureDecorator{
     public boolean isAttackable() {
         return decoratedCreature.isAttackable();
     }
+
+    @Override
+    public void acceptVisit(Visitor visitor) {
+        visitor.visit(this);
+    }
 }
 
 

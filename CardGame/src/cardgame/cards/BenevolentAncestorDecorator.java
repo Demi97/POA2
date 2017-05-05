@@ -11,6 +11,7 @@ import cardgame.Player;
 import cardgame.TriggerAction;
 import cardgame.Triggers;
 import cardgame.CreatureDecorator;
+import cardgame.Visitor;
 
 /**
  *
@@ -31,6 +32,11 @@ public class BenevolentAncestorDecorator extends CreatureDecorator {
     @Override
     public boolean isAttackable() {
         return decoratedCreature.isAttackable();
+    }
+
+    @Override
+    public void acceptVisit(Visitor visitor) {
+        visitor.visit(this);
     }
 
 }

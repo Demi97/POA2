@@ -16,6 +16,7 @@ import cardgame.Player;
 import cardgame.Targets;
 import cardgame.TriggerAction;
 import cardgame.Triggers;
+import cardgame.Visitor;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -155,6 +156,11 @@ public class AggressiveUrge implements Card {
         @Override
         public boolean isAttackable() {
             return decoratedCreature.isAttackable();
+        }
+
+        @Override
+        public void acceptVisit(Visitor visitor) {
+            visitor.visit(this);
         }
     }
 }
