@@ -233,7 +233,8 @@ public class Player {
 
     // destroy a creature in play
     public void destroy(Creature c) {
-        creatures.remove(c);
+        //creatures.remove(c);
+        c.remove();
     } 
     
     
@@ -247,6 +248,7 @@ public class Player {
 
     // destroy a creature in play
     public void destroy(Enchantment c) {
-        enchantments.remove(c);
+        //enchantments.remove(c);
+        c.remove();
     }
 }

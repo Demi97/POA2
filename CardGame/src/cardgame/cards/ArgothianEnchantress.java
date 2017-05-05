@@ -101,10 +101,12 @@ public class ArgothianEnchantress implements Card {
             }
             @Override
             public void remove(){
-                System.out.println("MUOIOOOOOOOOOO1");
-                 super.remove();
                 CardGame.instance.getTriggers().deregister(drawCard);
+                System.out.println("MUOIO");
+                super.remove();
+
             }
+            
             private final TriggerAction drawCard = new TriggerAction(){
             @Override
             public void execute(Object args) {

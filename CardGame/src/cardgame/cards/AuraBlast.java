@@ -43,6 +43,7 @@ public class AuraBlast implements Card {
         
         private Player adversary = CardGame.instance.getAdversary(owner);
         private Player target;
+        private Enchantment enchantment_target;
         
         public AuraBlastEffect(Player p, Card c) { 
             super(p,c);  
@@ -59,8 +60,12 @@ public class AuraBlast implements Card {
             if(target == null) {
                 System.out.println("No target for " + name());
             } else {
-                operation(target);
-                target.draw();
+                if(enchantment_target == null) 
+                    System.out.println("Enchantment already removed");
+                else {
+                    enchantment_target.remove();
+                    target.draw();
+                }
             }
         }
         /***
@@ -68,7 +73,7 @@ public class AuraBlast implements Card {
          * @param player
          * @return l'indice dell'incantamento scelto
          */
-        public int choose_enchantments(Player player) {
+        public void choose_enchantments(Player player) {
             int choose;
             do{
                 System.out.println("Choose enchantment: ");
@@ -77,7 +82,7 @@ public class AuraBlast implements Card {
                 }catch(Exception e) { choose = -1; }
             }while(choose < 0 || choose >= player.getEnchantments().size());
             
-            return choose;
+            enchantment_target = player.getEnchantments().get(choose);
         }
         
         public void operation(Player player) {
@@ -86,9 +91,7 @@ public class AuraBlast implements Card {
                     System.out.println(player.name() + " has no enchantments on field");
             else{
                 MagicPrinter.instance.printEnchantments(player.getEnchantments());
-                target = choose_enchantments(player);
-                // rimuovo l'incantamento selezionato
-                player.getEnchantments().remove(target);
+                choose_enchantments(player);
             }
         }
         
@@ -107,6 +110,7 @@ public class AuraBlast implements Card {
             else {
                 target = adversary;
             }
+            operation(target);
         }
     }
 }
