@@ -6,13 +6,17 @@ import cardgame.Card;
 import cardgame.Effect;
 import cardgame.Player;
 import cardgame.CardGame;
+import cardgame.CombatStrategy;
 import cardgame.Creature;
 import cardgame.DarknessDecorator;
+import cardgame.DefaultCombatPhase;
+import cardgame.Phase;
 import cardgame.Phases;
 import cardgame.PreventAllDamages;
 import cardgame.Strategy;
 import cardgame.StrategyDecorator;
 import cardgame.TriggerAction;
+import cardgame.Triggers;
 import java.util.List;
 
 /**
@@ -34,33 +38,40 @@ public class Darkness implements Card {
 
         @Override
         public void resolve() {
-            DarknessDecorator dec;
-            List<Creature> temp1 = owner.getCreatures();
-            List<Creature> temp2 = CardGame.instance.getAdversary(owner).getCreatures();
-            StrategyDecorator decP = new PreventAllDamages(owner.getStrategy());
-            StrategyDecorator decA = new PreventAllDamages(CardGame.instance.getAdversary(owner).getStrategy());
-            owner.getStrategy().addDecorator(decP);
-            CardGame.instance.getAdversary(owner).getStrategy().addDecorator(decA);
 
-            for (Creature c : temp1) {
-                dec = new DarknessDecorator(c);
-                c.addDecorator(dec);
+            Phase temp = CardGame.instance.getCurrentPlayer().getPhase(Phases.COMBAT);
+            if (temp instanceof DefaultCombatPhase) {
+                DefaultCombatPhase phase = (DefaultCombatPhase) temp;
+                CombatStrategy old = phase.getCs();
+                phase.setCs(new CombatStrategy() {
+                    @Override
+                    public void resolution(List<DefaultCombatPhase.Duel> duel) {
+
+                    }
+
+                });
+
+                CardGame.instance.getTriggers().register(Triggers.END_FILTER, new TriggerAction() {
+                    DefaultCombatPhase phase;
+                    CombatStrategy old;
+
+                    @Override
+                    public void execute(Object args) {
+                        phase.setCs(old);
+                        CardGame.instance.getTriggers().deregister(this);
+                    }
+
+                    public TriggerAction start(DefaultCombatPhase phase, CombatStrategy old) {
+                        this.phase= phase;
+                        this.old = old;
+                        return this;
+                    }
+                }.start(phase, old));
             }
-            for (Creature c : temp2) {
-                dec = new DarknessDecorator(c);
-                c.addDecorator(dec);
-            }
 
+        }
 
-        /*  Strategy stp = new DarknessStrategy();
-            CardGame.instance.getCurrentPlayer().inflictDamage(0);
-            CardGame.instance.getAdversary(owner).inflictDamage(0);
-
-            TriggerAction dt = new DarknessTrigger((StrategyDecorator) stp);
-            CardGame.instance.getTriggers().register(Phases.COMBAT.getIdx(), dt);*/
-    }
-
-    /* public class DarknessStrategy extends AbstractStrategyPlayer {
+        /* public class DarknessStrategy extends AbstractStrategyPlayer {
 
             public DarknessStrategy() {
                 super();
@@ -82,30 +93,30 @@ public class Darkness implements Card {
                 CardGame.instance.getCurrentAdversary().removeStrategy(stp);
             }
         }*/
-}
+    }
 
-@Override
-        public String name() {
+    @Override
+    public String name() {
         return "Darkness";
     }
 
     @Override
-        public String type() {
+    public String type() {
         return "Instant";
     }
 
     @Override
-        public String ruleText() {
+    public String ruleText() {
         return "Prevent all combat damage that would be deal this turn";
     }
 
     @Override
-        public String toString() {
+    public String toString() {
         return name() + " (" + type() + ") [" + ruleText() + "]";
     }
 
     @Override
-        public boolean isInstant() {
+    public boolean isInstant() {
         return true;
     }
 }
