@@ -102,7 +102,7 @@ public class BenevolentAncestor implements Card {
                             }catch(Exception e ) { index = -1; }
                         }while(index != 2 && index != 1);
                         
-                        if (choice == 1) {
+                        if (index == 1) {
                             MagicPrinter.instance.printCreatures(owner.getCreatures());
                             do {
                                 try {

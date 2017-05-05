@@ -9,31 +9,6 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.Scanner;
-
-import cardgame.cards.Homeopathy;
-import cardgame.cards.Reflexologist;
-import cardgame.cards.FriendlyEnvironment;
-import cardgame.cards.NorwoodRanger;
-import cardgame.cards.VolcanicHammer;
-import cardgame.cards.BronzeSable;
-import cardgame.cards.AEtherBarrier;
-import cardgame.cards.AEtherFlash;
-import cardgame.cards.Abduction;
-import cardgame.cards.Darkness;
-import cardgame.cards.AncestralMask;
-import cardgame.cards.WorldAtWar;
-import cardgame.cards.Cancel;
-import cardgame.cards.Afflict;
-import cardgame.cards.Deflection;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.stream.Collectors;
-
 /**
  *
  * @author atorsell
