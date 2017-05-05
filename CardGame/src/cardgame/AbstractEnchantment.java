@@ -20,6 +20,7 @@ public abstract class AbstractEnchantment implements Enchantment {
     
     @Override
         public void remove() {
+            System.out.println("SONO UN INCANTAMENTO E MUOIO");
             owner.getEnchantments().remove(this);
             CardGame.instance.getTriggers().trigger(Triggers.EXIT_ENCHANTMENT_FILTER,this);
         }

@@ -78,8 +78,9 @@ public class AEtherFlash implements Card {
         
         @Override
         public void remove(){
-             super.remove();
+             System.out.println("SONO UN INCANTAMENTO E MUOIO 2");
             CardGame.instance.getTriggers().deregister(DamageOnEntranceAction);
+            super.remove();
         }
 
         private final TriggerAction DamageOnEntranceAction = new TriggerAction() {

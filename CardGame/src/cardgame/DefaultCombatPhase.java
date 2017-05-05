@@ -17,7 +17,26 @@ import java.util.Scanner;
 public class DefaultCombatPhase implements Phase {
 
     CombatStrategy cs = new CombatStrategy();
-
+    
+    public void printResolution(List<Duel> duel) {
+        System.out.println("=====BATTLE SITUATION=====");
+        for(Duel d : duel) {
+            if(!d.getAttackers().isRemoved()){
+                System.out.println(d.getAttackers().name() + " attacks!");
+                boolean someDefenders = false;
+                for(Creature c : d.getDefenders()) {
+                    someDefenders = true;
+                    if(!c.isRemoved())
+                        System.out.println(c.name() + " defends!");
+                }
+                if(!someDefenders)
+                    System.out.println("Direct attack!");
+            }
+            System.out.println("- - - - - - - - - - - - -");
+        }
+        System.out.println("==========================");
+    }
+    
     // restituisce le creature che possono effettivamente attaccare
     public ArrayList<Creature> canAttack(Player player) {
         ArrayList<Creature> tmp = new ArrayList<>();
@@ -176,6 +195,7 @@ public class DefaultCombatPhase implements Phase {
             System.out.println("Stack's resolution");
             CardGame.instance.getStack().resolve();
         }
+        printResolution(duel);
         cs.resolution(duel);
     }
 

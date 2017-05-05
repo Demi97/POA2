@@ -149,7 +149,8 @@ public class Abduction implements Card {
             public void execute(Object args) {
                 if(args == target){
                     // aggiungo la creatura alle creature dell'originale possessore
-                    CardGame.instance.getAdversary(owner).getCreatures().add(target_copy);
+                    //CardGame.instance.getAdversary(owner).getCreatures().add(target_copy);
+                    target_copy.insert();
                     // rimuovo il target
                     owner.getCreatures().remove((Creature)target);
                     

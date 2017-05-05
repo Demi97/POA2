@@ -62,6 +62,11 @@ public class SpecialCreatureDecorator extends CreatureDecorator{
     public boolean isRemoved(){
         return decoratedCreature.isRemoved();
     }
+    
+    @Override
+    public void remove(){
+        decoratedCreature.remove();
+    }
     /*
     @Override
     public boolean tap() {
