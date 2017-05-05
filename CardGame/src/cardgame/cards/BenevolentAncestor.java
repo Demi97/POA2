@@ -96,6 +96,12 @@ public class BenevolentAncestor implements Card {
                     } else {
                         int index;
                         System.out.println("Your target is a creature of yours (press 1) or of your adversary (press 2)?");
+                        do{
+                            try{
+                                index = scan.nextInt();
+                            }catch(Exception e ) { index = -1; }
+                        }while(index != 2 && index != 1);
+                        
                         if (choice == 1) {
                             MagicPrinter.instance.printCreatures(owner.getCreatures());
                             do {
