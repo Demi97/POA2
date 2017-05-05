@@ -54,7 +54,6 @@ public abstract class AbstractCreature implements Creature {
         return isTapped;
     }
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public void attack(Creature c) {
     }
@@ -62,11 +61,6 @@ public abstract class AbstractCreature implements Creature {
     @Override
     public void defend(Creature c) {
     }
-
-    /* @Override
-    public boolean canAttack() {
-        return !(isTapped || defender);
-    }*/
     
     @Override
     public boolean isDefender() {
@@ -91,7 +85,6 @@ public abstract class AbstractCreature implements Creature {
         if (damageLeft <= 0) {
             System.out.println(this.name() + " muore!");
             this.removed = true;
-            System.out.println("STA MORENDO");
             CardGame.instance.getTriggers().trigger(Triggers.EXIT_CREATURE_FILTER, head);
             owner.destroy(this.getDecoratorHead());
         }
@@ -111,7 +104,6 @@ public abstract class AbstractCreature implements Creature {
     @Override
     public void remove() {
         owner.getCreatures().remove(head);
-        System.out.println("STA MORENDO");
         CardGame.instance.getTriggers().trigger(Triggers.EXIT_CREATURE_FILTER, head);
     }
 
