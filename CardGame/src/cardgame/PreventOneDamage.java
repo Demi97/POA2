@@ -24,6 +24,7 @@ public class PreventOneDamage extends StrategyDecorator{
     
     @Override
     public void damageOperation(int pts) {
+        System.out.println("CIAO SIMONE DIO BOIA PROPRIO NON SO QUALE SIA L'ERRRORE");
         pts = pts-1;
         decoratedStrategy.damageOperation(pts);
     }
