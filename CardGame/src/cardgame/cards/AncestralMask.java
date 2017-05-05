@@ -125,12 +125,10 @@ public class AncestralMask implements Card {
 
         @Override
         public void remove() {
-            if(target.isRemoved())
-                System.out.println("CREATURA GI° RIMOSSA");
-            else{
+            try{
                 target.removeDecorator(dec);
+            }catch(Exception e ){}
                 super.remove();
-            }
         }
     }
 }

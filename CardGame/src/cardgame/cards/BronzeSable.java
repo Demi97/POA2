@@ -52,6 +52,6 @@ public class BronzeSable implements Card {
             public int getPower() { return 2; }
 
             @Override
-            public int getToughness() { return 1; }
+            public int getToughness() { return 3; }
         }
 }

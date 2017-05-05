@@ -56,7 +56,6 @@ public class CardGame {
     }
     
     private static void factoryFromFile(CardFactory factory, ArrayList<Card> deck) throws FileNotFoundException{
-        //factoryFromKeyboard(factory, deck);
         File file = new File("deck.txt");
         try{
             Scanner input = new Scanner(file);

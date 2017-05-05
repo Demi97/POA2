@@ -241,6 +241,10 @@ public class BenevolentAncestor implements Card {
         public String name() {
             return "Benevolent Ancestor";
         }
+        @Override
+        public String toString() {
+            return name() + " (" + type() + ") [" + ruleText() + "]";
+        }
     }
 
 }
