@@ -102,8 +102,8 @@ public class AggressiveUrge implements Card {
                 MagicPrinter.instance.printCreatures(owner.getCreatures());
                 creatures = owner.getCreatures();
             } else {
-                MagicPrinter.instance.printCreatures(CardGame.instance.getCurrentAdversary().getCreatures());
-                creatures = CardGame.instance.getCurrentAdversary().getCreatures();
+                MagicPrinter.instance.printCreatures(CardGame.instance.getAdversary(owner).getCreatures());
+                creatures = CardGame.instance.getAdversary(owner).getCreatures();
             }
             if (creatures.isEmpty()) {
                 target = null;
