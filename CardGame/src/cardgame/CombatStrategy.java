@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  *
- * @author diletta
+ * @author diletta&simonescaboro
  */
 public class CombatStrategy {
     // CALCOLO DEI DANNI

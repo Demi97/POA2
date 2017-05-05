@@ -36,6 +36,7 @@ public class DefaultCombatPhase implements Phase {
         }
         System.out.println("==========================");
     }
+    
     // restituisce le creature che possono effettivamente attaccare
     public ArrayList<Creature> canAttack(Player player) {
         ArrayList<Creature> tmp = new ArrayList<>();
