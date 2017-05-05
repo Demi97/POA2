@@ -10,7 +10,8 @@ package cardgame;
  * @author atorsell
  */
 public abstract class AbstractEnchantment implements Enchantment {
-    protected Player owner;        
+    protected Player owner;
+    protected boolean removed = false;
     protected AbstractEnchantment(Player owner) { this.owner=owner; }
         
     @Override
@@ -20,13 +21,21 @@ public abstract class AbstractEnchantment implements Enchantment {
     
     @Override
         public void remove() {
-            System.out.println("SONO UN INCANTAMENTO E MUOIO");
+            this.removed = true;
             owner.getEnchantments().remove(this);
             CardGame.instance.getTriggers().trigger(Triggers.EXIT_ENCHANTMENT_FILTER,this);
         }
-        
+    @Override
+    public boolean isRemoved(){
+        return removed;
+    }
+    
     @Override
         public String toString() {
             return name() + " (Enchantment)";
         }
+    @Override
+    public void acceptVisit(Visitor visitor) {
+        visitor.visit(this);
+    }
 }

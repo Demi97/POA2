@@ -11,9 +11,6 @@ import cardgame.Effect;
 import cardgame.Player;
 
 /**
- * ciao
- */
-/**
  *
  * @author atorsell
  */

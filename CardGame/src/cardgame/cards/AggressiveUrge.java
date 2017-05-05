@@ -73,11 +73,11 @@ public class AggressiveUrge implements Card {
                     TriggerAction action = new TriggerAction() {
                         @Override
                         public void execute(Object args) {
-                            System.out.println("Triggered removal of  from " + target.getDecoratorHead());
+                            System.out.println("Trigger removed from " + target.name());
                             target.getDecoratorHead().removeDecorator(decorator);
                         }
                     };
-                    System.out.println("Ataching " + name() + " to " + target.name() + " and registering end of turn trigger");
+                    System.out.println("Ataching " + name() + " to " + target.name());
                     CardGame.instance.getTriggers().register(Triggers.END_FILTER, action);
 
                     decorator.setRemoveAction(action);
@@ -91,7 +91,7 @@ public class AggressiveUrge implements Card {
             int choose;
             List<Creature> creatures = new ArrayList<>();
             Scanner reader = new Scanner(System.in);
-            System.out.println("Afflict to" +  owner.name() +" (1) or"+ CardGame.instance.getAdversary(owner).name() +" (2) creature?");
+            System.out.println("Afflict to" +  owner.name() +" (1) or "+ CardGame.instance.getAdversary(owner).name() +" (2) creature?");
             do {
                 try {
                     choose = reader.nextInt();
@@ -136,7 +136,7 @@ public class AggressiveUrge implements Card {
         }
 
         public void remove() {
-            System.out.println("Removing " + name() + " and deregistering end of turn trigger");
+            System.out.println("Removing " + name());
             if (dec != null) {
                 CardGame.instance.getTriggers().deregister(dec);
             }
@@ -156,11 +156,6 @@ public class AggressiveUrge implements Card {
         @Override
         public boolean isAttackable() {
             return decoratedCreature.isAttackable();
-        }
-
-        @Override
-        public void acceptVisit(Visitor visitor) {
-            visitor.visit(this);
         }
     }
 }

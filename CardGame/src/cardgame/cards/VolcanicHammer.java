@@ -21,16 +21,31 @@ import cardgame.Targets;
  */
 public class VolcanicHammer implements Card {
     
-    // Definisco l'avversario come "l'avversario del giocatore"
-    Player currentAdversary = CardGame.instance.getCurrentAdversary();
-    Scanner reader = new Scanner(System.in);
-    Player player_target = null;
-    Creature creature_target = null;
+    @Override
+    public String name() { return "Volcanic Hammer"; }
+    @Override
+    public String type() { return "Sorcery"; }
+    @Override
+    public String ruleText() { return name() + " deals 3 damage to any one creature or player"; }
+    @Override
+    public String toString() { return name() + " (" + type() + ") [" + ruleText() +"]";}
+    @Override
+    public boolean isInstant() { return false; }
+    
+    @Override
+    public Effect getEffect(Player owner) { 
+        return new VolcanicHammerEffect(owner, this); 
+    }
     
     private class VolcanicHammerEffect extends AbstractCardEffect implements Targets {
+        // Definisco l'avversario come "l'avversario del giocatore"
+        Player currentAdversary = CardGame.instance.getAdversary(owner);
+        Scanner reader = new Scanner(System.in);
+        Player player_target = null;
+        Creature creature_target = null;
+        
         public VolcanicHammerEffect(Player p, Card c) { 
             super(p,c); 
-            //adversary = CardGame.instance.getAdversary(owner);
         }
         /***
          * Metodo per la selezione della creatura
@@ -82,11 +97,11 @@ public class VolcanicHammer implements Card {
         public void checkTarget() {
             int choose;
             do{
-                System.out.println("Inflict to player (0) or creature (1):");
+                System.out.println("Inflict to player (1) or creature (2):");
                 try{
                     choose = reader.nextInt();
                 }catch(Exception e) { choose = -1; }
-            }while(choose != 1 && choose != 0);
+            }while(choose != 1 && choose != 2);
             // attivo l'effetto sulla creatura
             if(choose == 1)
                 select_creature();
@@ -120,20 +135,4 @@ public class VolcanicHammer implements Card {
             }
         }
     }
-
-    @Override
-    public Effect getEffect(Player owner) { 
-        return new VolcanicHammerEffect(owner, this); 
-    }
-    
-    @Override
-    public String name() { return "Volcanic Hammer"; }
-    @Override
-    public String type() { return "Sorcery"; }
-    @Override
-    public String ruleText() { return name() + " deals 3 damage to any one creature or player"; }
-    @Override
-    public String toString() { return name() + " (" + type() + ") [" + ruleText() +"]";}
-    @Override
-    public boolean isInstant() { return false; }
 }

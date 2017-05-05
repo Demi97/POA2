@@ -7,11 +7,12 @@ package cardgame.cards;
 
 import cardgame.AbstractCardEffect;
 import cardgame.Card;
-import cardgame.Creature;
 import cardgame.Effect;
 import cardgame.Player;
 import cardgame.CardGame;
-import java.util.Scanner;
+import cardgame.Enchantment;
+import java.util.ArrayList;
+import java.util.List;
 /**
  *
  * @author simonescaboro
@@ -48,7 +49,11 @@ public class CalmingVerse implements Card {
                 System.out.println("There are no enchantments to destroy");
             else {
                 // se ci sono incantamenti li distruggo
-                player.getEnchantments().clear();
+                List<Enchantment> tmp = new ArrayList<>(player.getEnchantments());
+                for(Enchantment e : tmp) {
+                    if(!e.isRemoved())
+                        e.remove();
+                }
                 System.out.println("All enchantments destroied");
             }
             

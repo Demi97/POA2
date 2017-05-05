@@ -16,10 +16,6 @@ import cardgame.Enchantment;
 import cardgame.MagicPrinter;
 import cardgame.Player;
 import cardgame.Targets;
-import cardgame.TriggerAction;
-import cardgame.Triggers;
-import cardgame.Visitor;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -58,11 +54,11 @@ public class AncestralMask implements Card {
     public Effect getEffect(Player owner) {
         return new AncestralMaskEffect(owner, this);
     }
-
+    
     Creature target;
-
+    
     private class AncestralMaskEffect extends AbstractEnchantmentCardEffect implements Targets {
-
+        
         public AncestralMaskEffect(Player p, Card c) {
             super(p, c);
         }
@@ -116,7 +112,7 @@ public class AncestralMask implements Card {
         @Override
         public void insert() {
             if (target != null) {
-                if (target.isRemoved()) {
+                if (target.getDecoratorHead().isRemoved()) {
                     System.out.println("Target already removed");
                 } else {
                     dec = new AncestralMaskDecorator(target);
@@ -129,64 +125,12 @@ public class AncestralMask implements Card {
 
         @Override
         public void remove() {
-            target.removeDecorator(dec);
-            super.remove();
-        }
-
-        @Override
-        public void acceptVisit(Visitor visitor) {
-            visitor.visit(this);
-        }
-    }
-
-    public class AncestralMaskDecorator extends CreatureDecorator {
-
-        int numEnchantment;
-
-        public AncestralMaskDecorator(Creature decoratedCreature) {
-            super(decoratedCreature);
-        }
-
-        @Override
-        public int getPower() {
-            return decoratedCreature.getPower() + ((numEnchantment - 1) * 2);
-        }
-
-        @Override
-        public int getToughness() {
-            return decoratedCreature.getToughness() + ((numEnchantment - 1) * 2);
-        }
-
-        public void activation(Player me) {
-            CardGame.instance.getTriggers().register(Triggers.ENTER_ENCHANTMENT_FILTER, AddOnEntranceAction);
-            CardGame.instance.getTriggers().register(Triggers.EXIT_ENCHANTMENT_FILTER, SubtractOnExitAction);
-            numEnchantment = me.getEnchantments().size() + CardGame.instance.getAdversary(me).getEnchantments().size();
-        }
-
-        private final TriggerAction AddOnEntranceAction = new TriggerAction() {
-            @Override
-            public void execute(Object args) {
-                numEnchantment++;
+            if(target.isRemoved())
+                System.out.println("CREATURA GI° RIMOSSA");
+            else{
+                target.removeDecorator(dec);
+                super.remove();
             }
-
-        };
-
-        private final TriggerAction SubtractOnExitAction = new TriggerAction() {
-            @Override
-            public void execute(Object args) {
-                numEnchantment--;
-            }
-
-        };
-
-        @Override
-        public boolean isAttackable() {
-            return decoratedCreature.isAttackable();
-        }
-
-        @Override
-        public void acceptVisit(Visitor visitor) {
-            visitor.visit(this);
         }
     }
 }

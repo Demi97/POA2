@@ -163,6 +163,7 @@ public class DefaultCombatPhase implements Phase {
             CardGame.instance.getStack().resolve();
         }
 
+
         // DICHIARAZIONE DIFENSORI
         if (effectiveDefender.isEmpty()) {
             System.out.println("... no creatures can defend");
@@ -195,6 +196,7 @@ public class DefaultCombatPhase implements Phase {
             System.out.println("Stack's resolution");
             CardGame.instance.getStack().resolve();
         }
+
         printResolution(duel);
         cs.resolution(duel);
     }

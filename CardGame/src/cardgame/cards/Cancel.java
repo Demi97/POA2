@@ -11,7 +11,6 @@ import cardgame.Effect;
 import cardgame.Player;
 import cardgame.CardGame;
 import cardgame.CardStack;
-import cardgame.MagicPrinter;
 import cardgame.Targets;
 import java.util.Scanner;
 

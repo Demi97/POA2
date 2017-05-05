@@ -39,11 +39,12 @@ public class Fatigue implements Card{
     
     private class FatigueEffect extends AbstractCardEffect implements Targets{
         Player target;
+        // definisco l'avversario
+        private Player currentAdversary = CardGame.instance.getAdversary(owner);
+        
         public FatigueEffect(Player p, Card c) { 
             super(p,c);
         }
-        // definisco l'avversario
-        private Player currentAdversary = CardGame.instance.getAdversary(owner);
         
         @Override
         public boolean play() {

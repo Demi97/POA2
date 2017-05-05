@@ -22,16 +22,8 @@ public interface Creature extends Permanent {
     void resetDamage();
     int getPower();
     int getToughness();
-    
-    ////////////////////
-   /* boolean canAttack();*/
     boolean isDefender();
     boolean isAttackable();
-    boolean isRemoved();
-    
-    ////////////////////
-   /* Creature getDecoratedCreature();
-    void setDecoratedShape(Creature c);*/
     Creature getDecoratorHead();
     void addDecorator(CreatureDecorator cd);
     void removeDecorator(CreatureDecorator cd);

@@ -211,16 +211,10 @@ public class Player implements Visited{
     }
 
     public void addStrategy(Strategy strategy) {
-        /*strategy.setOldStrategy(strategies.get(strategies.size() - 1));
-        strategies.add(strategy);*/
         strategies.add(strategy);
     }
 
     public void removeStrategy(Strategy strategy) {
-        /*int index = strategies.indexOf(strategy);
-        if (index < strategies.size() - 1) {
-            strategies.get(index + 1).setOldStrategy(strategy.getDecoratorHead());
-        }*/
         strategies.remove(strategy);
     }
 
@@ -233,11 +227,8 @@ public class Player implements Visited{
 
     // destroy a creature in play
     public void destroy(Creature c) {
-        //creatures.remove(c);
         c.remove();
     } 
-    
-    
     
     // Enchantments management
     private final ArrayList<Enchantment> enchantments = new ArrayList<>();
@@ -248,7 +239,6 @@ public class Player implements Visited{
 
     // destroy a creature in play
     public void destroy(Enchantment c) {
-        //enchantments.remove(c);
         c.remove();
     }
 

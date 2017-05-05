@@ -10,10 +10,9 @@ import cardgame.Player;
 import cardgame.Phases;
 /**
  *
- * @author don't mess with nikita
+ * @author nikita
  */
 public class WorldAtWar implements Card{
-    private Player owner2;
 
     @Override
     public Effect getEffect(Player owner) {
@@ -91,7 +90,6 @@ public class WorldAtWar implements Card{
     private class WorldAtWarEffect extends AbstractCardEffect {
         public WorldAtWarEffect(Player p, Card c) { 
             super(p,c);
-            owner2 = CardGame.instance.getCurrentPlayer();
         }
 
         @Override

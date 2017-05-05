@@ -82,11 +82,11 @@ public class Afflict implements Card {
                 TriggerAction action = new TriggerAction() {
                     @Override
                     public void execute(Object args) {
-                        System.out.println("Triggered removal " + target.getDecoratorHead());
+                        System.out.println("Triggered removed from " + target.name());
                         target.removeDecorator(decorator);
                     }
                 };
-                System.out.println("Ataching to " + target.name() + " and registering end of turn trigger");
+                System.out.println("Ataching to " + target.name());
                 CardGame.instance.getTriggers().register(Triggers.END_FILTER, action);
 
                 decorator.setRemoveAction(action);

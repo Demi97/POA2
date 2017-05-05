@@ -60,7 +60,7 @@ public class AuraBlast implements Card {
             if(target == null) {
                 System.out.println("No target for " + name());
             } else {
-                if(enchantment_target == null) 
+                if(enchantment_target.isRemoved()) 
                     System.out.println("Enchantment already removed");
                 else {
                     enchantment_target.remove();
@@ -71,7 +71,6 @@ public class AuraBlast implements Card {
         /***
          * Scelgo l'incantamento da distruggere
          * @param player
-         * @return l'indice dell'incantamento scelto
          */
         public void choose_enchantments(Player player) {
             int choose;
@@ -86,7 +85,6 @@ public class AuraBlast implements Card {
         }
         
         public void operation(Player player) {
-            int target;
             if(player.getEnchantments().isEmpty())
                     System.out.println(player.name() + " has no enchantments on field");
             else{

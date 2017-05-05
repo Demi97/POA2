@@ -5,7 +5,6 @@
  */
 package cardgame.cards;
 
-import cardgame.AbstractCreature;
 import cardgame.Card;
 import cardgame.Effect;
 import cardgame.Enchantment;
@@ -19,7 +18,6 @@ import cardgame.SpecialCreatureDecorator;
 import cardgame.Targets;
 import cardgame.TriggerAction;
 import cardgame.Triggers;
-import cardgame.Visitor;
 import java.util.List;
 import java.util.Scanner;
 
@@ -77,8 +75,7 @@ public class Abduction implements Card {
 
         @Override
         public void checkTarget() {
-            int index, i;
-            i = 0;
+            int index;
             Scanner scan = new Scanner(System.in);
             if (temp.isEmpty()) {
                 target = null;
@@ -114,7 +111,6 @@ public class Abduction implements Card {
                 temp.remove(target);
                 // aggiungo il target alle creature
                 owner.getCreatures().add(target);
-                //target = owner.getCreatures().get(owner.getCreatures().size()-1);
             }
             return super.play();
         }
@@ -159,10 +155,5 @@ public class Abduction implements Card {
                 }
             }
         };
-
-        @Override
-        public void acceptVisit(Visitor visitor) {
-            visitor.visit(this);
-        }
     }
 }

@@ -14,13 +14,8 @@ import java.util.List;
  */
 public class SpecialCreatureDecorator extends CreatureDecorator{
     
-    //private Creature decoratedCreature;
     public SpecialCreatureDecorator(Creature decoratedCreature) {
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         super(decoratedCreature);
-        //this.decoratedCreature = decoratedCreature;
-        
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
     
     @Override
@@ -67,88 +62,7 @@ public class SpecialCreatureDecorator extends CreatureDecorator{
     public void remove(){
         decoratedCreature.remove();
     }
-    /*
-    @Override
-    public boolean tap() {
-       return decoratedCreature.tap();
-    }
-
-    @Override
-    public boolean untap() {
-        return decoratedCreature.untap();
-    }
-
-    @Override
-    public boolean isTapped() {
-        return decoratedCreature.isTapped();
-    }
-
-    @Override
-    public void attack(Creature c) {
-        decoratedCreature.attack(c);
-    }
-
-    @Override
-    public void defend(Creature c) {
-        decoratedCreature.defend(c);
-    }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    @Override
-    public boolean canAttack(){
-        return decoratedCreature.canAttack();
-    }
-    
-    @Override
-    public boolean isDefender(){
-        return decoratedCreature.isDefender();
-    }
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    @Override
-    public void inflictDamage(int dmg) {
-        decoratedCreature.inflictDamage(dmg);
-    }
-
-    @Override
-    public void resetDamage() {
-        decoratedCreature.resetDamage();
-    }
-
-    @Override
-    public int getPower() {
-        return decoratedCreature.getPower();
-    }
-
-    @Override
-    public int getToughness() {
-        return decoratedCreature.getToughness();
-    }
-
-    @Override
-    public List<Effect> effects() {
-        return decoratedCreature.effects();
-    }
-
-    @Override
-    public List<Effect> avaliableEffects() {
-        return decoratedCreature.avaliableEffects();
-    }
-
-    @Override
-    public String name() {
-        return decoratedCreature.name();
-    }
-
-    @Override
-    public void insert() {
-        decoratedCreature.insert();
-    }
-
-    @Override
-    public void remove() {
-        decoratedCreature.remove();
-    }
-    */
-
+   
     @Override
     public boolean isAttackable() {
         return decoratedCreature.isAttackable();

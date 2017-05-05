@@ -5,6 +5,10 @@
  */
 package cardgame;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
@@ -40,7 +44,9 @@ public class CardGame {
             factoryFromKeyboard(factory, deck);
         }
         else {
+            try{
             factoryFromFile(factory,deck);
+            }catch(Exception e) {}
         }
         instance.getPlayer(0).setDeck(deck.iterator());
         instance.getPlayer(1).setDeck(deck.iterator());
@@ -48,7 +54,7 @@ public class CardGame {
         instance.run();
     }
     
-    private static void factoryFromFile(CardFactory factory, ArrayList<Card> deck){
+    private static void factoryFromFile(CardFactory factory, ArrayList<Card> deck) throws FileNotFoundException{
         factoryFromKeyboard(factory, deck);
     }
     private static void factoryFromKeyboard(CardFactory factory, ArrayList<Card> deck){
@@ -60,7 +66,7 @@ public class CardGame {
                 try{
                     choose = CardGame.instance.getScanner().nextInt();
                 }catch(Exception e) {choose = -1;}
-            }while(choose < 0 || choose > 22);
+            }while(choose < 0 || choose > 25);
             
             deck.add(factory.getCard(factory.cardString(choose)));
         }

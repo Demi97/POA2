@@ -52,16 +52,24 @@ public class BoilingEarth implements Card {
         
         @Override
         public void resolve() {
+            // inizializzo due nuove liste così da non creare problimi con l'iterazione del for each
             List<Creature> creaturesEnemy = new ArrayList<>(CardGame.instance.getAdversary(owner).getCreatures());        
             List<Creature> creaturesMine = new ArrayList<>(owner.getCreatures());
-            // Infliggo 1 a tutte le creature sul terreno
-            for (Creature c : creaturesEnemy) {
-                c.inflictDamage(1);
+            
+            // Infliggo 1 a tutte le creature sul terreno, se presenti
+            
+            if(creaturesEnemy.isEmpty())
+                System.out.println("No creatures on field of " + CardGame.instance.getAdversary(owner).name());
+            else{
+                for (Creature c : creaturesEnemy)
+                    c.inflictDamage(1);
             }
-            for (Creature c : creaturesMine) {
-                c.inflictDamage(1);
+            if(creaturesMine.isEmpty())
+                 System.out.println("No creatures on field of " + owner.name());
+            else{
+                for (Creature c : creaturesMine)
+                    c.inflictDamage(1);
             }
-            System.out.println("Damages succesfully afflicted");
         }
     }
 }

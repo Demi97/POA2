@@ -42,7 +42,7 @@ public class DayOfJudgment implements Card {
         }
         
         public void clearCreatures(Player player) {
-            // verifico se il giocatore ha carte in mano, se le ha le rimuovo
+            // verifico se il giocatore ha carte sul terreno, se le ha le rimuovo
             if(player.getCreatures().isEmpty())
                 System.out.println(player.name() + " has no creatures to destroy!");
             else {

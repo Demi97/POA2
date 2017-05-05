@@ -77,13 +77,12 @@ public abstract class AbstractCreature implements Creature {
         return removed;
     }
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public void inflictDamage(int dmg) {
         damageLeft -= dmg;
-        System.out.println("Infliggo " + dmg + " a " + this.name());
+        System.out.println("Inflicting " + dmg + " damages to " + this.name());
         if (damageLeft <= 0) {
-            System.out.println(this.name() + " muore!");
+            System.out.println(this.name() + " dies!");
             this.removed = true;
             CardGame.instance.getTriggers().trigger(Triggers.EXIT_CREATURE_FILTER, head);
             owner.destroy(this.getDecoratorHead());
@@ -103,6 +102,7 @@ public abstract class AbstractCreature implements Creature {
 
     @Override
     public void remove() {
+        this.removed = true;
         owner.getCreatures().remove(head);
         CardGame.instance.getTriggers().trigger(Triggers.EXIT_CREATURE_FILTER, head);
     }

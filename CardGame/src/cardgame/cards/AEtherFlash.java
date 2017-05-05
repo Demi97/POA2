@@ -79,7 +79,6 @@ public class AEtherFlash implements Card {
 
         @Override
         public void remove() {
-            System.out.println("SONO UN INCANTAMENTO E MUOIO 2");
             CardGame.instance.getTriggers().deregister(DamageOnEntranceAction);
             super.remove();
         }
@@ -105,11 +104,5 @@ public class AEtherFlash implements Card {
         public String toString() {
             return name() + " (" + type() + ") [" + ruleText() + "]";
         }
-
-        @Override
-        public void acceptVisit(Visitor visitor) {
-            visitor.visit(this);
-        }
-
     }
 }

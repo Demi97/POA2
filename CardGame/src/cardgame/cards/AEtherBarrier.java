@@ -28,6 +28,32 @@ import cardgame.Visitor;
  * @author diletta
  */
 public class AEtherBarrier implements Card {
+    
+    @Override
+    public String name() {
+        return "AEther Barrier";
+    }
+
+    @Override
+    public String type() {
+        return "Enchantment";
+    }
+
+    @Override
+    public String ruleText() {
+        return "Whenever a player plays a creature spell, that player sacrifices a permanent";
+    }
+
+    @Override
+    public boolean isInstant() {
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return name() + " (" + type() + ") [" + ruleText() +"]";
+    } 
+    
     private class AEtherBarrierEffect extends AbstractEnchantmentCardEffect{
         public AEtherBarrierEffect(Player p, Card c){
             super(p,c);
@@ -60,6 +86,12 @@ public class AEtherBarrier implements Card {
             return "AEther Barrier";
         }
         
+        @Override
+        public void remove(){
+            CardGame.instance.getTriggers().deregister(SacrificeOnCreatureEntranceAction);
+            super.remove();
+            
+        }
         public void insert(){
             CardGame.instance.getTriggers().register(Triggers.ENTER_EFFECT_STACK_FILTER, SacrificeOnCreatureEntranceAction);
             super.insert();
@@ -121,39 +153,5 @@ public class AEtherBarrier implements Card {
                 }
             }
         };
-
-        @Override
-        public void acceptVisit(Visitor visitor) {
-            visitor.visit(this);
-        }
-        
     }
-
-    @Override
-    public String name() {
-        return "AEther Barrier";
-    }
-
-    @Override
-    public String type() {
-        return "Enchantment";
-    }
-
-    @Override
-    public String ruleText() {
-        return "Whenever a player plays a creature spell, that player sacrifices a permanent";
-    }
-
-    @Override
-    public boolean isInstant() {
-        return false;
-    }
-
-    @Override
-    public String toString() {
-        return name() + " (" + type() + ") [" + ruleText() +"]";
-    }
-    
-    
-    
 }

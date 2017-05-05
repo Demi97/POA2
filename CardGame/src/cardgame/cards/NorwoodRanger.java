@@ -8,27 +8,16 @@ package cardgame.cards;
 import cardgame.AbstractCreature;
 import cardgame.AbstractCreatureCardEffect;
 import cardgame.Card;
-import cardgame.CardGame;
 import cardgame.Creature;
 import cardgame.Effect;
 import cardgame.Player;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
  * @author simonescaboro
  */
 public class NorwoodRanger implements Card {
-    
-    private class NorwoodRangerEffect extends AbstractCreatureCardEffect {
-        public NorwoodRangerEffect(Player p, Card c) { super(p,c); }
-        @Override
-        protected Creature createCreature() { return new NorwoodRanger.NorwoodRangerCreature(owner); }
-    }
-    @Override
-    public Effect getEffect(Player p) { return new NorwoodRangerEffect(p,this); }
-        
+
     @Override
     public String name() { return "Norwood Ranger"; }
     @Override
@@ -40,7 +29,16 @@ public class NorwoodRanger implements Card {
     @Override
     public boolean isInstant() { return false; }
     
-        private class NorwoodRangerCreature extends AbstractCreature {
+    @Override
+    public Effect getEffect(Player p) { return new NorwoodRangerEffect(p,this); }
+          
+    private class NorwoodRangerEffect extends AbstractCreatureCardEffect {
+        public NorwoodRangerEffect(Player p, Card c) { super(p,c); }
+        @Override
+        protected Creature createCreature() { return new NorwoodRanger.NorwoodRangerCreature(owner); }
+    }
+    
+    private class NorwoodRangerCreature extends AbstractCreature {
 
         NorwoodRangerCreature(Player owner) { 
             super(owner);

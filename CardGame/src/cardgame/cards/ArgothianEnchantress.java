@@ -15,7 +15,6 @@ import cardgame.Enchantment;
 import cardgame.Player;
 import cardgame.TriggerAction;
 import cardgame.Triggers;
-import java.util.ArrayList;
 
 /**
  *
@@ -66,54 +65,31 @@ public class ArgothianEnchantress implements Card {
     }
 
     private class ArgothianEnchantressCreature extends AbstractCreature {
-
-        //ArrayList<Effect> all_effects = new ArrayList<>();
-        //ArrayList<Effect> tap_effects = new ArrayList<>();
-
+        
         ArgothianEnchantressCreature(Player owner) {
             super(owner);
-            /*
-            all_effects.add(new Effect() {
-                @Override
-                public boolean play() {
-                    //CardGame.instance.getStack().add(this);
-                    return tap();
-                }
-            */
-            }
-            /*
-            @Override
-            public void resolve(){
-                if(!this.isRemoved()){
-                    System.out.println("NON SONO ANCORA STATO RIMOSSO");
-                } else {
-                    System.out.println("SONO STATO RIMOSSO");
-                    CardGame.instance.getTriggers().deregister(drawCard);
-                }
-            }
-*/
-            @Override
-            public void insert() {
-                super.insert();
-                if(!this.isRemoved())
-                    CardGame.instance.getTriggers().register(Triggers.ENTER_ENCHANTMENT_FILTER, drawCard);
-                    
-            }
-            @Override
-            public void remove(){
-                CardGame.instance.getTriggers().deregister(drawCard);
-                System.out.println("MUOIO");
-                super.remove();
+        }
+        
+        @Override
+        public void insert() {
+            super.insert();
+            if(!this.isRemoved())
+                CardGame.instance.getTriggers().register(Triggers.ENTER_ENCHANTMENT_FILTER, drawCard);
 
-            }
-            
-            private final TriggerAction drawCard = new TriggerAction(){
+        }
+        @Override
+        public void remove(){
+            CardGame.instance.getTriggers().deregister(drawCard);
+            super.remove();
+
+        }
+
+        private final TriggerAction drawCard = new TriggerAction(){
             @Override
             public void execute(Object args) {
                 if (args instanceof Enchantment) {
                     if (owner.getEnchantments().contains((Enchantment) args))
                         owner.draw();
-                    //CardGame.instance.getTriggers().deregister(drawCard);
                 }
             }     
         };
@@ -140,10 +116,6 @@ public class ArgothianEnchantress implements Card {
         @Override
         public String toString() {
             return name() + " (" + type() + ") [" + ruleText() +"]";
-        } 
-
+        }
     }
-
-    
-
 }

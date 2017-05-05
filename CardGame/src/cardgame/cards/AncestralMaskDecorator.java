@@ -16,7 +16,7 @@ import cardgame.Triggers;
  *
  * @author diletta
  */
-/*
+
 public class AncestralMaskDecorator extends CreatureDecorator {
 
     int numEnchantment;
@@ -44,7 +44,7 @@ public class AncestralMaskDecorator extends CreatureDecorator {
         }
 
     };
-
+    
     private final TriggerAction SubtractOnExitAction = new TriggerAction() {
         @Override
         public void execute(Object args) {
@@ -62,4 +62,3 @@ public class AncestralMaskDecorator extends CreatureDecorator {
         return decoratedCreature.isAttackable();
     }
 }
-*/

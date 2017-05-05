@@ -5,8 +5,6 @@
  */
 package cardgame;
 
-import cardgame.Creature;
-import cardgame.Effect;
 import java.util.List;
 
 /**
@@ -24,6 +22,10 @@ public abstract class CreatureDecorator implements Creature {
     @Override
     public boolean tap() {
         return decoratedCreature.tap();
+    }
+    @Override
+    public void acceptVisit(Visitor visitor) {
+        decoratedCreature.acceptVisit(visitor);
     }
 
     @Override
@@ -45,7 +47,6 @@ public abstract class CreatureDecorator implements Creature {
     public void defend(Creature c) {
         decoratedCreature.defend(c);
     }
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public boolean isDefender() {
@@ -57,7 +58,6 @@ public abstract class CreatureDecorator implements Creature {
         return decoratedCreature.isRemoved();
     }
 
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     public void inflictDamage(int dmg) {
         decoratedCreature.inflictDamage(dmg);

@@ -5,11 +5,7 @@
  */
 package cardgame.cards;
 
-import cardgame.CardGame;
 import cardgame.Creature;
-import cardgame.Player;
-import cardgame.TriggerAction;
-import cardgame.Triggers;
 import cardgame.CreatureDecorator;
 import cardgame.Visitor;
 

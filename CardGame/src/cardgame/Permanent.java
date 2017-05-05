@@ -12,5 +12,6 @@ package cardgame;
 public interface Permanent extends Visited{
     String name();
     void insert();
-    void remove();    
+    void remove(); 
+    boolean isRemoved();
 }

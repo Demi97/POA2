@@ -24,7 +24,9 @@ import cardgame.cards.Deflection;
 import cardgame.cards.FalsePeace;
 import cardgame.cards.Fatigue;
 import cardgame.cards.FriendlyEnvironment;
+import cardgame.cards.Homeopathy;
 import cardgame.cards.NorwoodRanger;
+import cardgame.cards.Reflexologist;
 import cardgame.cards.SavorTheMoment;
 import cardgame.cards.VolcanicHammer;
 import cardgame.cards.WorldAtWar;
@@ -36,28 +38,35 @@ import cardgame.cards.WorldAtWar;
 public class CardFactory {
     public void menu() {
         System.out.println("======== Cards ========");
-        System.out.println("1.  Abduction");
-        System.out.println("2.  AEther Barrier");
-        System.out.println("3.  AEther Flash");
-        System.out.println("4.  Afflict");
-        System.out.println("5.  Aggressive Urge");
-        System.out.println("6.  Ancestral Mask");
-        System.out.println("7.  Argothian Enchantress");
-        System.out.println("8.  Aura Blast");
-        System.out.println("9.  Benevolent Ancestor");
-        System.out.println("10. Boiling Earth");
-        System.out.println("11. Bronze Sable");
-        System.out.println("12. Calming Verse");
-        System.out.println("13. Cancel");
-        System.out.println("14. Darkness");
-        System.out.println("15. Day of Judgment");
-        System.out.println("16. Deflection");
-        System.out.println("17. False Peace");
-        System.out.println("18. Fatigue");
-        System.out.println("19. Norwood Ranger");
-        System.out.println("20. Savor the Moment");
-        System.out.println("21. Volcanic Hammer");
-        System.out.println("22. World at War");
+        System.out.println("Creatures:");
+        System.out.println("    1.  Norwood Ranger");
+        System.out.println("    2.  Bronze Sable");
+        System.out.println("    3.  Argothian Enchantress");
+        System.out.println("    4.  Benevolent Ancestor");
+        System.out.println("    5.  Reflexologist");
+        System.out.println("Sorcery");
+        System.out.println("    6.  Volcanic Hammer");
+        System.out.println("    7.  Boiling Earth");
+        System.out.println("    8.  Day Of Judgment");
+        System.out.println("    9.  World at War");
+        System.out.println("    10. Savor the Moment");
+        System.out.println("    11. False Peace");
+        System.out.println("    12. Fatigue");
+        System.out.println("    13. Calming Verse");
+        System.out.println("Instants:");
+        System.out.println("    14. Cancel");
+        System.out.println("    15. Deflection");
+        System.out.println("    16. Darkness");
+        System.out.println("    17. Aggressive Urge");
+        System.out.println("    18. Afflict");
+        System.out.println("    19. Aura Blast");
+        System.out.println("    20. Homeopathy");
+        System.out.println("Enchantments:");
+        System.out.println("    21. Abduction");
+        System.out.println("    22. AEther Barrier");
+        System.out.println("    23. AEther Flash");
+        System.out.println("    24. Ancentral Mask");
+        System.out.println("    25. Friendly Environment");
         System.out.println("======================");
         
         
@@ -65,99 +74,112 @@ public class CardFactory {
     public String cardString(int card) {
         switch(card) {
             case 1:
-                return "Abduction";
-            case 2:
-                return "AEtherBarrier";
-            case 3:
-                return "AEtherFlash";
-            case 4:
-                return "Afflict";
-            case 5:
-                return "AggressiveUrge";
-            case 6:
-                return "AncestralMask";
-            case 7:
-                return "ArgothianEnchantress";
-            case 8:
-                return "AuraBlast";
-            case 9:
-                return "BenevolentAncestor";
-            case 10:
-                return "BoilingEarth";
-            case 11:
-                return "BronzeSable";
-            case 12:
-                return "CalmingVerse";
-            case 13:
-                return "Cancel";
-            case 14:
-                return "Darkness";
-            case 15:
-                return "DayOfJudgment";
-            case 16:
-                return "Deflection";
-            case 17:
-                return "FalsePeace";
-            case 18:
-                return "Fatigue";
-            case 19:
                 return "NorwoodRanger";
-            case 20:
-                return "SavorTheMoment";
-            case 21:
+            case 2:
+                return "BronzeSable";
+            case 3:
+                return "Argothian Enchantress";
+            case 4:
+                return "BenevolentAncestor";
+            case 5:
+                return "Reflexologist";
+            case 6:
                 return "VolcanicHammer";
-            case 22:
+            case 7:
+                return "BoilingEarth";
+            case 8:
+                return "DayOfJudgment";
+            case 9:
                 return "WorldAtWar";
+            case 10:
+                return "SavorTheMoment";
+            case 11:
+                return "FalsePeace";
+            case 12:
+                return "Fatigue";
+            case 13:
+                return "CalmingVerse";
+            case 14:
+                return "Cancel";
+            case 15:
+                return "Deflection";
+            case 16:
+                return "Darkness";
+            case 17:
+                return "AggressiveUrge";
+            case 18:
+                return "Afflict";
+            case 19:
+                return "AuraBlast";
+            case 20:
+                return "Homeopathy";
+            case 21:
+                return "Abduction";
+            case 22:
+                return "AEtherBarrier";
+            case 23:
+                return "AEtherFlash";
+            case 24:
+                return "AncestralMask";
+            case 25:
+                return "AncestralMask";
         }
         return "";
     }
     
     public Card getCard(String card){
         switch(card) {
-            case "Abduction":
-                return new Abduction();
-            case "AEtherBarrier":
-                return new AEtherBarrier();
-            case "AEtherFlash":
-                return new AEtherFlash();
-            case "Afflict":
-                return new Afflict();
-            case "AggressiveUrge":
-                return new AggressiveUrge();
-            case "AncestralMask":
-                return new AncestralMask();
-            case "ArgothianEnchantress":
-                return new ArgothianEnchantress();
-            case "AuraBlast":
-                return new AuraBlast();
-            case "BenevolentAncestor":
-                return new BenevolentAncestor();
-            case "BoilingEarth":
-                return new BoilingEarth();
+            case "NorwoodRanger":
+                return new NorwoodRanger();
             case "BronzeSable":
                 return new BronzeSable();
-            case "CalmingVerse":
-                return new CalmingVerse();
-            case "Cancel":
-                return new Cancel();
-            case "Darkness":
-                return new Darkness();
+            case "ArgothianEnchantress":
+                return new ArgothianEnchantress();
+            case "BenevolentAncestor":
+                return new BenevolentAncestor();
+            case "Reflexologist":
+                return new Reflexologist();
+            case "VolcanicHammer":
+                return new VolcanicHammer();
+            case "BoilingEarth":
+                return new BoilingEarth();
             case "DayOfJudgment":
                 return new DayOfJudgment();
-            case "Deflection":
-                return new Deflection();
+            case "WorldAtWar":
+                return new WorldAtWar();
+            case "SavorTheMoment":
+                return new SavorTheMoment();
             case "FalsePeace":
                 return new FalsePeace();
             case "Fatigue":
                 return new Fatigue();
-            case "NorwoodRanger":
-                return new NorwoodRanger();
-            case "SavorTheMoment":
-                return new SavorTheMoment();
-            case "VolcanicHammer":
-                return new VolcanicHammer();
-            case "WorldAtWar":
-                return new WorldAtWar();
+            case "CalmingVerse":
+                return new CalmingVerse();
+            case "Cancel":
+                return new Cancel();
+            case "Deflection":
+                return new Deflection();
+            case "Darkness":
+                return new Darkness();
+            case "AggressiveUrge":
+                return new AggressiveUrge();
+            case "Afflict":
+                return new Afflict();
+            case "AuraBlast":
+                return new AuraBlast();
+            case "Homeopathy":
+                return new Homeopathy();
+            case "Abduction":
+                return new Abduction();            
+            case "AEtherBarrier":
+                return new AEtherBarrier();
+            case "AEtherFlash":
+                return new AEtherFlash();
+            case "AncestralMask":
+                return new AncestralMask();
+            case "FriendlyEnvironment":
+                return new FriendlyEnvironment();
+                
         }
         return new FriendlyEnvironment();
     }

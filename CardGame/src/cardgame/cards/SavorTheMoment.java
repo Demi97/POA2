@@ -58,12 +58,11 @@ public class SavorTheMoment implements Card{
     
     private class Extra implements TurnManager{
         private Player player;
-        private Player adversary;
+        private Player adversary = CardGame.instance.getAdversary(player);;
         
         // definisco giocatore e avversario corrente
         public Extra(Player player) {
             this.player = player;
-            adversary = CardGame.instance.getAdversary(player);
         }
         
        
