@@ -15,7 +15,6 @@ import cardgame.Player;
  * @author diletta
  */
 public class PreventOneDamage extends StrategyDecorator{
-    protected Strategy decoratedStrategy;
     
     public PreventOneDamage(Strategy sd){
         super(sd);

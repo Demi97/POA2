@@ -140,13 +140,14 @@ public class BenevolentAncestor implements Card {
                             CardGame.instance.getTriggers().register(Triggers.END_FILTER, new TriggerAction() {
                                 Creature creature;
                                 BenevolentAncestorDecorator dec;
+
                                 @Override
                                 public void execute(Object args) {
                                     creature.removeDecorator(dec);
                                     CardGame.instance.getTriggers().deregister(this);
                                 }
-                                
-                                public TriggerAction start(Creature c, BenevolentAncestorDecorator bad){
+
+                                public TriggerAction start(Creature c, BenevolentAncestorDecorator bad) {
                                     this.creature = c;
                                     this.dec = bad;
                                     return this;
@@ -161,13 +162,14 @@ public class BenevolentAncestor implements Card {
                             CardGame.instance.getTriggers().register(Triggers.END_FILTER, new TriggerAction() {
                                 Player player;
                                 StrategyDecorator sd;
+
                                 @Override
                                 public void execute(Object args) {
                                     player.getStrategy().removeDecorator(sd);
                                     CardGame.instance.getTriggers().deregister(this);
                                 }
-                                
-                                public TriggerAction start(Player p, StrategyDecorator decS){
+
+                                public TriggerAction start(Player p, StrategyDecorator decS) {
                                     this.player = p;
                                     this.sd = decS;
                                     return this;

@@ -24,8 +24,8 @@ public class SpecialStrategyDecorator extends StrategyDecorator{
     
     @Override
     public void addDecorator(StrategyDecorator sd){
-        sd.setDecoratedStrategy(this.getDecoratedStrategy());
-        this.setDecoratedStrategy(decoratedStrategy);
+        sd.setDecoratedStrategy(decoratedStrategy);
+        decoratedStrategy=sd;
     }
     
     @Override
