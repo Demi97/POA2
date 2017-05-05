@@ -20,12 +20,14 @@ public class CombatStrategy {
         for (DefaultCombatPhase.Duel d : duel) {
             damageAttacker = 0;
             if (!d.getAttackers().getDecoratorHead().isRemoved()) {
+                int attackerPower = d.getAttackers().getDecoratorHead().getPower();
                 for (Creature c : d.getDefenders()) {
                     if (!c.getDecoratorHead().isRemoved()) {
                         if (damageAttacker < d.getAttackers().getDecoratorHead().getToughness()) {
                             action = true;
                             damageAttacker += Math.max(0, c.getDecoratorHead().getPower());
-                            c.getDecoratorHead().inflictDamage(Math.max(0, d.getAttackers().getDecoratorHead().getPower()));
+                            c.getDecoratorHead().inflictDamage(Math.max(0, attackerPower));
+                            attackerPower -= c.getDecoratorHead().getToughness();
                             d.getAttackers().getDecoratorHead().inflictDamage(Math.max(0, c.getDecoratorHead().getPower()));
                         }
                     }
