@@ -25,6 +25,14 @@ import cardgame.cards.WorldAtWar;
 import cardgame.cards.Cancel;
 import cardgame.cards.Afflict;
 import cardgame.cards.Deflection;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -35,22 +43,29 @@ public class CardGame {
     /**
      * @param args the command line arguments
      */
+        
+    //Signleton and instance access
+    public static final CardGame instance = new CardGame();
+    
     public static void main(String[] args) {
         //create decks
         ArrayList<Card> deck = new ArrayList<>();
         System.out.println("~~~~~~~~~~~~~STARTING GAME~~~~~~~~~~~~~");
         CardFactory factory = new CardFactory();
-        factory.menu();
         Scanner reader = new Scanner(System.in);
-        int choose;
-        for(int i = 0; i < 15; i++) {
-            System.out.print("Select card to add: ");
-            do{
-                try{
-                    choose = reader.nextInt();
-                }catch(Exception e) {choose = -1;}
-            }while(choose < 0 || choose > 22);
-            deck.add(factory.getCard(choose));
+        System.out.println("Deck's creation\n1) From file\n2) From factory");
+        int index;
+        do{
+            System.out.print("Choose type of input: ");
+            try{
+                index = reader.nextInt();
+            }catch(Exception e ) { index = -1; }
+        }while(index != 1 && index != 2);
+        if(index == 2) {
+            factoryFromKeyboard(factory, deck);
+        }
+        else {
+            factoryFromFile(factory,deck);
         }
         instance.getPlayer(0).setDeck(deck.iterator());
         instance.getPlayer(1).setDeck(deck.iterator());
@@ -58,8 +73,24 @@ public class CardGame {
         instance.run();
     }
     
-    //Signleton and instance access
-    public static final CardGame instance = new CardGame();
+    private static void factoryFromFile(CardFactory factory, ArrayList<Card> deck){
+        factoryFromKeyboard(factory, deck);
+    }
+    private static void factoryFromKeyboard(CardFactory factory, ArrayList<Card> deck){
+        factory.menu();    
+        int choose;
+        for(int i = 0; i < 15; i++) {
+            System.out.print("Select card to add: ");
+            do{
+                try{
+                    choose = CardGame.instance.getScanner().nextInt();
+                }catch(Exception e) {choose = -1;}
+            }while(choose < 0 || choose > 22);
+            
+            deck.add(factory.getCard(factory.cardString(choose)));
+        }
+    }
+
     
     //game setup 
     private CardGame() { 

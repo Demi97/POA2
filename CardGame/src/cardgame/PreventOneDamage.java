@@ -44,7 +44,7 @@ public class PreventOneDamage extends StrategyDecorator{
     }
 
     @Override
-    public void removeDecorator(StrategyDecorator sd) {
+        public void removeDecorator(StrategyDecorator sd) {
         decoratedStrategy.removeDecorator(sd);
     }
 

@@ -62,51 +62,101 @@ public class CardFactory {
         
         
     }
-    public Card getCard(int card){
+    public String cardString(int card) {
         switch(card) {
             case 1:
-                return new Abduction();
+                return "Abduction";
             case 2:
-                return new AEtherBarrier();
+                return "AEtherBarrier";
             case 3:
-                return new AEtherFlash();
+                return "AEtherFlash";
             case 4:
-                return new Afflict();
+                return "Afflict";
             case 5:
-                return new AggressiveUrge();
+                return "AggressiveUrge";
             case 6:
-                return new AncestralMask();
+                return "AncestralMask";
             case 7:
-                return new ArgothianEnchantress();
+                return "ArgothianEnchantress";
             case 8:
-                return new AuraBlast();
+                return "AuraBlast";
             case 9:
-                return new BenevolentAncestor();
+                return "BenevolentAncestor";
             case 10:
-                return new BoilingEarth();
+                return "BoilingEarth";
             case 11:
-                return new BronzeSable();
+                return "BronzeSable";
             case 12:
-                return new CalmingVerse();
+                return "CalmingVerse";
             case 13:
-                return new Cancel();
+                return "Cancel";
             case 14:
-                return new Darkness();
+                return "Darkness";
             case 15:
-                return new DayOfJudgment();
+                return "DayOfJudgment";
             case 16:
-                return new Deflection();
+                return "Deflection";
             case 17:
-                return new FalsePeace();
+                return "FalsePeace";
             case 18:
-                return new Fatigue();
+                return "Fatigue";
             case 19:
-                return new NorwoodRanger();
+                return "NorwoodRanger";
             case 20:
-                return new SavorTheMoment();
+                return "SavorTheMoment";
             case 21:
-                return new VolcanicHammer();
+                return "VolcanicHammer";
             case 22:
+                return "WorldAtWar";
+        }
+        return "";
+    }
+    
+    public Card getCard(String card){
+        switch(card) {
+            case "Abduction":
+                return new Abduction();
+            case "AEtherBarrier":
+                return new AEtherBarrier();
+            case "AEtherFlash":
+                return new AEtherFlash();
+            case "Afflict":
+                return new Afflict();
+            case "AggressiveUrge":
+                return new AggressiveUrge();
+            case "AncestralMask":
+                return new AncestralMask();
+            case "ArgothianEnchantress":
+                return new ArgothianEnchantress();
+            case "AuraBlast":
+                return new AuraBlast();
+            case "BenevolentAncestor":
+                return new BenevolentAncestor();
+            case "BoilingEarth":
+                return new BoilingEarth();
+            case "BronzeSable":
+                return new BronzeSable();
+            case "CalmingVerse":
+                return new CalmingVerse();
+            case "Cancel":
+                return new Cancel();
+            case "Darkness":
+                return new Darkness();
+            case "DayOfJudgment":
+                return new DayOfJudgment();
+            case "Deflection":
+                return new Deflection();
+            case "FalsePeace":
+                return new FalsePeace();
+            case "Fatigue":
+                return new Fatigue();
+            case "NorwoodRanger":
+                return new NorwoodRanger();
+            case "SavorTheMoment":
+                return new SavorTheMoment();
+            case "VolcanicHammer":
+                return new VolcanicHammer();
+            case "WorldAtWar":
                 return new WorldAtWar();
         }
         return new FriendlyEnvironment();
