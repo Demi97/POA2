@@ -6,6 +6,7 @@
 package cardgame;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -46,7 +47,7 @@ public class CardGame {
         else {
             try{
             factoryFromFile(factory,deck);
-            }catch(Exception e) {}
+            }catch(Exception e) { System.out.println("Errore apertura file");}
         }
         instance.getPlayer(0).setDeck(deck.iterator());
         instance.getPlayer(1).setDeck(deck.iterator());
@@ -55,7 +56,15 @@ public class CardGame {
     }
     
     private static void factoryFromFile(CardFactory factory, ArrayList<Card> deck) throws FileNotFoundException{
-        factoryFromKeyboard(factory, deck);
+        //factoryFromKeyboard(factory, deck);
+        File file = new File("deck.txt");
+        try{
+            Scanner input = new Scanner(file);
+            while(input.hasNext()){
+                String n = input.nextLine();
+                deck.add(factory.getCard(n));
+            }
+        }catch(Exception e){System.out.println("Errore nell'apertura del file");}
     }
     private static void factoryFromKeyboard(CardFactory factory, ArrayList<Card> deck){
         factory.menu();    
