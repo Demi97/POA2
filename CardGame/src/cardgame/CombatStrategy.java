@@ -18,19 +18,19 @@ public class CombatStrategy {
         CardGame.instance.getTriggers().trigger(Triggers.DAMAGE_FILTER);
         int damageAttacker;
         boolean action = false;
-        System.out.println("__________COMBAT PHASE_________");
+        //System.out.println("__________COMBAT PHASE_________");
         for (DefaultCombatPhase.Duel d : duel) {
             damageAttacker = 0;
             if (d.getAttackers().getDecoratorHead().isRemoved()) {
-                System.out.println(d.getAttackers().name() + " can't attack, is dead!");
+                //System.out.println(d.getAttackers().name() + " can't attack, is dead!");
             } else {
-                System.out.println(d.getAttackers().name() + " attacks (" + d.getAttackers().getDecoratorHead().getPower() + "/" + d.getAttackers().getDecoratorHead().getToughness() + ")");
+                //System.out.println(d.getAttackers().name() + " attacks (" + d.getAttackers().getDecoratorHead().getPower() + "/" + d.getAttackers().getDecoratorHead().getToughness() + ")");
                 for (Creature c : d.getDefenders()) {
                     if (c.getDecoratorHead().isRemoved()) {
-                        System.out.println(c.name() + " can't defend, is dead!");
+                        //System.out.println(c.name() + " can't defend, is dead!");
                     } else if (damageAttacker < d.getAttackers().getDecoratorHead().getToughness()) {
                         action = true;
-                        System.out.println(c.name() + " (defender" + "(" + c.getDecoratorHead().getPower() + "/" + c.getDecoratorHead().getToughness() + "))");
+                        //System.out.println(c.name() + " (defender" + "(" + c.getDecoratorHead().getPower() + "/" + c.getDecoratorHead().getToughness() + "))");
                         damageAttacker += Math.max(0, c.getDecoratorHead().getPower());
                         c.getDecoratorHead().inflictDamage(Math.max(0, d.getAttackers().getDecoratorHead().getPower()));
                         d.getAttackers().getDecoratorHead().inflictDamage(Math.max(0, c.getDecoratorHead().getPower()));
@@ -38,18 +38,18 @@ public class CombatStrategy {
                 }
 
                 if (action == false) {
-                    System.out.println("No defenders");
+                    //System.out.println("No defenders");
                     CardGame.instance.getCurrentAdversary().inflictDamage(Math.max(0, d.getAttackers().getDecoratorHead().getPower()));
-                    System.out.println("Direct attack!");
+                    //System.out.println("Direct attack!");
                     System.out.println(CardGame.instance.getCurrentAdversary().name() + "'s life: " + CardGame.instance.getCurrentAdversary().getLife());
                 }
                 if (damageAttacker < d.getAttackers().getDecoratorHead().getToughness()) {
                     d.getAttackers().getDecoratorHead().tap();
                 }
             }
-            System.out.println("- - - - - - - - - - - - - - - -");
+            //System.out.println("- - - - - - - - - - - - - - - -");
         }
         CardGame.instance.getTriggers().trigger(Triggers.END_DAMAGE_FILTER);
-        System.out.println("_________________________________");
+        //System.out.println("_________________________________");
     }
 }
